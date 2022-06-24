@@ -6,7 +6,7 @@ import {BsFillPersonPlusFill} from 'react-icons/bs'
 import urlImg from '../../public/img/logo.svg'
 
 
-const Navbar = ({setIsShowSidebar}) => {
+const Navbar = ({setIsShowSidebar,amount,setIsFormAuth}) => {
     let activeStyle = {
         borderBottom: '2px solid #936a53'
       };
@@ -50,7 +50,7 @@ const Navbar = ({setIsShowSidebar}) => {
                         <span className='cart-container'>
                             <FaShoppingCart/>
                             <span className='cart-values'>
-                                0
+                                {amount}
                             </span>
                         </span>
                     </Link>
@@ -60,7 +60,12 @@ const Navbar = ({setIsShowSidebar}) => {
                             isLogin: true,
                         }
                     })}> */}
-                    <button className='login-btn' type='button'>
+                    <button className='login-btn' type='button' onClick={() => setIsFormAuth((prev) => {
+                        return{
+                            ...prev,
+                            isLogin: true,
+                        }
+                    })}>
                         login 
                         <BsFillPersonPlusFill className='icon-login'/>
                     </button> 

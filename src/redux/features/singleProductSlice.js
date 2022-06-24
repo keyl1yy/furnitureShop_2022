@@ -15,10 +15,15 @@ export const singleProduct = createSlice({
             state.msg = 'isLoading!'
         },
         getSingleProductSuccess: (state,action) => {
-            console.log('actionSuccessSingleProduct:',action);
+            // console.log('actionSuccessSingleProduct:',action);
+            state.product = action.dataSingleProduct;
+            state.isLoading = false;
+            state.msg = 'Successfully!'
         },
         getSingleProductFailed: (state,action) => {
-            console.log('actionFailedSingleProduct:',action);
+            // console.log('actionFailedSingleProduct:',action);
+            state.isLoading = false;
+            state.msg = action.message;
         }
     }
 

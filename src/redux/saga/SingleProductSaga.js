@@ -5,10 +5,11 @@ import { getSingleProduct, getSingleProductFailed, getSingleProductSuccess } fro
 const API_SINGLE_PRODUCT = 'https://course-api.com/react-store-single-product?';
 
 function* handleGetSingleProduct(action){
-    console.log('actionSaga:',action);
+    // console.log('actionSaga:',action);
     const url = `${API_SINGLE_PRODUCT}id=${action.payload}`;
-    console.log('url:',url);
-    const response = axios.get(url);
+    // console.log('url:',url);
+    const response = yield axios.get(url);
+    // console.log('res',response);
     if(response && response.status === 200){
         const dataSingleProduct = response.data;
         yield put({

@@ -5,6 +5,7 @@ import {BiSearchAlt2} from 'react-icons/bi'
 import {BsCheck} from 'react-icons/bs'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProducts,getProducts } from '../../redux/features/productsSlice'
+import { getAmount, getOrderTotal, getShippingFee, getTotal } from "../../redux/features/cartSlice";
 
 const getTypeRender = () => {
     const data = localStorage.getItem('typeRender');
@@ -24,7 +25,8 @@ const getSortType = () => {
 
 const Products = () => {
     
-    const {isLoading, products, dataDefault} = useSelector((store) => store.products);
+    const {isLoading, products, dataDefault,characteristics} = useSelector((store) => store.products);
+    const {amount,cartProducts} = useSelector(store => store.cartProducts)
     const dispatch = useDispatch();
 
     const [sortType,setSortType] = useState(getSortType());
@@ -36,13 +38,22 @@ const Products = () => {
     const [shipping,setShipping] = useState(false);
 
 
-
     const [isTypeRender,setIsTypeRender] = useState(getTypeRender());
     
     useEffect(() => {
         localStorage.setItem('typeRender',isTypeRender)
     },[isTypeRender])
 
+    useEffect(() => {
+        dispatch(getProducts())
+    },[])
+    
+    useEffect(() => {
+        dispatch(getAmount())
+        dispatch(getTotal())
+        dispatch(getShippingFee())
+        dispatch(getOrderTotal())
+      },[cartProducts])
     // functions
 
     const handleSearchTemp = (data) => {
@@ -195,43 +206,27 @@ const Products = () => {
                                 <h5>category</h5>
                                 <div className='wrap-category'>
                                     <button type='button' name='category' className='null active' value='all' onClick={(e) => setCategory(e.target.value)}>all</button>
-                                    <button type='button' name='category' value='office' className='null' onClick={(e) => setCategory(e.target.value)}>office</button>
-                                    <button type='button' name='category' value='living room' className='null' onClick={(e) => setCategory(e.target.value)}>living room</button>
-                                    <button type='button' name='category' value='kitchen' className='null' onClick={(e) => setCategory(e.target.value)}>kitchen</button>
-                                    <button type='button' name='category' value='bedroom' className='null' onClick={(e) => setCategory(e.target.value)}>bedroom</button>
-                                    <button type='button' name='category' value='dining' className='null' onClick={(e) => setCategory(e.target.value)}>dining</button>
-                                    <button type='button' name='category' value='kids' className='null' onClick={(e) => setCategory(e.target.value)}>kids</button>
+                                    {characteristics.categories && characteristics.categories.map((item,index) =>
+                                        (<button type='button' key={index} name='category' value={item} className='null' onClick={(e) => setCategory(e.target.value)}>{item}</button>)
+                                    )}
                                 </div>
                             </div>
                             <div className='form-control'>
                                 <h5>company</h5>
                                 <select name='company' className='company' value={company} onChange={(e) => setCompany(e.target.value)}>
                                     <option value='all'>all</option>
-                                    <option value='marcos'>marcos</option>
-                                    <option value='liddy'>liddy</option>
-                                    <option value='ikea'>ikea</option>
-                                    <option value='caressa'>ceresa</option>
+                                    {characteristics.companies && characteristics.companies.map((item,index) => (<option key={index} value={item}>{item}</option>))}
                                 </select>
                             </div>
                             <div className='form-control'>
                                 <h5>colors</h5>
                                 <div className='colors'>
                                     <button type='button' name='color' value='all' className='all-btn active' onClick={(e) => setColor(e.target.value)}>all</button>
-                                    <button type='button' name='color' value='#ff0000' className='color-btn' style={{backgroundColor:"#ff0000"}} onClick={(e) => setColor(e.target.value)}>
-                                        <BsCheck className='check-icon'/>
-                                    </button>
-                                    <button type='button' name='color' value='#00ff00' className='color-btn' style={{backgroundColor:"#00ff00"}} onClick={(e) => setColor(e.target.value)}>
-                                        <BsCheck className='check-icon'/>
-                                    </button>
-                                    <button type='button' name='color' value='#0000ff' className='color-btn' style={{backgroundColor:"#0000ff"}} onClick={(e) => setColor(e.target.value)}>
-                                        <BsCheck className='check-icon'/>
-                                    </button>
-                                    <button type='button' name='color' value='#000' className='color-btn' style={{backgroundColor:"#000"}} onClick={(e) => setColor(e.target.value)}>
-                                        <BsCheck className='check-icon'/>
-                                    </button>
-                                    <button type='button' name='color' value='#ffb900' className='color-btn' style={{backgroundColor:"#ffb900"}} onClick={(e) => setColor(e.target.value)}>
-                                        <BsCheck className='check-icon'/>
-                                    </button>
+                                    {characteristics.arrColors && characteristics.arrColors.map((item,index) => 
+                                        (<button type='button' key={index} name='color' value={item} className='color-btn' style={{backgroundColor:`${item}`}} onClick={(e) => setColor(e.target.value)}>
+                                            <BsCheck className='check-icon'/>
+                                        </button>)
+                                    )}
                                 </div>
                             </div>
                             <div className='form-control'>
