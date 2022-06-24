@@ -1,0 +1,18 @@
+.alert{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    opacity: 0;
+    width: 100%;
+}
+.alert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+}
+.alert.show{
+    animation: show_slide 1s ease forwards;
+}
+
+.alert.hide{
+    animation: hide_slide 1s ease forwards;
+}

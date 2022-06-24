@@ -7,8 +7,17 @@ import urlImg from '../../public/img/logo.svg'
 
 
 
-const Sidebar = ({isShowSidebar,setIsShowSidebar}) => {
+const Sidebar = ({setIsFormAuth,isShowSidebar,setIsShowSidebar,amount}) => {
 
+    const handleClickLoginIcon = () => {
+        setIsFormAuth((prev) => {
+            return{
+                ...prev,
+                isLogin:true,
+            }
+        });
+        setIsShowSidebar((prev) => !prev)
+    }
 
     return (
         <aside className={`${isShowSidebar ? 'sidebar is-show-sidebar' : 'sidebar'}`}>
@@ -36,16 +45,16 @@ const Sidebar = ({isShowSidebar,setIsShowSidebar}) => {
                     </li>
             </ul>
             <div className='cart-btn-wrap'>
-                    <Link to='/cart' className='cart-btn'>
+                    <Link to='/cart' className='cart-btn' onClick={() => setIsShowSidebar((prev) => !prev)}>
                         cart
                         <span className='cart-container'>
                             <FaShoppingCart/>
                             <span className='cart-values'>
-                                0
+                                {amount}
                             </span>
                         </span>
                     </Link>
-                    <button className='login-btn' type='button'>
+                    <button className='login-btn' type='button' onClick={() => handleClickLoginIcon()}>
                         login 
                         <BsFillPersonPlusFill className='icon-login'/>
                     </button> 

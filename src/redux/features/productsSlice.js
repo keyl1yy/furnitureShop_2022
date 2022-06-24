@@ -4,6 +4,7 @@ const initialState = {
     products: [],
     dataDefault: [],
     isLoading: false,
+    characteristics:{},
     msg:''
 }
 export const productsSlice = createSlice({
@@ -16,10 +17,24 @@ export const productsSlice = createSlice({
         },
         getProductsSuccess: (state,action) => {
             // console.log('actionSuccess123: ',action.dataProducts);
+            let arrColors = [];
+            let companies = [];
+            let categories = [];
             state.products = action.dataProducts;
             state.dataDefault = action.dataProducts;
             state.isLoading = false;
-            state.msg = 'successfully!'
+            state.msg = 'successfully!';
+            state.dataDefault.forEach((item) => {
+                const {category,colors,company} = item;
+                arrColors = [...arrColors,...colors];
+                companies = [...companies,company];
+                categories = [...categories,category];
+            })
+            arrColors = Array.from(new Set(arrColors));
+            companies = Array.from(new Set(companies));
+            categories = Array.from(new Set(categories));
+
+            state.characteristics = {arrColors,companies,categories}
         },
         getProductsFailed: (state,action) => {
             // console.log('actionFailed: ',action);
