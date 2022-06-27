@@ -15,6 +15,8 @@ import 'aos/dist/aos.css';
 import { getAmount, getOrderTotal, getShippingFee, getTotal } from "./redux/features/cartSlice";
 import SignUp from "./components/Auth/SignUp/SignUp";
 import Login from "./components/Auth/Login/Login";
+import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/Auth/ForgotPassword/ResetPassword";
 AOS.init();
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
     <BrowserRouter>
       {isFormAuth.isLogin && <Login setIsFormAuth={setIsFormAuth}/>}
       {isFormAuth.isSignUp && <SignUp setIsFormAuth={setIsFormAuth}/>}
+      {isFormAuth.isForgotPassword && <ForgotPassword setIsFormAuth={setIsFormAuth}/>}
       <Navbar setIsFormAuth={setIsFormAuth} setIsShowSidebar={setIsShowSidebar} amount={amount}/>
       <Sidebar setIsFormAuth={setIsFormAuth} isShowSidebar={isShowSidebar} amount={amount} setIsShowSidebar={setIsShowSidebar}/>
       <Routes>
@@ -50,6 +53,7 @@ function App() {
         <Route path="/products/:id" element={<SingleProduct/>}/>
         <Route path="/products" element={<Products/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/reset-password/:id" element={<ResetPassword/>}/>
       </Routes>
       <Footer/>
     </BrowserRouter>

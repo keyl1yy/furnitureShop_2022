@@ -67,7 +67,7 @@ const Register = ({setIsFormAuth}) => {
                             email: Yup.string()
                                 .required('Pls enter your email!')
                                 .email('Invalid email!')
-                                .trim(),
+                                .trim(),        
                             password: Yup.string()
                                 .required('Pls enter your password!')
                                 .min(6,'Password need more than 6 characters!')

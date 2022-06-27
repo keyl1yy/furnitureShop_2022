@@ -13,7 +13,7 @@ instance.interceptors.response.use(function (response) {
 
 export const attachTokenToHeader = (token) => {
     instance.interceptors.request.use(function(config) {
-        config.headers['Authentication'] = token;
+        config.headers['Authentication'] = `Bearer ${token}`;
         return config;
     }, function(error) {
         return error;
