@@ -25,6 +25,6 @@ function* handleGetSingleProduct(action){
 }
 
 export default function* singleProductSaga() {
-    console.log('single Product Saga');
+    // console.log('single Product Saga');
     yield takeLatest(getSingleProduct.type,handleGetSingleProduct)
 }

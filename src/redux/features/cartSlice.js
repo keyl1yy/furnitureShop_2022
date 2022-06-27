@@ -13,11 +13,11 @@ export const cartSlice = createSlice({
     initialState,
     reducers:{
         addCart: (state,action) => {
-            console.log('actionCart:',action);
+            // console.log('actionCart:',action);
             state.cartProducts = [...state.cartProducts,action.payload];
         },
         toggleAmountCartItem: (state,action) => {
-            console.log('actionToggleCartItem:',action);
+            // console.log('actionToggleCartItem:',action);
             const {id, msg} = action.payload;
             state.cartProducts = state.cartProducts.map((cartItem) => {
                 if(cartItem.id === id){
