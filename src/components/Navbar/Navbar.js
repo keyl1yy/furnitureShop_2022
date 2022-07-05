@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom';
-import {FaBars,FaShoppingCart} from 'react-icons/fa'
+import {FaBars,FaShoppingCart,FaUser} from 'react-icons/fa'
 import {BsFillPersonPlusFill} from 'react-icons/bs'
-
+import { useSelector,useDispatch } from 'react-redux';
 import urlImg from '../../public/img/logo.svg'
 
 
-const Navbar = ({setIsShowSidebar,amount,setIsFormAuth}) => {
+
+const Navbar = ({accessToken:tokenLogin,setIsShowSidebar,amount,setIsFormAuth,errCode,isAdminPage}) => {
     let activeStyle = {
         borderBottom: '2px solid #936a53'
       };
+    const dispatch = useDispatch;
     return (
-        <nav>
+        <nav className={`${isAdminPage?'display-none':''}`}>
             <div className='nav-center'>
                 <div className='nav-header'>
                     <Link to='/'>
@@ -60,6 +62,7 @@ const Navbar = ({setIsShowSidebar,amount,setIsFormAuth}) => {
                             isLogin: true,
                         }
                     })}> */}
+                    { errCode!==10 ?
                     <button className='login-btn' type='button' onClick={() => setIsFormAuth((prev) => {
                         return{
                             ...prev,
@@ -68,7 +71,12 @@ const Navbar = ({setIsShowSidebar,amount,setIsFormAuth}) => {
                     })}>
                         login 
                         <BsFillPersonPlusFill className='icon-login'/>
-                    </button> 
+                    </button>
+                     : 
+                     <Link to={`/user/${tokenLogin}`} className='login-btn'>
+                        User 
+                        <FaUser className='icon-login'/>
+                    </Link>}
                 </div>
             </div>
         </nav>

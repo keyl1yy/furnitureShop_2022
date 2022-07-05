@@ -9,6 +9,7 @@ import { loginUser } from '../../../services/userService';
 import { Alert, AlertTitle } from '@mui/material';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
+
 const Login = ({setIsFormAuth}) => {
     const [isEye,setIsEye] = useState(false);
     const dispatch = useDispatch();
@@ -17,6 +18,18 @@ const Login = ({setIsFormAuth}) => {
     const responseFacebook = (response) => {
         console.log('resFace',response);
       }
+    useEffect(() => {
+        if(errCode === 10){
+            setIsFormAuth((prev) => {
+                return{
+                    ...prev,
+                    isLogin: false,
+                    isForgotPassword: false,
+                    isSignUp: false,
+                }
+            })
+        }
+    },[errCode])
 
   return (
       <>
@@ -24,12 +37,6 @@ const Login = ({setIsFormAuth}) => {
             <Alert sx={{padding:'12px 20px',}} severity="error">
                 <AlertTitle>Login Failed</AlertTitle>
                 <div id='content-fail' style={{display: 'inline-block'}}>{msg}</div> — <strong>check it out!</strong>
-            </Alert>
-        </div>
-        <div id='alert-success' className='alertAuth hide'>
-            <Alert severity="success">
-                <AlertTitle>Login Success</AlertTitle>
-                <div id='content-success' style={{display: 'inline-block'}}>{msg}</div> — <strong>Hello_{name}!!!</strong>
             </Alert>
         </div>
         <div className='wrap-login'>

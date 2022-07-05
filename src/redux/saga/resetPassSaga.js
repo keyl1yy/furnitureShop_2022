@@ -1,7 +1,6 @@
-import axios from "axios";
 import { takeLatest, put } from "redux-saga/effects";
 import { sendEmail,resetPassword } from "../../services/userService";
-import { sendCheckEmail, sendEmailSuccess, sendEmailFail, resetPasswordRedux } from "../features/resetSlice";
+import { sendCheckEmail, sendEmailSuccess, sendEmailFail, resetPasswordRedux, resetPasswordSuccess, resetPasswordFail } from "../features/resetSlice";
 
 function* handleSendEmail(action) {
     console.log('actionReset',action);
@@ -25,11 +24,23 @@ function* handleSendEmail(action) {
 
 
 function* handleResetPassword(action) {
-    const {payload:password} = action;
+    const {password,resetToken} = action.payload;
     const token = localStorage.getItem('resetPassToken');
+    // console.log('token',token);
     const response = yield resetPassword({password},token);
-    console.log('res',response);
+    // console.log('res',response);
     // console.log('actionResetPass',password);
+    if(response && response.status === 200){
+        yield put({
+            type:resetPasswordSuccess.type
+        })
+    }else{
+        const errMsg = response.response.data;
+        yield put({
+            type: resetPasswordFail.type,
+            errMsg
+        })
+    }
 }
 
 export default function* resetPassSaga(){

@@ -4,11 +4,12 @@ import {AiOutlineEye,AiOutlineEyeInvisible,AiOutlineClose} from 'react-icons/ai'
 import { FastField, Form, Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup'
 import { useSelector,useDispatch } from 'react-redux';
-import { sendCheckEmail } from '../../../redux/features/resetSlice';
+import { sendCheckEmail, setDefaultErrCode } from '../../../redux/features/resetSlice';
 import { Alert, AlertTitle } from '@mui/material';
+import Loading from '../../LoadingScreen/Loading';
 
 const ForgotPassword = ({setIsFormAuth}) => {
-    const {errCode,msg} = useSelector(store => store.resetPass)
+    const {errCode,msg,isLoading} = useSelector(store => store.resetPass)
 
     const [isMsgBox,setIsMsgBox] = useState(false) 
     const dispatch = useDispatch();
@@ -17,20 +18,26 @@ const ForgotPassword = ({setIsFormAuth}) => {
             setIsMsgBox(true)
         }
     },[errCode])
+    const handleClose = () => {
+        setIsMsgBox(false);
+        setIsFormAuth((prev) => {
+            return{
+                ...prev,
+                isForgotPassword:false
+            }
+        })
+        dispatch(setDefaultErrCode());
+    }
     if(isMsgBox){
         return(
             <div className='wrap-login'>
                 <div className='wrap-login-container'>
                     <div className='wrap-login-container-content'>
-                        <AiOutlineClose className='close-icon' onClick={() => setIsFormAuth((prev) => {
-                            return{
-                                ...prev,
-                                isForgotPassword:false
-                            }
-                        })}/>
+                        <AiOutlineClose className='close-icon' onClick={() => handleClose()}/>
                         <h3 className='wrap-login-container-content-form-title'>
                             Lấy lại mật khẩu
                         </h3>
+                        {isLoading && <Loading/>}
                         <div className='wrap-login-container-content-other-option center'>
                             <span style={{fontSize:'18px'}}>Please check your email!!</span>
                         </div>
@@ -39,6 +46,8 @@ const ForgotPassword = ({setIsFormAuth}) => {
             </div>
         )
     }
+
+    
 
   return (
       <>

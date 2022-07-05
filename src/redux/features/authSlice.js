@@ -7,7 +7,7 @@ const initialState = {
     email:'',
     address: '',
     msg:'',
-    errCode:0,
+    errCode:0,// errCode = 10 isLogin = true
 }
 
 export const authSlice = createSlice({
@@ -17,11 +17,17 @@ export const authSlice = createSlice({
         loginUserRedux: (state) => {
             state.isLoading = true;
             state.msg = 'isLoadingLogin!'
+            state.errCode = 0;
+        },
+        loginUserToken:(state) => {
+            state.isLoading = true;
+            state.msg = 'isLoadingLoginToken';
+            state.errCode = 0;
         },
         loginUserSuccess: (state,action) => {
             const alertSuccess = document.getElementById('alert-success');
             state.isLoading = false;
-            state.errCode = 0;
+            state.errCode = 10;
             // console.log('actionLoginSuccess',action);
             const {user,accessToken} = action.dataRes;
             state.name = user.name;
@@ -37,8 +43,26 @@ export const authSlice = createSlice({
                 alertSuccess.classList.add('hide');
                 alertSuccess.classList.remove('show');
                 
-            },5000)
+            },3000)
         },
+        loginUserWithTokenSuccess: (state,action) => {
+            state.isLoading = false;
+            state.errCode = 10;
+            const {user} = action.dataRes;
+            state.name = user.name;
+            state.phoneNumber = user.phoneNumber;
+            state.email = user.email;
+            state.address = user.address;
+            state.msg = 'LoginSuccessful';
+        },
+        loginUserWithTokenFail: (state,action) => {
+            console.log('stateFailToken',action);
+            const{errCode,msg} = action.errMsg;
+            state.errCode = 0;
+            state.msg = msg;
+            localStorage.removeItem('accessToken')
+        }
+        ,
         loginUserFail: (state,action) => {
             // console.log('actionLoginFail',action);
             const alertFail = document.getElementById('alert-fail');
@@ -53,12 +77,35 @@ export const authSlice = createSlice({
                 alertFail.classList.add('hide');
                 alertFail.classList.remove('show');
                 
-            },5000)
+            },3000)
+        },
+        logoutUserRedux: (state) => {
+            state.isLoading = true;
+            state.msg='Logout is loading!';
+            state.errCode = 0;
+        },
+        logoutUserSuccess: (state) => {
+            state.isLoading = false;
+            state.errCode = 0;
+            state.msg = '';
+            state.phoneNumber = '';
+            state.name = '';
+            state.email = '';
+            state.address = '';
+            localStorage.removeItem('accessToken')
+        },
+        logoutUserFail: (state) => {
+            state.isLoading = false;
+            state.errCode = 1;
+            state.msg = 'Logout Failed!'
         }
        
 
     }
 })
 
-export const {loginUserRedux,loginUserFail,loginUserSuccess} = authSlice.actions;
+export const {loginUserToken,loginUserRedux,loginUserFail,
+            loginUserSuccess,loginUserWithTokenSuccess,
+            logoutUserRedux,logoutUserSuccess,logoutUserFail,
+            loginUserWithTokenFail} = authSlice.actions;
 export default authSlice.reducer

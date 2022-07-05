@@ -1,8 +1,9 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = (props) => {
+  const {isAdminPage} = props;
   return (
-    <footer>
+    <footer className={`${isAdminPage?'display-none':''}`}>
         <h5>
           2022 <span>comfySloth</span>
         </h5>

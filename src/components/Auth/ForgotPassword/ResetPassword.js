@@ -8,19 +8,29 @@ import * as Yup from 'yup'
 import { Formik,Form,ErrorMessage,Field, FastField } from 'formik'
 import { useDispatch } from 'react-redux'
 import { resetPasswordRedux } from '../../../redux/features/resetSlice'
+import Notify from './NotifyMsg/Notify'
+import {useNavigate} from 'react-router-dom'
 
-const ResetPassword = () => {
+const ResetPassword = ({resetToken}) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [open,setOpen] = useState(false)
     const [checkEye,setCheckEye] = useState({
         isEye: false,
         isEyeSecond: false
       });
 
+      useEffect(() => {
+            if(!resetToken) navigate('/')
+      },[])
+    
     useEffect(() => {
-        document.getElementsByTagName('nav')[0].style.display = 'none';
-        document.getElementsByTagName('aside')[0].style.display = 'none';
-        document.getElementsByTagName('footer')[0].style.display = 'none';
-
+        if(resetToken){
+            document.getElementsByTagName('nav')[0].style.display = 'none';
+            document.getElementsByTagName('aside')[0].style.display = 'none';
+            document.getElementsByTagName('footer')[0].style.display = 'none';
+        }
     },[])
   return (
       <Box sx={{width:'100%',
@@ -30,6 +40,7 @@ const ResetPassword = () => {
                 alignItems:'center',
                 backgroundImage: 'linear-gradient(to left, #f3e7e9 0%,#e3eeff 50%, #d1fdff 100%)'
                 }}>
+        <Notify open={open} setOpen={setOpen}/>
         <Box sx={{ width: '42%',
                     padding:'1.5rem',
                     backgroundColor: '#8C716B',
@@ -61,8 +72,9 @@ const ResetPassword = () => {
                     })}
                     onSubmit = {(values,formikBag) => {
                         const {newPassword:password} = values
-                        dispatch(resetPasswordRedux(password))
-                        
+                        dispatch(resetPasswordRedux({password,resetToken}))
+                        formikBag.resetForm();
+                        setOpen(true)
                     }}
                 >
                     <Form className='wrap-login-container-content-form'>

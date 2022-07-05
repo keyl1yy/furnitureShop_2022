@@ -132,6 +132,9 @@ border-color: #F31338!important;
 .err-icon-pass{
 color: #F31338;
 }
+.display-none{
+  display: none;
+}
 /* section */
 
 .section {

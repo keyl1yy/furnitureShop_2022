@@ -15,6 +15,7 @@ export const resetPassword = createSlice({
         sendCheckEmail: (state) => {
             state.isLoading = true;
             state.msg = 'Is Loading';
+            state.errCode = 0;
         },
         sendEmailSuccess: (state,action) => {
             // console.log('action',action);
@@ -42,18 +43,28 @@ export const resetPassword = createSlice({
                 
             },5000)
         },
+        setDefaultErrCode: (state) => {
+            state.errCode = 0;
+        },
         resetPasswordRedux: (state) => {
             state.isLoading = true;
-            state.msg = 'Resetting password '
+            state.msg = 'Resetting password ';
+            state.errCode = 0;
         },
         resetPasswordSuccess: (state) => {
-
+            state.isLoading = false;
+            state.msg = 'Reset password successful!'
+            state.errCode = 10;
+            localStorage.removeItem('resetPassToken');
         },
-        resetPasswordFail: (state) => {
-
+        resetPasswordFail: (state,action) => {
+            const {errCode,msg} = action.errMsg;
+            state.errCode = errCode;
+            state.isLoading = false;
+            state.msg = 'Reset password session has expired!';
         }
     }
 })
 
-export const {sendCheckEmail,sendEmailFail,sendEmailSuccess,resetPasswordRedux,resetPasswordFail,resetPasswordSuccess} = resetPassword.actions
+export const {sendCheckEmail,sendEmailFail,sendEmailSuccess,resetPasswordRedux,resetPasswordFail,resetPasswordSuccess,setDefaultErrCode} = resetPassword.actions
 export default resetPassword.reducer

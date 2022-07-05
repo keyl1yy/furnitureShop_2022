@@ -13,5 +13,11 @@ const sendEmail = (data) => {
 const resetPassword = (data,token) => {
     return axios.post('/users/reset-password',data,attachTokenToHeader(token))
 }
+const loginWithToken = (token) => {
+    return axios.post('/users/login-with-token',attachTokenToHeader(token))
+}
+const logoutUser = (token) => {
+    return axios.post('/users/logout',attachTokenToHeader(token))
+}
 
-export {createUser,loginUser,sendEmail,resetPassword}
+export {createUser,loginUser,sendEmail,resetPassword,loginWithToken,logoutUser}
