@@ -26,7 +26,7 @@ const SingleProduct = () => {
 
   const handleClickAddCartItem = () => {
     const alertFail = document.getElementById('alert-fail');
-    const alertSuccess = document.getElementById('alert-success');
+    const alertSuccess = document.getElementById('alert-product-success');
 
     if(!colorSelected){
       alertFail.classList.add('show');
@@ -88,7 +88,7 @@ const SingleProduct = () => {
                       }}
                       severity="error">Please enter product color!</Alert>
           </div>
-          <div id='alert-success' className='alert hide'>
+          <div id='alert-product-success' className='alert hide'>
             <Alert data-aos="fade-left" sx={{position:"fixed",
                         top:"20px",
                         right:"20px",

@@ -7,7 +7,9 @@ import urlImg from '../../public/img/logo.svg'
 
 
 
-const Navbar = ({accessToken:tokenLogin,setIsShowSidebar,amount,setIsFormAuth,errCode,isAdminPage}) => {
+const Navbar = ({props}) => {
+    console.log('props',props);
+    const {accessToken:tokenLogin,setIsShowSidebar,amount,setIsFormAuth,errCode,isAdminPage} = props;
     let activeStyle = {
         borderBottom: '2px solid #936a53'
       };

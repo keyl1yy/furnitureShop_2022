@@ -1,5 +1,5 @@
 import { put, takeLatest } from "redux-saga/effects";
-import { loginAdminFail, loginAdminRedux, loginAdminSuccess, loginAdminWithToken } from "../features/adminSlice";
+import { loginAdminFail, loginAdminRedux, loginAdminSuccess, loginAdminWithToken, loginAdminWithTokenFail, loginAdminWithTokenSuccess } from "../features/adminSlice";
 import { loginAdmin, loginAdminWithTokenAPI } from "../../services/adminService";
 
 
@@ -30,13 +30,13 @@ function* handleAdminLoginWithToken(action) {
     if(response && response.status === 200){
         const dataRes = response.data;
         yield put({
-            type: loginAdminSuccess.type,
+            type: loginAdminWithTokenSuccess.type,
             dataRes
         })  
     }else{
         const errMsg = response.response.data;
         yield put({
-            type: loginAdminFail.type,
+            type: loginAdminWithTokenFail.type,
             errMsg
         })
     }

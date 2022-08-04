@@ -8,8 +8,8 @@ import { FaUser } from 'react-icons/fa';
 
 
 
-const Sidebar = ({accessToken,errCode,setIsFormAuth,isShowSidebar,setIsShowSidebar,amount,isAdminPage}) => {
-
+const Sidebar = ({props}) => {
+    const {accessToken,errCode,setIsFormAuth,isShowSidebar,setIsShowSidebar,amount,isAdminPage} = props
     const handleClickLoginIcon = () => {
         setIsFormAuth((prev) => {
             return{

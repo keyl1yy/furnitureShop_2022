@@ -62,6 +62,11 @@ export const adminSlice = createSlice({
         },
         loginAdminWithTokenSuccess: (state,action) => {
             console.log('tokenAdminSuccess',action);
+            const {dataRes} = action;
+            state.name = dataRes.admin.name;
+            state.address = dataRes.admin.address;
+            state.email = dataRes.admin.email;
+            state.phoneNumber = dataRes.admin.phoneNumber;
             state.isLoading = false;
             state.msg = 'Login admin with token successful';
             state.errCode = 10;

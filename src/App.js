@@ -21,8 +21,12 @@ import User from "./components/User/User";
 import {Alert,AlertTitle} from '@mui/material'
 import { loginUserToken } from "./redux/features/authSlice";
 import LoginAdmin from "./components/Admin/LoginAdmin/LoginAdmin";
-import AdminPage from "./components/Admin/AdminPage";
 import Loading from "./components/LoadingScreen/Loading";
+import Dashboard from "./components/Admin/AdminPage/Dashboard/Dashboard";
+import SharedLayout from "./components/SharedLayout/SharedLayout";
+import SharedProductLayout from "./components/SharedLayout/SharedProductLayout";
+import SharedAdminLayout from "./components/SharedLayout/SharedAdminLayout";
+import UsersManage from "./components/Admin/AdminPage/UserPage/UsersManage";
 AOS.init();
 
 const resetToken = localStorage.getItem('resetPassToken');
@@ -33,7 +37,7 @@ const getAccessToken = () => {
 }
 const getAccessTokenAdmin = () => {
   const res = localStorage.getItem('accessTokenAdmin');
-  return res? res: ''
+  return res? res : ''
 }
 
 function App() {
@@ -70,6 +74,37 @@ function App() {
   },[cartProducts])
   
   return (
+    // <BrowserRouter>
+    //   <div id='alert-success' className='alertAuth hide'>
+    //         <Alert severity="success">
+    //             <AlertTitle>Login Success</AlertTitle>
+    //             <div id='content-success' style={{display: 'inline-block'}}>{msg}</div> — <strong>Hello_{name}!!!</strong>
+    //         </Alert>
+    //   </div>
+    
+    //   {isFormAuth.isLogin && <Login setIsFormAuth={setIsFormAuth}/>}
+    //   {isFormAuth.isSignUp && <SignUp setIsFormAuth={setIsFormAuth}/>}
+    //   {isFormAuth.isForgotPassword && <ForgotPassword setIsFormAuth={setIsFormAuth}/>}
+    //   <Navbar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} setIsShowSidebar={setIsShowSidebar} amount={amount} isAdminPage={isAdminPage}/>
+    //   <Sidebar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} isShowSidebar={isShowSidebar} amount={amount} setIsShowSidebar={setIsShowSidebar} isAdminPage={isAdminPage}/>
+    //   <Routes>
+    //     <Route path="/" element={<Home/>}/>
+    //     <Route path="/about" element={<About/>}/>
+    //     <Route path="/products/:id" element={<SingleProduct/>}/>
+    //     <Route path="/products" element={<Products/>}/>
+    //     <Route path="/cart" element={<Cart/>}/>
+    //     <Route path="/reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
+    //     <Route path="/user/:id" element={<User accessToken={accessToken}/>}/>
+    //     <Route path="/admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
+    //     {/* <Route path="/admin/" element={<AdminPage setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
+    //       <Route index element={<Dashboard/>}/>
+    //       <Route path="users" element={<Users/>}/>
+    //     </Route>
+    //      */}
+    //     <Route path="*" element={<Loading/>}/>
+    //   </Routes>
+    //   <Footer isAdminPage={isAdminPage}/>
+    // </BrowserRouter>
     <BrowserRouter>
       <div id='alert-success' className='alertAuth hide'>
             <Alert severity="success">
@@ -77,23 +112,33 @@ function App() {
                 <div id='content-success' style={{display: 'inline-block'}}>{msg}</div> — <strong>Hello_{name}!!!</strong>
             </Alert>
       </div>
-    
       {isFormAuth.isLogin && <Login setIsFormAuth={setIsFormAuth}/>}
       {isFormAuth.isSignUp && <SignUp setIsFormAuth={setIsFormAuth}/>}
       {isFormAuth.isForgotPassword && <ForgotPassword setIsFormAuth={setIsFormAuth}/>}
-      <Navbar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} setIsShowSidebar={setIsShowSidebar} amount={amount} isAdminPage={isAdminPage}/>
-      <Sidebar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} isShowSidebar={isShowSidebar} amount={amount} setIsShowSidebar={setIsShowSidebar} isAdminPage={isAdminPage}/>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/products/:id" element={<SingleProduct/>}/>
-        <Route path="/products" element={<Products/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
-        <Route path="/user/:id" element={<User accessToken={accessToken}/>}/>
-        <Route path="/admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
-        <Route path="/admin/" element={<AdminPage setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
-        <Route path="*" element={<Loading/>}/>
+        <Route path='/' element={<SharedLayout 
+                                  accessToken={accessToken} 
+                                  errCode={errCode} 
+                                  setIsFormAuth={setIsFormAuth} 
+                                  isShowSidebar={isShowSidebar} 
+                                  amount={amount} 
+                                  setIsShowSidebar={setIsShowSidebar} 
+                                  isAdminPage={isAdminPage}/>}>
+          <Route index element={<Home/>} />
+          <Route path='about' element={<About/>} />
+          <Route path='products' element={<SharedProductLayout/>}>
+            <Route index element={<Products/>} />
+            <Route path=':id' element={<SingleProduct/>}/>
+          </Route>
+          <Route path="cart" element={<Cart/>} />
+          <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
+          <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
+          <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
+          <Route path="admin" element={<SharedAdminLayout setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
+            <Route index element={<Dashboard/>}/>
+            <Route path='users' element={<UsersManage/>} />
+          </Route>
+        </Route>
       </Routes>
       <Footer isAdminPage={isAdminPage}/>
     </BrowserRouter>
