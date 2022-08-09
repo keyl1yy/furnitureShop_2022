@@ -27,6 +27,12 @@ import SharedLayout from "./components/SharedLayout/SharedLayout";
 import SharedProductLayout from "./components/SharedLayout/SharedProductLayout";
 import SharedAdminLayout from "./components/SharedLayout/SharedAdminLayout";
 import UsersManage from "./components/Admin/AdminPage/UserPage/UsersManage";
+import { loginAdminWithToken } from "./redux/features/adminSlice";
+import OrderAdmin from "./components/Admin/AdminPage/OrderPage/OrderAdmin";
+import StatisticAdmin from "./components/Admin/AdminPage/StatisticPage/StatisticAdmin";
+import ProductManage from "./components/Admin/AdminPage/ProductPage/ProductManage";
+import MeetingAdmin from "./components/Admin/AdminPage/Meeting/MeetingAdmin";
+
 AOS.init();
 
 const resetToken = localStorage.getItem('resetPassToken');
@@ -41,6 +47,7 @@ const getAccessTokenAdmin = () => {
 }
 
 function App() {
+  //! State
   const [isShowSidebar,setIsShowSidebar] = useState(false);
   const [isFormAuth,setIsFormAuth] = useState({
     isLogin: false,
@@ -50,20 +57,27 @@ function App() {
   const [isAdminPage,setIsAdminPage] = useState(false);
   const {amount,cartProducts} = useSelector(store => store.cartProducts)
   const {errCode,msg,name} = useSelector(store => store.auth)
-
+  const {errCode: errCodeAdmin} = useSelector(store => store.admin)
   const [accessToken,setAccessToken] = useState(getAccessToken())
   const [accessTokenAdmin,setAccessTokenAdmin] = useState(getAccessTokenAdmin())
 
   const dispatch = useDispatch();
+
+  
+
+  //! Effect
   useEffect(() => {
     setAccessToken(getAccessToken())
     setAccessTokenAdmin(getAccessTokenAdmin())
   },[errCode])
+  
   useEffect(() => {
     dispatch(getProducts())
     if(accessToken){
-      console.log('token',accessToken);
       dispatch(loginUserToken(accessToken))
+    }
+    if(accessTokenAdmin){
+      dispatch(loginAdminWithToken(accessTokenAdmin))
     }
   },[])
   useEffect(() => {
@@ -73,38 +87,8 @@ function App() {
     dispatch(getOrderTotal())
   },[cartProducts])
   
+  //!Render
   return (
-    // <BrowserRouter>
-    //   <div id='alert-success' className='alertAuth hide'>
-    //         <Alert severity="success">
-    //             <AlertTitle>Login Success</AlertTitle>
-    //             <div id='content-success' style={{display: 'inline-block'}}>{msg}</div> — <strong>Hello_{name}!!!</strong>
-    //         </Alert>
-    //   </div>
-    
-    //   {isFormAuth.isLogin && <Login setIsFormAuth={setIsFormAuth}/>}
-    //   {isFormAuth.isSignUp && <SignUp setIsFormAuth={setIsFormAuth}/>}
-    //   {isFormAuth.isForgotPassword && <ForgotPassword setIsFormAuth={setIsFormAuth}/>}
-    //   <Navbar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} setIsShowSidebar={setIsShowSidebar} amount={amount} isAdminPage={isAdminPage}/>
-    //   <Sidebar accessToken={accessToken} errCode={errCode} setIsFormAuth={setIsFormAuth} isShowSidebar={isShowSidebar} amount={amount} setIsShowSidebar={setIsShowSidebar} isAdminPage={isAdminPage}/>
-    //   <Routes>
-    //     <Route path="/" element={<Home/>}/>
-    //     <Route path="/about" element={<About/>}/>
-    //     <Route path="/products/:id" element={<SingleProduct/>}/>
-    //     <Route path="/products" element={<Products/>}/>
-    //     <Route path="/cart" element={<Cart/>}/>
-    //     <Route path="/reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
-    //     <Route path="/user/:id" element={<User accessToken={accessToken}/>}/>
-    //     <Route path="/admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
-    //     {/* <Route path="/admin/" element={<AdminPage setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
-    //       <Route index element={<Dashboard/>}/>
-    //       <Route path="users" element={<Users/>}/>
-    //     </Route>
-    //      */}
-    //     <Route path="*" element={<Loading/>}/>
-    //   </Routes>
-    //   <Footer isAdminPage={isAdminPage}/>
-    // </BrowserRouter>
     <BrowserRouter>
       <div id='alert-success' className='alertAuth hide'>
             <Alert severity="success">
@@ -136,8 +120,13 @@ function App() {
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
           <Route path="admin" element={<SharedAdminLayout setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
             <Route index element={<Dashboard/>}/>
-            <Route path='users' element={<UsersManage/>} />
+            <Route path='users' element={<UsersManage/>}/>
+            <Route path="order" element={<OrderAdmin/>} />
+            <Route path="statistic" element={<StatisticAdmin/>} />
+            <Route path="product" element={<ProductManage/>} />
+            <Route path="meeting" element={<MeetingAdmin/>} />
           </Route>
+          <Route path="*" element={<Loading/>}/>
         </Route>
       </Routes>
       <Footer isAdminPage={isAdminPage}/>

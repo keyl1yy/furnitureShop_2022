@@ -4,6 +4,8 @@ import React from 'react'
 import urlLogo from '../../../../public/img/logo.svg'
 import CloseIcon from '@mui/icons-material/Close';
 import { permissionsAdminPage } from './permission';
+import {Link} from 'react-router-dom'
+import "./sidebar.scss"
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 80,
   height: 34,
@@ -108,7 +110,8 @@ const SidebarAdmin = (props) => {
               zIndex: 10000,
               width:'100%',
               height:'100vh',
-              position:'absolute',
+              position:'fixed',
+              top: "0",
               display:'flex',
               transition:'all .3s linear',
               backgroundColor:'#decbc0',
@@ -122,16 +125,18 @@ const SidebarAdmin = (props) => {
         <Box sx={{display:'flex'}}>
           <img className='img-logo' src={urlLogo} alt='logo'/>
         </Box>
-        <List sx={{width:'90%',height:'360px',overflowY:'scroll',borderBottom:'1px solid #453227'}}>
+        <List sx={{width:'90%',height:'600px',overflowY:'scroll',borderBottom:'1px solid #453227'}}>
           {permissionsAdminPage.map((el,index) => {
             const {name, icon, href} = el;
             return(
               <ListOptionItem key={index}>
-                <ListItemButton selected={index===0 ? true : false} href={href}>
-                  <ListItemIcon>
-                    {icon}
-                  </ListItemIcon>
-                  <ListItemText primary={name}/>
+                <ListItemButton selected={href === window.location.pathname ? true : false}>
+                  <Link className='link-sidebar' to={href}>
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+                    <ListItemText primary={name}/>
+                  </Link>
                 </ListItemButton>
               </ListOptionItem>
             )

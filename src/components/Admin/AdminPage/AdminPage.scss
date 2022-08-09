@@ -1,0 +1,12 @@
+.container-admin{
+    margin-left: 300px;
+    margin-top: 64px;
+    padding: 1.5rem;
+    background-color: #f1f5f8;
+    height: 100vh;
+}
+@media screen and (max-width:901px) {
+    .container-admin{
+        margin-left: 0;
+    }
+}

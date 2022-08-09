@@ -73,8 +73,11 @@ export const adminSlice = createSlice({
         },
         loginAdminWithTokenFail: (state,action) => {
             console.log('tokenAdminTokenFail',action);
+            const {errMsg} = action;
             state.isLoading = false;
-            state.msg = 'Login admin with token fail!';
+            state.msg = errMsg.msg;
+            state.errCode = errMsg.errCode;
+            // state.msg = 'Login admin with token fail!';
             
         }
     }

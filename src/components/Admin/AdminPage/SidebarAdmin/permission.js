@@ -1,4 +1,4 @@
-import { Chair, Dashboard, Equalizer, Person, ShoppingCart } from "@mui/icons-material";
+import { Chair, Dashboard, EmergencyRecording, Equalizer, Person, ShoppingCart } from "@mui/icons-material";
 const adminLink = "/admin"
 export const permissionsAdminPage = [
     {
@@ -25,5 +25,10 @@ export const permissionsAdminPage = [
         name: "Product",
         icon: <Chair/>,
         href: `${adminLink}/product`
+    },
+    {
+        name: "Meeting",
+        icon: <EmergencyRecording/>,
+        href: `${adminLink}/meeting`
     }
 ]

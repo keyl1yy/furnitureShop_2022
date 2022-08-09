@@ -5,7 +5,7 @@ import { FastField, Form, Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup'
 import { useDispatch,useSelector } from 'react-redux';
 import { loginUserRedux } from '../../../redux/features/authSlice';
-import { loginUser } from '../../../services/userService';
+import { loginUser } from '../../../services/authService';
 import { Alert, AlertTitle } from '@mui/material';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 

@@ -1,6 +1,6 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import {loginUserFail, loginUserRedux, loginUserSuccess,loginUserToken,loginUserWithTokenFail,loginUserWithTokenSuccess, logoutUserFail, logoutUserRedux, logoutUserSuccess} from '../features/authSlice';
-import {loginUser, loginWithToken, logoutUser} from '../../services/userService'
+import {loginUser, loginWithToken, logoutUser} from '../../services/authService'
 
 
 function* handleLoginUser(action){

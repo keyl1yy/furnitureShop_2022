@@ -1,5 +1,5 @@
 import { takeLatest, put } from "redux-saga/effects";
-import { sendEmail,resetPassword } from "../../services/userService";
+import { sendEmail,resetPassword } from "../../services/authService";
 import { sendCheckEmail, sendEmailSuccess, sendEmailFail, resetPasswordRedux, resetPasswordSuccess, resetPasswordFail } from "../features/resetSlice";
 
 function* handleSendEmail(action) {

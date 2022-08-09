@@ -1,8 +1,11 @@
 import React from 'react'
+import { JitsiMeeting } from '@jitsi/react-sdk'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div className='container-admin'>
+      
+    </div>
   )
 }
 

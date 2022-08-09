@@ -15,13 +15,12 @@ const LoginAdmin = (props) => {
     const navigate = useNavigate();
     const [isEye,setIsEye] = useState(false);
     const dispatch = useDispatch();
-    useEffect(() => {
-        console.log('typeOf',typeof accessTokenAdmin);
-        if(accessTokenAdmin){
-            console.log('accessTokenAdmin',accessTokenAdmin);
-            dispatch(loginAdminWithToken(accessTokenAdmin))
-        }
-    },[])
+    // useEffect(() => {
+    //     if(accessTokenAdmin){
+            
+    //         dispatch(loginAdminWithToken(accessTokenAdmin))
+    //     }
+    // },[])
     useEffect(() => {
         if(errCode === 10){
             navigate('/admin')
