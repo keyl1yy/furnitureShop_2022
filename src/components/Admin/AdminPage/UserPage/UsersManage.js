@@ -47,9 +47,9 @@ const columns = [{
 
 const UsersManage = (props) => {
   //! State
-  const {data: listUser, loading, error, refresh} = useGetAllUser();
   const [filterUser, setFilterUser] = useState("");
-  console.log('valueFilter',filterUser);
+  const {data: listUser, loading, error, refresh} = useGetAllUser(filterUser);
+  
   //! Config table
   const rows = listUser.map((el) => {
     const {_id, name, phoneNumber, email, address}= el;
@@ -66,7 +66,7 @@ const UsersManage = (props) => {
   return (
     
       <div className="container-admin">
-        <HeaderTable filterData={filterUser} setFilterData={setFilterUser}/>
+        <HeaderTable filterData={filterUser} setFilterData={setFilterUser} listData={filterUser}/>
         <TableCommon columns={columns} rows={rows} loading={loading}/>
       </div>
     

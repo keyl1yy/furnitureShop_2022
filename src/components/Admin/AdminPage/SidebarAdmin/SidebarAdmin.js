@@ -104,7 +104,7 @@ const CloseSidebar = styled(CloseIcon)(({theme}) =>({
   
 }))
 const SidebarAdmin = (props) => {
-  const {setIsOpenSidebar,isOpenSidebar} = props;
+  const {setIsOpenSidebar,isOpenSidebar, darkMode, setDarkMode} = props;
   return (
     <Box sx={{maxWidth:{xs:'unset',sm:'300px'},
               zIndex: 10000,
@@ -145,7 +145,7 @@ const SidebarAdmin = (props) => {
         </List>
         <Box sx={{flex:'1'}}/>
         <Stack direction='column' gap={3} sx={{display:'flex',alignItems:'center',padding:'0 32px',justifyContent:'center'}}>
-          <MaterialUISwitch/>
+          <MaterialUISwitch checked={darkMode} onChange={()=>setDarkMode(!darkMode)}/>
           <BtnLogout startIcon={<Logout/>} variant='outlined'>Logout</BtnLogout>
         </Stack>
     </Box>

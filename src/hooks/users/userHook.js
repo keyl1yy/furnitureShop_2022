@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllUser } from "../../services/adminPage/userService";
 
-export const useGetAllUser = () => {
+export const useGetAllUser = (query) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
@@ -9,7 +9,7 @@ export const useGetAllUser = () => {
     const getListUser = async () => {
         setLoading(true)
         try {
-            const response = await getAllUser();
+            const response = await getAllUser(query);
             if(response?.status === 200) {
                 setData(response?.data);
                 setLoading(false);
@@ -22,7 +22,7 @@ export const useGetAllUser = () => {
 
     useEffect(() => {
         getListUser()
-    },[])
+    },[query])
     const refresh = () => {
         getListUser()
     }

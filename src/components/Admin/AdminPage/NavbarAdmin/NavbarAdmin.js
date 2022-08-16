@@ -57,7 +57,7 @@ const NavbarAdmin = (props) => {
   const open = Boolean(anchorEl);
   const routerPages = window.location.pathname.split("/");
   let currentPath = "";
-  console.log("routerPage", routerPages);
+ 
   //! Function
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -76,7 +76,7 @@ const NavbarAdmin = (props) => {
       }}
     >
       <StyledToolbar>
-        <Box flex={1}>
+        <Box flex={1} sx={{display: "flex", alignItems: "center",gap: "1rem"}}>
           <MenuOpenSidebar
             sx={{ display: { xs: "unset", md: "none" } }}
             onClick={() => setIsOpenSidebar(true)}
@@ -87,12 +87,12 @@ const NavbarAdmin = (props) => {
           >
             {routerPages.map((el, index) => {
             
-              console.log('currentPath', currentPath);
+              
               if(index>0){
                 currentPath = currentPath + "/" + el;
                 if(window.location.pathname === currentPath) {
                   return(
-                    <Typography sx={{textTransform:"capitalize"}} color="text.primary">{el}</Typography>
+                    <Typography key={index} sx={{textTransform:"capitalize"}} color="text.primary">{el}</Typography>
 
                   )
                 }
@@ -108,7 +108,7 @@ const NavbarAdmin = (props) => {
         </Box>
         <AdminAccount>
           <Stack direction="row" sx={{ marginRight: "1rem" }} gap={3}>
-            <Badge color="primary" badgeContent={3} showZero>
+            <Badge color="primary" badgeContent={3} showZero sx={{display: {xs: "none", md: "unset"}}}>
               <MailIcon
                 sx={{ fontSize: "30px", color: "#ab7a5f", cursor: "pointer" }}
               />

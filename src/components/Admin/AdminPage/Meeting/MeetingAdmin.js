@@ -2,15 +2,19 @@ import { JitsiMeeting } from '@jitsi/react-sdk'
 import React from 'react'
 
 const MeetingAdmin = () => {
+  //! State
+
+  //! Render
   return (
     <div className='container-admin'>
         <JitsiMeeting
-            roomName="My room"
+            roomName="Furniture meeting room"
             getIFrameRef = { node => node.style.height = "800px"}
             configOverwrite = {{ 
-            startWithAudioMuted: true, 
+              startWithAudioMuted: true, 
             
             }} 
+            useStaging = { true }
         />
     </div>
   )
