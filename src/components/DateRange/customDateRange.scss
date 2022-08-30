@@ -1,0 +1,95 @@
+.dateRange{
+    &-title{
+        padding: 1.5rem;
+        background-color: green;
+        display: flex;
+        width: 100%;
+        .dateRange-title-startDate{
+            width: 50%;
+            &-year{
+                font-size: 20px;
+            }
+            &-date{
+                font-size: 40px;
+            }
+        }
+        .dateRange-title-endDate{
+            &-year{
+                font-size: 20px;
+            }
+            &-date{
+                font-size: 40px;
+            }
+        }
+    }
+    .rdrCalendarWrapper.rdrDateRangeWrapper{
+        width: 100%;
+        .rdrDateDisplayWrapper{
+            display: none;
+        }
+        .rdrMonthAndYearWrapper{
+            width: 100%;
+            z-index: 1;
+            .rdrMonthAndYearPickers{
+                // display: none;
+                display: flex;
+
+            }
+        }
+        .rdrMonths.rdrMonthsHorizontal{
+            .rdrMonth{
+                width: 50%;
+                margin-top: -60px;
+                
+                .rdrMonthName{
+                    display: flex;
+                    justify-content: center;
+                    font-size: 24px;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+                .rdrStartEdge,
+                .rdrInRange,
+                .rdrEndEdge,
+                .rdrDayInPreview,
+                .rdrDayStartPreview,
+                .rdrDayEndPreview{
+                    color: green!important;
+                }
+                .rdrDays,
+                .rdrDayNumber{
+                    &:hover{
+                        border-color: green!important;
+                        outline-color: green!important;
+                        
+                    }
+                }
+                .rdrDayNumber{
+                    span{
+                        &::after{
+                            background-color: green;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &-btn{
+        display: flex;
+        justify-content: flex-end;
+        background-color: #fff;
+        padding: 2rem;
+        &-cal,
+        &-submit{
+            background-color: transparent;
+            border: none;
+            color: green;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        &-cal{
+            margin-right: 2rem;
+        }
+    }
+}

@@ -7,27 +7,36 @@ import {useDispatch} from 'react-redux'
 import loginAdminWithToken from '../../redux/features/adminSlice'
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from '../../theme/themeMui';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 const SharedAdminLayout = (props) => {
-    const {setIsAdminPage,accessTokenAdmin, handle} = props;
+  //! State
+    const {setIsAdminPage,accessTokenAdmin, handleFullScreen} = props;
     const dispatch = useDispatch();
     const {errCode} = useSelector(store => store.admin)
     const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState(false)
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
+    console.log("handleFullScreen",handleFullScreen);
+  //! Effect
     useEffect(() => {
         setIsAdminPage(true)
         if(!accessTokenAdmin || errCode!==10){
           navigate('/admin/login')
         }
     },[])
+
+  //! Function
+
+  //! Render
   return (
-    
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline/>
-        <NavbarAdmin setIsOpenSidebar={setIsOpenSidebar} />
-        <SidebarAdmin setIsOpenSidebar={setIsOpenSidebar} isOpenSidebar={isOpenSidebar} darkMode={darkMode} setDarkMode={setDarkMode}/>
-        <Outlet/>
-    </ThemeProvider>
+    <FullScreen handle={handleFullScreen}>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <CssBaseline/>
+          <NavbarAdmin setIsOpenSidebar={setIsOpenSidebar} />
+          <SidebarAdmin setIsOpenSidebar={setIsOpenSidebar} isOpenSidebar={isOpenSidebar} darkMode={darkMode} setDarkMode={setDarkMode}/>
+          <Outlet handleFullScreen={handleFullScreen}/>
+      </ThemeProvider>
+    </FullScreen>
 
   )
 }

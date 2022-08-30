@@ -1,5 +1,5 @@
 import { Chair, DarkMode, Dashboard, Equalizer, Logout, Person, ShoppingCart } from '@mui/icons-material'
-import { Box, List,styled, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Switch, Button } from '@mui/material'
+import { Box, List,styled, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Switch, Button, useTheme } from '@mui/material'
 import React from 'react'
 import urlLogo from '../../../../public/img/logo.svg'
 import CloseIcon from '@mui/icons-material/Close';
@@ -55,12 +55,12 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 const BtnLogout = styled(Button)(({theme}) => ({
   width:'100%',
   letterSpacing:'2px',
-  color:'#453227',
-  borderColor:'#453227',
+  color:theme.palette.defaultLayout.colorBtn,
+  borderColor:theme.palette.defaultLayout.colorBtn,
   padding:'.8rem 0',
   '&:hover':{
     backgroundColor:'rgb(0 0 0 / 3%)',
-    borderColor:'#5f4435'
+    borderColor: theme.palette.defaultLayout.hoverBtn
   }
 }))
 const ListOptionItem = styled(ListItem) (({theme}) => ({
@@ -68,18 +68,18 @@ const ListOptionItem = styled(ListItem) (({theme}) => ({
   '& .Mui-selected':{
     backgroundColor:'transparent!important',
     '& .MuiListItemIcon-root':{
-      color:'#48647f',
+      color:theme.palette.defaultLayout.colorIcon,
       transform:'scale(1.2)'
     },
     '& .MuiTypography-root':{
       fontWeight: 'bold',
       fontSize: '18px',
-      color: '#48647f',
+      color: theme.palette.defaultLayout.colorTextFocus,
     },
   },
   '&:hover':{
     '& .MuiListItemIcon-root':{
-      color:'#48647f',
+      color:theme.palette.defaultLayout.colorIcon,
       transition:'all .3 linear',
       transform:'scale(1.2)',
     },
@@ -87,7 +87,7 @@ const ListOptionItem = styled(ListItem) (({theme}) => ({
       fontWeight: 'bold',
       fontSize: '18px',
       transition:'all .3 linear',
-      color: '#48647f',
+      color: theme.palette.defaultLayout.colorTextFocus,
     },
   }
 }))
@@ -105,6 +105,7 @@ const CloseSidebar = styled(CloseIcon)(({theme}) =>({
 }))
 const SidebarAdmin = (props) => {
   const {setIsOpenSidebar,isOpenSidebar, darkMode, setDarkMode} = props;
+  const theme = useTheme();
   return (
     <Box sx={{maxWidth:{xs:'unset',sm:'300px'},
               zIndex: 10000,
@@ -114,7 +115,7 @@ const SidebarAdmin = (props) => {
               top: "0",
               display:'flex',
               transition:'all .3s linear',
-              backgroundColor:'#decbc0',
+              backgroundColor: theme.palette.defaultLayout.background,
               flexDirection:'column',
               boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px',
               transform:{xs:`${isOpenSidebar?'translateX(0)':'translateX(-100%)'}`,md:'unset'}}}
@@ -125,17 +126,17 @@ const SidebarAdmin = (props) => {
         <Box sx={{display:'flex'}}>
           <img className='img-logo' src={urlLogo} alt='logo'/>
         </Box>
-        <List sx={{width:'90%',height:'600px',overflowY:'scroll',borderBottom:'1px solid #453227'}}>
+        <List sx={{width:'90%',height:'400px',overflowY:'scroll',borderBottom:`1px solid ${theme.palette.defaultLayout.borderColor}`}}>
           {permissionsAdminPage.map((el,index) => {
             const {name, icon, href} = el;
             return(
               <ListOptionItem key={index}>
                 <ListItemButton selected={href === window.location.pathname ? true : false}>
                   <Link className='link-sidebar' to={href}>
-                    <ListItemIcon>
+                    <ListItemIcon >
                       {icon}
                     </ListItemIcon>
-                    <ListItemText primary={name}/>
+                    <ListItemText primary={name} sx={{color: theme.palette.defaultLayout.colorText}}/>
                   </Link>
                 </ListItemButton>
               </ListOptionItem>

@@ -32,6 +32,9 @@ import OrderAdmin from "./components/Admin/AdminPage/OrderPage/OrderAdmin";
 import StatisticAdmin from "./components/Admin/AdminPage/StatisticPage/StatisticAdmin";
 import ProductManage from "./components/Admin/AdminPage/ProductPage/ProductManage";
 import MeetingAdmin from "./components/Admin/AdminPage/Meeting/MeetingAdmin";
+import TestPage from "./components/Test/TestPage";
+import TestAntd from "./components/Test/TestAntd";
+import { useFullScreenHandle } from "react-full-screen";
 
 AOS.init();
 
@@ -62,6 +65,8 @@ function App() {
   const [accessTokenAdmin,setAccessTokenAdmin] = useState(getAccessTokenAdmin())
 
   const dispatch = useDispatch();
+
+  const handleFullScreen = useFullScreenHandle();
 
   
 
@@ -118,14 +123,16 @@ function App() {
           <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
           <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
-          <Route path="admin" element={<SharedAdminLayout setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
+          <Route path="admin" element={<SharedAdminLayout handleFullScreen={handleFullScreen} setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
             <Route index element={<Dashboard/>}/>
-            <Route path='users' element={<UsersManage/>}/>
+            <Route path='users' element={<UsersManage handleFullScreen={handleFullScreen}/>} />
             <Route path="order" element={<OrderAdmin/>} />
             <Route path="statistic" element={<StatisticAdmin/>} />
             <Route path="product" element={<ProductManage/>} />
             <Route path="meeting" element={<MeetingAdmin/>} />
           </Route>
+          <Route path="test" element={<TestPage/>}/>
+          <Route path="antdTest" element={<TestAntd/>}/>
           <Route path="*" element={<Loading/>}/>
         </Route>
       </Routes>

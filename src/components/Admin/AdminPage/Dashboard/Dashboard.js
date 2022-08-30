@@ -1,15 +1,14 @@
-import React from 'react'
-import { JitsiMeeting } from '@jitsi/react-sdk'
-import { Paper, ThemeProvider, Typography } from '@mui/material'
-import { theme } from '../../../../theme/themeMui'
+import React, { useState } from 'react'
 
 const Dashboard = () => {
+  //! State
+  
+  //! Function
+  
+  //! Render
   return (
     <div className='container-admin'>
-        <Paper color="primary">
-          <Typography color="primary">TEST THEME MUI</Typography>
-        </Paper>
-      </div>
+    </div>
 
   )
 }

@@ -16,6 +16,7 @@ import {
   Badge,
   Stack,
   Breadcrumbs,
+  useTheme,
   // Link ,
 } from "@mui/material";
 import urlLogo from "../../../../public/img/logo.svg";
@@ -29,11 +30,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link } from "react-router-dom";
 
-const StyledToolbar = styled(Toolbar)({
+const StyledToolbar = styled(Toolbar)(({theme}) => ({
   display: "flex",
   justifyContent: "space-between",
-  backgroundColor: "#decbc0",
-});
+  backgroundColor: theme.palette.defaultLayout.background,
+}));
 
 const AdminAccount = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -52,11 +53,13 @@ const MenuOpenSidebar = styled(MenuIcon)(({ theme }) => ({
 }));
 const NavbarAdmin = (props) => {
   //! State
+
   const { setIsOpenSidebar } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const routerPages = window.location.pathname.split("/");
   let currentPath = "";
+  const theme = useTheme();
  
   //! Function
   const handleClick = (event) => {
@@ -110,12 +113,12 @@ const NavbarAdmin = (props) => {
           <Stack direction="row" sx={{ marginRight: "1rem" }} gap={3}>
             <Badge color="primary" badgeContent={3} showZero sx={{display: {xs: "none", md: "unset"}}}>
               <MailIcon
-                sx={{ fontSize: "30px", color: "#ab7a5f", cursor: "pointer" }}
+                sx={{ fontSize: "30px", color: theme.palette.defaultLayout.colorIconNav, cursor: "pointer" }}
               />
             </Badge>
             <Badge color="primary" badgeContent={3} showZero>
               <NotificationsIcon
-                sx={{ fontSize: "30px", color: "#ab7a5f", cursor: "pointer" }}
+                sx={{ fontSize: "30px", color: theme.palette.defaultLayout.colorIconNav, cursor: "pointer" }}
               />
             </Badge>
           </Stack>

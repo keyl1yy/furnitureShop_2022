@@ -1,5 +1,5 @@
 import React from 'react'
-import TableCommon from '../../../../common/table';
+import TableCommon from '../../../../common/Table/table';
 import { useGetAllProduct } from '../../../../hooks/products/productHook';
 
 const columns = [

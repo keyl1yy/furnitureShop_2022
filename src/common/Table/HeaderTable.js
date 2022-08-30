@@ -3,7 +3,10 @@ import { Box, Button, Paper, TextField } from "@mui/material";
 import React, { useState } from "react";
 import ReplayIcon from "@mui/icons-material/Replay";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import InputCustom from "../Input/Input";
+import ButtonCustom from "../Button/Button";
 
 //! MUI_Custom
 const HeaderTableLeft = styled(Box)(({ theme }) => ({
@@ -31,7 +34,7 @@ const HeaderTable = (props) => {
     window.location.pathname.split("/")[
       window.location.pathname.split("/").length - 1
     ];
-  const { filterData, setFilterData, listData, setListData } = props;
+  const { filterData, setFilterData, listData, setListData, placeholder, refresh, handleFullScreen } = props;
     const [valueTextField, setValueTextField] = useState("");
   //!Function
 
@@ -39,6 +42,12 @@ const HeaderTable = (props) => {
        e.preventDefault();
     setFilterData(valueTextField)
    } 
+
+   const handleRefresh = () => {
+    refresh && refresh();
+   }
+   
+   
 
   //! Render
   return (
@@ -58,30 +67,32 @@ const HeaderTable = (props) => {
             <TextField
                 id="filter-table"
                 label={`${path}`}
-                placeholder={`Filter ${path}...`}
-                
+                placeholder={`Filter ${placeholder}...`}
                 value={valueTextField}
                 onChange={(e) => setValueTextField(e.target.value)}
-                
                 variant="standard"
             />
-            <Button
-                variant="contained"
-                sx={{
-                    backgroundColor: "#ab7a5f",
-                    "&:hover": { backgroundColor: "#b99179" },
-                    marginLeft: ".5rem",
-                }}
-                type="submit"
-            >
-            Filter
-            </Button>
+            <ButtonCustom
+              variant="contained"
+              title="Filter"
+              sx={{
+                  backgroundColor: "#ab7a5f",
+                  "&:hover": { backgroundColor: "#b99179" },
+                  marginLeft: ".5rem",
+              }}
+              type="submit"
+            />
         </form>    
           
       </HeaderTableLeft>
       <HeaderTableRight>
-        <FullscreenIcon sx={flexCenterIcon} />
-        <ReplayIcon sx={flexCenterIcon} />
+        {
+          handleFullScreen?.active ? 
+            <FullscreenExitIcon sx={flexCenterIcon} onClick={handleFullScreen?.exit}/>
+          :
+            <FullscreenIcon sx={flexCenterIcon} onClick={handleFullScreen?.enter}/>
+        }
+        <ReplayIcon sx={flexCenterIcon} onClick={handleRefresh}/>
       </HeaderTableRight>
     </Paper>
   );

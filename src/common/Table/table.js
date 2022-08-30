@@ -8,9 +8,11 @@ import {
     TableContainer,
     TableHead,
     TablePagination,
-    TableRow,
+    TableRow as TableRowMUI,
   } from "@mui/material";
 import { useState } from "react";
+// import TableCell from "./TableCell";
+import TableRow from "./TableRow";
 
 const TableCommon = (props) => {
     //! State
@@ -39,7 +41,7 @@ const TableCommon = (props) => {
         <TableContainer sx={{ maxHeight: 1000 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRowMUI>
                 {columns.map((column) => {
                   const { id, label, minWidth, align } = column;
                   return (
@@ -53,28 +55,17 @@ const TableCommon = (props) => {
                     </TableCell>
                   );
                 })}
-              </TableRow>
+              </TableRowMUI>
             </TableHead>
             <TableBody>
               {rows
                 .map((row,index) => {
                   return (
                     <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={index}
-                    
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align} sx={{textOverflow:"ellipsis"}}>
-                            {value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                      key={row.id}
+                      row={row}
+                      columns={columns}
+                    />
                   );
                 })}
             </TableBody>
