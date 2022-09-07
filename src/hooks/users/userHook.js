@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getAllUser } from "../../services/adminPage/userService";
+import { getAllUser, getUserId } from "../../services/adminPage/userService";
 
 export const useGetAllUser = (query) => {
     const [data, setData] = useState([]);
@@ -28,4 +28,35 @@ export const useGetAllUser = (query) => {
     }
 
     return {data, error, loading, refresh}
+}
+
+export const useGetSingleUser = (id) => {
+    const [data, setData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
+    const getUserID = async () => {
+        setIsLoading(true);
+        try {
+            const response = await getUserId(id);
+            if(response && response?.status === 200) {
+                setData(response?.data)
+                setIsLoading(false)
+            }
+            
+        } catch (error) {
+            setError(error);
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getUserID()
+    },[])
+
+    const refresh = () => {
+        getUserID()
+
+    }
+    return {data, isLoading, error, refresh}
 }

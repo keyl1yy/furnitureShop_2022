@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { useNavigate,Outlet } from 'react-router-dom';
+import { useNavigate,Outlet, useLocation } from 'react-router-dom';
 import SidebarAdmin from '../Admin/AdminPage/SidebarAdmin/SidebarAdmin'
 import { useSelector } from 'react-redux';
 import NavbarAdmin from '../Admin/AdminPage/NavbarAdmin/NavbarAdmin';
@@ -11,30 +11,29 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 const SharedAdminLayout = (props) => {
   //! State
     const {setIsAdminPage,accessTokenAdmin, handleFullScreen} = props;
-    const dispatch = useDispatch();
-    const {errCode} = useSelector(store => store.admin)
-    const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState(false)
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
-    console.log("handleFullScreen",handleFullScreen);
+    const pathName = useLocation().pathname.split("/")[2];
   //! Effect
     useEffect(() => {
         setIsAdminPage(true)
-        if(!accessTokenAdmin || errCode!==10){
-          navigate('/admin/login')
-        }
     },[])
 
   //! Function
 
   //! Render
+  if(pathName && pathName === "login"){
+    return(
+      <Outlet/>
+    )
+  }
   return (
     <FullScreen handle={handleFullScreen}>
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <CssBaseline/>
           <NavbarAdmin setIsOpenSidebar={setIsOpenSidebar} />
           <SidebarAdmin setIsOpenSidebar={setIsOpenSidebar} isOpenSidebar={isOpenSidebar} darkMode={darkMode} setDarkMode={setDarkMode}/>
-          <Outlet handleFullScreen={handleFullScreen}/>
+          <Outlet/>
       </ThemeProvider>
     </FullScreen>
 

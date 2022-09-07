@@ -1,8 +1,11 @@
 import React from 'react'
 import { TableRow as TableRowMUI, TableCell } from '@mui/material'
+
 const TableRow = (props) => {
     //! State
-    const {row, columns} = props;
+    const {row, columns, handleDelete, handleEdit} = props;
+    // console.log("row",row);
+    // console.log("columns",columns);
     //! Function
 
     //! Render
@@ -11,12 +14,27 @@ const TableRow = (props) => {
         hover
         role="checkbox"
         tabIndex={-1}
-        
     >
-        {columns?.map((column) => {
+        {columns?.map((column,index) => {
         const value = row[column.id];
+        if(typeof value === 'object'){
+          return(
+            <TableCell key={index} align={column.align} sx={{textOverflow:"ellipsis"}}>
+              {value.map((el,index) => {
+                
+                const {id} = el.props;
+    
+                return(
+                  <span key={index} onClick={() =>  id === "delete"? handleDelete(row["_id"]) : handleEdit(row["_id"])}>
+                    {el}
+                  </span>
+                )
+              })}
+            </TableCell>
+          )
+        }
         return (
-            <TableCell key={column.id} align={column.align} sx={{textOverflow:"ellipsis"}}>
+            <TableCell key={index} align={column.align} sx={{textOverflow:"ellipsis"}}>
             {value}
             </TableCell>
         );

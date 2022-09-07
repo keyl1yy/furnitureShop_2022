@@ -129,9 +129,10 @@ const SidebarAdmin = (props) => {
         <List sx={{width:'90%',height:'400px',overflowY:'scroll',borderBottom:`1px solid ${theme.palette.defaultLayout.borderColor}`}}>
           {permissionsAdminPage.map((el,index) => {
             const {name, icon, href} = el;
+            // console.log("sdasd",window.location.pathname);
             return(
               <ListOptionItem key={index}>
-                <ListItemButton selected={href === window.location.pathname ? true : false}>
+                <ListItemButton selected={href.split("/")[2] === window.location.pathname.split("/")[2] ? true : false}>
                   <Link className='link-sidebar' to={href}>
                     <ListItemIcon >
                       {icon}

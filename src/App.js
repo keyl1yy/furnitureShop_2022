@@ -35,6 +35,10 @@ import MeetingAdmin from "./components/Admin/AdminPage/Meeting/MeetingAdmin";
 import TestPage from "./components/Test/TestPage";
 import TestAntd from "./components/Test/TestAntd";
 import { useFullScreenHandle } from "react-full-screen";
+import CreateUser from "./components/Admin/AdminPage/UserPage/CreateUser";
+import DefaultLayout from "./components/Admin/AdminPage/DefaultLayout";
+import PrivateRoute from './PrivateRoute'
+import EditUser from './components/Admin/AdminPage/UserPage/EditUser'
 
 AOS.init();
 
@@ -123,9 +127,17 @@ function App() {
           <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
           <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
-          <Route path="admin" element={<SharedAdminLayout handleFullScreen={handleFullScreen} setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}>
+          <Route path="admin" element={
+            <PrivateRoute>
+              <SharedAdminLayout handleFullScreen={handleFullScreen} setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>
+            </PrivateRoute>
+            }>
             <Route index element={<Dashboard/>}/>
-            <Route path='users' element={<UsersManage handleFullScreen={handleFullScreen}/>} />
+            <Route path='users' element={<DefaultLayout/>}>
+              <Route index element={<UsersManage handleFullScreen={handleFullScreen}/>}/>
+              <Route path="create" element={<CreateUser/>}/>
+              <Route path=":id" element={<EditUser/>}/>
+            </Route>
             <Route path="order" element={<OrderAdmin/>} />
             <Route path="statistic" element={<StatisticAdmin/>} />
             <Route path="product" element={<ProductManage/>} />

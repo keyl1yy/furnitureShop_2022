@@ -3,6 +3,9 @@ import { attachTokenToHeader } from '../axios'
 const createUser = (data) => {
     return axios.post('/users',data)
 }
+const deleteUser = (id) => {
+    return axios.delete(`/users/${id}`)
+}
 const loginUser = (data) => {
     return axios.post('/users/login',data)
 }
@@ -20,4 +23,4 @@ const logoutUser = (token) => {
     return axios.post('/users/logout',attachTokenToHeader(token))
 }
 
-export {createUser,loginUser,sendEmail,resetPassword,loginWithToken,logoutUser}
+export {createUser,loginUser,sendEmail,resetPassword,loginWithToken,logoutUser, deleteUser}

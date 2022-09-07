@@ -6,6 +6,7 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import InputCustom from "../Input/Input";
+import AddIcon from '@mui/icons-material/Add';
 import ButtonCustom from "../Button/Button";
 
 //! MUI_Custom
@@ -19,11 +20,13 @@ const HeaderTableLeft = styled(Box)(({ theme }) => ({
 
 const HeaderTableRight = styled(Box)(({ theme }) => ({
   display: "flex",
+  alignItems: "center"
 }));
 
 const flexCenterIcon = {
   display: "flex",
   alignItems: "center",
+  height: '100%',
   color: "#102a42",
   cursor: "pointer",
 };
@@ -34,7 +37,7 @@ const HeaderTable = (props) => {
     window.location.pathname.split("/")[
       window.location.pathname.split("/").length - 1
     ];
-  const { filterData, setFilterData, listData, setListData, placeholder, refresh, handleFullScreen } = props;
+  const { filterData, setFilterData, listData, setListData, placeholder, refresh, handleFullScreen, handleCreate } = props;
     const [valueTextField, setValueTextField] = useState("");
   //!Function
 
@@ -86,8 +89,15 @@ const HeaderTable = (props) => {
           
       </HeaderTableLeft>
       <HeaderTableRight>
+        <ButtonCustom
+          variant="contained"
+          startIcon={<AddIcon/>}
+          title="Create"
+          sx={{marginRight:'1rem'}}
+          onClick={handleCreate}
+        />
         {
-          handleFullScreen?.active ? 
+          handleFullScreen?.active ?
             <FullscreenExitIcon sx={flexCenterIcon} onClick={handleFullScreen?.exit}/>
           :
             <FullscreenIcon sx={flexCenterIcon} onClick={handleFullScreen?.enter}/>

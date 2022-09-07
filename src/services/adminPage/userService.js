@@ -1,10 +1,17 @@
 import axios from "../../axios"
 import { attachTokenToHeader } from '../../axios'
 
-const getAllUser = (query) => {
+export const getAllUser = (query) => {
     return axios.get('/users',{params:{
         name: query
     }})
 }
 
-export {getAllUser}
+export const getUserId = (id) => {
+    return axios.get(`/users/${id}`)
+}
+
+export const updateUserId = (id, data) => {
+    return axios.patch(`/users/${id}`,data)
+}
+

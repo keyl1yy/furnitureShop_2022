@@ -16,7 +16,7 @@ import TableRow from "./TableRow";
 
 const TableCommon = (props) => {
     //! State
-    const {columns, rows, loading} = props;
+    const {columns, rows, loading, handleDelete, handleEdit} = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     //! Function
@@ -24,10 +24,9 @@ const TableCommon = (props) => {
         setPage(newPage);
       };
     const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(+e.target.value);
-    setPage(0);
+      setRowsPerPage(+e.target.value);
+      setPage(0);
     };
-    
     //! Render
     return(
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -43,10 +42,10 @@ const TableCommon = (props) => {
             <TableHead>
               <TableRowMUI>
                 {columns.map((column) => {
-                  const { id, label, minWidth, align } = column;
+                  const { _id, label, minWidth, align } = column;
                   return (
                     <TableCell
-                      key={id}
+                      key={_id}
                       align={align}
                       style={{ minWidth: minWidth }}
                       sx={{backgroundColor: "#829ab0"}}
@@ -59,12 +58,17 @@ const TableCommon = (props) => {
             </TableHead>
             <TableBody>
               {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row,index) => {
+                  // console.log('sadsads',row);
+                  const {_id} = row;
                   return (
                     <TableRow
-                      key={row.id}
+                      key={_id}
                       row={row}
                       columns={columns}
+                      handleDelete={handleDelete}
+                      handleEdit={handleEdit}
                     />
                   );
                 })}

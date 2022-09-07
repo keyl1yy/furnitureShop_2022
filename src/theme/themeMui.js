@@ -4,6 +4,9 @@ import { green, orange, red } from "@mui/material/colors";
 export const lightTheme = createTheme({
     palette: {
         mode: "light",
+        primary: {
+            main: "#ab7a5f"
+        },
         defaultLayout: {
             colorIcon: "#48647f",
             colorTextFocus: "#48647f",

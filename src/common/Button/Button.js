@@ -14,6 +14,7 @@ const ButtonCustom = (props) => {
         disabled={disabled}
         type={type}
         onClick={onClick}
+        {...props}
     >
         {title}
     </ButtonMUI>

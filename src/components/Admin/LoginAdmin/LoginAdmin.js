@@ -7,30 +7,28 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loginAdminRedux, loginAdminWithToken } from '../../../redux/features/adminSlice'
 import { Alert, AlertTitle } from '@mui/material'
 import {Link, useNavigate, useParams} from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
+
 
 
 const LoginAdmin = (props) => {
+    //! State
     const {setIsAdminPage,accessTokenAdmin} = props;
-    const {msg,errCode,token} = useSelector(store => store.admin)
+    const {msg,errCode,token} = useSelector(store => store.admin);
     const navigate = useNavigate();
     const [isEye,setIsEye] = useState(false);
     const dispatch = useDispatch();
-    // useEffect(() => {
-    //     if(accessTokenAdmin){
-            
-    //         dispatch(loginAdminWithToken(accessTokenAdmin))
-    //     }
-    // },[])
-    useEffect(() => {
-        if(errCode === 10){
-            navigate('/admin')
-        }
-    },[errCode])
-
+    
+    //! Effect
     useEffect(() => {
         setIsAdminPage(true)
     },[])
-  return (
+    //! Render
+    if (errCode === 10) {
+        return <Navigate to="/admin" replace />;
+    }
+
+    return (
       <>
       <div id='alert-fail' className='alertAuth hide'>
             <Alert sx={{padding:'12px 20px',}} severity="error">
