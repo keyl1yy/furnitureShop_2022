@@ -11,9 +11,11 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 const BackgroundForm = styled(Paper)(({theme}) => ({
     height: '100%',
+    overflowY: 'scroll',
     padding: '2rem 3rem',
     position: 'relative',
     '&:before': {
+
         content: "''",
         width: '300px',
         height: '300px',
@@ -25,6 +27,7 @@ const BackgroundForm = styled(Paper)(({theme}) => ({
         opacity: .4
     },
     '&:after': {
+
         content: "''",
         width: '200px',
         height: '200px',
@@ -34,7 +37,6 @@ const BackgroundForm = styled(Paper)(({theme}) => ({
         right: '1rem',
         bottom: '1rem',
         opacity: .5
-
     }
 }))
 
@@ -188,7 +190,7 @@ const CreateUser = () => {
                                         title="Create"
                                         type="submit"
                                         variant="contained"
-                                        sx={{height: '45px', width: '140px'}}
+                                        sx={{height: '45px', width: '140px', position: 'absolute',zIndex: 1}}
                                     />
                                 </Grid>
                             </Grid>

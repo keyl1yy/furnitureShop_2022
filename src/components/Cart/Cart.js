@@ -7,7 +7,7 @@ import { clearCart, removeCartItem, toggleAmountCartItem } from '../../redux/fea
 
 const Cart = () => {
     const {total,shippingFee,amount,orderTotal,cartProducts} = useSelector(store => store.cartProducts)
-    // console.log(shippingFee);
+    console.log(cartProducts,"cartProducts");
 
     const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ const Cart = () => {
                         return(
                             <article key={id} className='cart-item'>
                                 <div className='img-title'>
-                                    <img src={img[0].url} alt={name}/>
+                                    <img src={img} alt={name}/>
                                     <div>
                                         <h5 className='name-cart'>{name}</h5>
                                         <p className='color-cart'>

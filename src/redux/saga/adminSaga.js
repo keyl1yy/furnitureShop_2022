@@ -4,7 +4,7 @@ import { loginAdmin, loginAdminWithTokenAPI } from "../../services/adminService"
 
 
 function* handleAdminLogin(action) {
-    // console.log('actionSagaAdmin',action);
+    console.log('actionSagaAdmin',action);
     const response = yield loginAdmin(action.payload);
     // console.log('res',response);
     if(response && response.status === 200){

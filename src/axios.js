@@ -20,4 +20,13 @@ export const attachTokenToHeader = (token) => {
     })
 }
 
+export const requestFormData = () => {
+    instance.interceptors.request.use(function(config) {
+        config.headers['Content-Type'] = "multipart/form-data";
+        return config;
+    }, function(error) {
+        return error;
+    })
+}
+
 export default instance;

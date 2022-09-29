@@ -26,6 +26,7 @@ const TableRow = (props) => {
     
                 return(
                   <span key={index} onClick={() =>  id === "delete"? handleDelete(row["_id"]) : handleEdit(row["_id"])}>
+                  {/* <span key={index}> */}
                     {el}
                   </span>
                 )

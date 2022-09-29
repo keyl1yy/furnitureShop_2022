@@ -76,6 +76,7 @@ const NavbarAdmin = (props) => {
       sx={{
         width: { xs: "100%", md: "calc(100% - 300px)" },
         boxShadow: "unset",
+        zIndex: 9
       }}
     >
       <StyledToolbar>

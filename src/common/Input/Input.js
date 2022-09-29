@@ -7,16 +7,12 @@ const InputCustom = (props) => {
     const typeInput = type || 'text'
     // console.log("field",field);
     const name = field?.name;
-    const value = field?.value;
+    const valueInput = field?.value;
     // console.log("value",value);
     const error = form?.errors?.[name];
     const touched = form?.touched?.[name]; 
 
     const [isShowPassword, setIsShowPassword] = useState(false);
-
-    useEffect(() => {
-
-    },[])
 
     //! Function
     const handleChange = (e) => {
@@ -38,7 +34,7 @@ const InputCustom = (props) => {
           error={(error&&touched) ? true : false}
           id={`input-custom-${label}`}
           label={label}
-          value={value}
+          value={valueInput}
           placeholder={placeholder}
           type={ isShowPassword ? 'text' : typeInput}
           sx={{...sx}}
@@ -68,7 +64,7 @@ const InputCustom = (props) => {
         error={(error&&touched) ? true : false}
         id={`input-custom-${label}`}
         label={label}
-        value={value}
+        value={valueInput }
         placeholder={placeholder}
         disabled={disabled || false}
         type={typeInput}
@@ -76,7 +72,18 @@ const InputCustom = (props) => {
         variant="standard"
         onChange={handleChange}
         helperText={(error&&touched) ? error : ""}
-        
+    
+        InputProps={{
+          startAdornment: (
+            name==='price'?
+          <InputAdornment position="start">
+            $
+          </InputAdornment>
+          :
+          undefined
+        )
+
+        }}
     />
   )
 }

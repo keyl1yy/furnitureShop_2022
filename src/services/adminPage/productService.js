@@ -1,8 +1,23 @@
-import axios from "../../axios"
+import axios, { requestFormData } from "../../axios"
 import { attachTokenToHeader } from '../../axios'
 
-const getAllProducts = () => {
-    return axios.get('/products')
+const PRODUCT_URL = "/products";
+
+const getAllProducts = (query) => {
+    return axios.get(PRODUCT_URL,{params: query})
+}
+const getSingleProductAxios = (id) => {
+    return axios.get(`${PRODUCT_URL}/${id}`)
 }
 
-export {getAllProducts}
+const createProduct = (data) => {
+    return axios.post(`${PRODUCT_URL}/create`, data, requestFormData())
+}
+
+const deleteProduct = (id) => {
+    return axios.delete(`${PRODUCT_URL}/${id}`)
+}
+const updateProduct = (id, data) => {
+    return axios.patch(`${PRODUCT_URL}/${id}`,data, requestFormData())
+}
+export {getAllProducts, createProduct, deleteProduct, getSingleProductAxios, updateProduct}

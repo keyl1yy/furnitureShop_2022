@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
-const SelectCustom = (props) => {
+const MultipleSelect = (props) => {
     //! State
     const {form, field, sx, label, dataOption} = props;
     const name = field?.name;
@@ -9,11 +9,15 @@ const SelectCustom = (props) => {
     const error = form?.errors?.[name]
     const touched = form?.touched?.[name];
 
+    const [dataSelect, setDataSelect] = useState([]);
     //! Function
     const handleChange = (e) => {
-        form && form?.setFieldValue(name, e.target.value)
+        const {
+            target: { value },
+          } = e;
+        form && form?.setFieldValue(name,typeof value === 'string' ? value.split(',') : value)
     }
-
+    //! Effect
 
     //! Render
   return (
@@ -27,6 +31,7 @@ const SelectCustom = (props) => {
             labelId={label}
             value={value}
             label={label}
+            multiple
             onChange={handleChange}
         >
             {dataOption?.map((el,index) => {
@@ -43,4 +48,4 @@ const SelectCustom = (props) => {
   )
 }
 
-export default SelectCustom
+export default MultipleSelect

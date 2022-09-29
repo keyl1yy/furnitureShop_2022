@@ -26,11 +26,11 @@ export const productsSlice = createSlice({
             state.msg = 'successfully!';
             state.dataDefault.forEach((item) => {
                 const {category,colors,company} = item;
-                arrColors = [...arrColors,...colors];
+                // arrColors = [...arrColors,...colors];
                 companies = [...companies,company];
                 categories = [...categories,category];
             })
-            arrColors = Array.from(new Set(arrColors));
+            // arrColors = Array.from(new Set(arrColors));
             companies = Array.from(new Set(companies));
             categories = Array.from(new Set(categories));
 

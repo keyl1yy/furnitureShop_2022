@@ -31,7 +31,7 @@ const TableCommon = (props) => {
     return(
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <Backdrop 
-            sx={{ color: "#936a53",transform: "translateX(150px)", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            sx={{ color: "#936a53", zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={loading || false}
         >
             <CircularProgress color="inherit"/>

@@ -1,316 +1,366 @@
-import React,{useState,useEffect} from 'react'
-import Loading from '../LoadingScreen/Loading'
-import { Link } from 'react-router-dom'
-import {BiSearchAlt2} from 'react-icons/bi'
-import {BsCheck} from 'react-icons/bs'
-import { useSelector, useDispatch } from 'react-redux'
-import { setProducts,getProducts } from '../../redux/features/productsSlice'
-import { getAmount, getOrderTotal, getShippingFee, getTotal } from "../../redux/features/cartSlice";
+import React, { useState, useEffect } from "react";
+import Loading from "../LoadingScreen/Loading";
+import { Link } from "react-router-dom";
+import { BiSearchAlt2 } from "react-icons/bi";
+import { BsCheck } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import { setProducts, getProducts } from "../../redux/features/productsSlice";
+import {
+  getAmount,
+  getOrderTotal,
+  getShippingFee,
+  getTotal,
+} from "../../redux/features/cartSlice";
+import { useGetAllProduct } from "../../hooks/products/productHook";
+import {categoryList} from "../../constant/categoryList"
+import {companyList} from "../../constant/companyList"
+import {colorsList} from "../../constant/colorsList"
+import { shippingValues } from "../../constant/valueShipping";
+import {FaBars} from "react-icons/fa"
+import {AiFillAppstore} from "react-icons/ai"
 
 const getTypeRender = () => {
-    const data = localStorage.getItem('typeRender');
-    if(data === 'true'){
-        return true
-    }else if(data === 'false'){
-        return false
-    }else{
-        return true
-    }
-}
+  const data = localStorage.getItem("typeRender");
+  if (data === "true") {
+    return true;
+  } else if (data === "false") {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 const getSortType = () => {
-  const data = localStorage.getItem('sortType')
-  return data ? data : 'price-lowest'
-}
+  const data = localStorage.getItem("sortType");
+  return data ? data : "price-lowest";
+};
 
 const Products = () => {
-    
-    const {isLoading, products, dataDefault,characteristics} = useSelector((store) => store.products);
-    const {amount,cartProducts} = useSelector(store => store.cartProducts)
-    const dispatch = useDispatch();
+  //! State
+  // const {isLoading, products, dataDefault,characteristics} = useSelector((store) => store.products);
+  const { amount, cartProducts } = useSelector((store) => store.cartProducts);
+  const dataDefault = [];
 
-    const [sortType,setSortType] = useState(getSortType());
-    const [queryTemp,setQueryTemp] = useState('');
-    const [category,setCategory] = useState('all');
-    const [company,setCompany] = useState('all');
-    const [color,setColor] = useState('all');
-    const [price,setPrice] = useState(309999)
-    const [shipping,setShipping] = useState(false);
+  const dispatch = useDispatch();
+  const [query, setQuery] = useState({
+    name: "",
+    category: "",
+    company: "",
+    color: "",
+    price: 100000000,
+    shipping: false,
+  });
+  const { data: products, isLoading, error, refresh } = useGetAllProduct(query);
+  const [sortType, setSortType] = useState(getSortType());
+  
+
+  const [isTypeRender, setIsTypeRender] = useState(getTypeRender());
+
+  //! Effect
+  useEffect(() => {
+    localStorage.setItem("typeRender", isTypeRender);
+  }, [isTypeRender]);
 
 
-    const [isTypeRender,setIsTypeRender] = useState(getTypeRender());
-    
-    useEffect(() => {
-        localStorage.setItem('typeRender',isTypeRender)
-    },[isTypeRender])
+  useEffect(() => {
+    dispatch(getAmount());
+    dispatch(getTotal());
+    dispatch(getShippingFee());
+    dispatch(getOrderTotal());
+  }, [cartProducts]);
+  // functions
 
-    useEffect(() => {
-        dispatch(getProducts())
-    },[])
-    
-    useEffect(() => {
-        dispatch(getAmount())
-        dispatch(getTotal())
-        dispatch(getShippingFee())
-        dispatch(getOrderTotal())
-      },[cartProducts])
-    // functions
-
-    const handleSearchTemp = (data) => {
-      if(queryTemp !== ''){
-        data = data.filter((item) => {
-            return item.name.toLowerCase().indexOf(queryTemp.toLowerCase()) !== -1;
-            // return item.name.toLowerCase() === queryTemp.toLowerCase();
-        }); 
-      }
-      dispatch(setProducts(data));
-      return data
-    } 
-    
-    const handleClickCategory = (data) => {
-      const categories = document.getElementsByName('category')
-        
-        categories.forEach((categoryItem) => {
-            if(categoryItem.classList.contains('active')){
-                categoryItem.classList.remove('active')
-            }
-            if(categoryItem.value === category){
-                categoryItem.classList.add('active')
-            }
-        })
-
-        if(category !== 'all'){
-            data = data.filter((item) => item.category === category)
-        }
-        
-        dispatch(setProducts(data));
-        return data
-    }
-
-    const handleSelectCompany = (data) => {
-      if(company !== 'all'){
-          data = data.filter((item) => item.company === company)
-      }
-      dispatch(setProducts(data));
-      return data;
-    }
-
-    const handleSelectColor = (data) => {
-      const colors = document.getElementsByName('color')
-      colors.forEach((colorItem) => {
-          if(colorItem.classList.contains('active')){
-              colorItem.classList.remove('active')
-          }
-          if(colorItem.value === color){
-              colorItem.classList.add('active');
-          }
-      })
-
-      if(color !== 'all'){
-          data = data.filter((item) => {
-              return item.colors.includes(color);
-          })
-      }
-      
-      dispatch(setProducts(data));
-      return data;
-    }
-
-    const handleChangePrice = (data) => {
-      data = data.filter((item) => item.price <= price)
-      dispatch(setProducts(data));
-      return data;
-    }
-
-    const handleCheckShipping = (data) => {
-      if(shipping){
-          data = data.filter((item) => item.shipping === shipping)
-      }
-      dispatch(setProducts(data));
-      return data;
-    }
-
-    const handleChangeSortType = (data) => {
-      // console.log('sortType:',sortType);
-      // console.log('dataSortType:',data);
-      const dataSort = [...data]
-      if(sortType === 'price-lowest'){
-        // console.log('type:',1);
-        dataSort.sort((a,b) => {
-          return a.price - b.price
-        })
-      }
-      else if(sortType === 'price-highest'){
-        // console.log('type:',2);
-        dataSort.sort((a,b) => b.price - a.price)
-      }
-      else if(sortType === 'name-a'){
-        dataSort.sort((a,b) => {
-          if(a.name < b.name) return -1
-          return 0
-        })
-      }
-      else{
-        dataSort.sort((a,b) => {
-          if(a.name > b.name) return -1
-          return 0
-        })
-      }
-
-      localStorage.setItem('sortType',sortType);
-      dispatch(setProducts(dataSort));
+  //! Function
+  const handleChangeQueryName = (e) => {
+    setQuery({...query, name: e.target.value})
   }
 
-    const handleClearFilter = () => {
-      setQueryTemp('');
-      setCompany('all');
-      setColor('all');
-      setCategory('all');
-      setPrice(309999);
-      setShipping(false);
-      window.scrollTo(0, 0)
+  const handleChangeQueryCategory = (e) => {
+    setQuery({...query,category: e.target.value})
+  }
+
+  const handleChangeCompanyQuery = (e) => {
+    setQuery({...query, company: e.target.value})
+  }
+
+  const handleChangeColorQuery = (e) => {
+    setQuery({...query, color: (e.target.value)})
+  }
+
+  const handleChangePriceQuery = (e) => {
+    setQuery({...query, price: e.target.value})
+  }
+
+  const handleChangeShippingQuery = (e) => {
+    setQuery({...query, shipping: !query.shipping})
+  }
+  const handleChangeSortType = (data) => {
+    // console.log('sortType:',sortType);
+    // console.log('dataSortType:',data);
+    const dataSort = [...data];
+    if (sortType === "price-lowest") {
+      // console.log('type:',1);
+      dataSort.sort((a, b) => {
+        return a.price - b.price;
+      });
+    } else if (sortType === "price-highest") {
+      // console.log('type:',2);
+      dataSort.sort((a, b) => b.price - a.price);
+    } else if (sortType === "name-a") {
+      dataSort.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        return 0;
+      });
+    } else {
+      dataSort.sort((a, b) => {
+        if (a.name > b.name) return -1;
+        return 0;
+      });
     }
-    
-    useEffect(() => {
-      let data = dataDefault;
-      data = handleSearchTemp(data);
-      data = handleClickCategory(data);
-      data = handleSelectCompany(data);
-      data = handleSelectColor(data);
-      data = handleChangePrice(data);
-      data = handleCheckShipping(data);
-      handleChangeSortType(data);
-    },[queryTemp,category,company,color,price,shipping,sortType])
 
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    },[])
+    localStorage.setItem("sortType", sortType);
+    dispatch(setProducts(dataSort));
+  };
 
-    return (
-        <>
-           <section className='title-section'>
-                <div className='section-center'>
-                    <h3>
-                        <Link to='/'>Home</Link> / products
-                    </h3>
+  const handleClearFilter = () => {
+    // setQueryTemp("");
+    // setCompany("all");
+    // setColor("all");
+    // setCategory("all");
+    // setPrice(309999);
+    // setShipping(false);
+    window.scrollTo(0, 0);
+  };
+
+  // useEffect(() => {
+  //   let data = dataDefault;
+  //   data = handleSearchTemp(data);
+  //   data = handleClickCategory(data);
+  //   data = handleSelectCompany(data);
+  //   data = handleSelectColor(data);
+  //   data = handleChangePrice(data);
+  //   data = handleCheckShipping(data);
+  //   handleChangeSortType(data);
+  // }, [queryTemp, category, company, color, price, shipping, sortType]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <>
+      <section className="title-section">
+        <div className="section-center">
+          <h3>
+            <Link to="/">Home</Link> / products
+          </h3>
+        </div>
+      </section>
+      <section className="section-center products-section">
+        <div className="classify-options">
+          <div className="content">
+            <form>
+              <div className="form-control">
+                <input
+                  type="text"
+                  name="text"
+                  placeholder="Search"
+                  className="search-input"
+                  value={query?.name}
+                  onChange={handleChangeQueryName}
+                />
+              </div>
+              <div className="form-control">
+                <h5>category</h5>
+                <div className="wrap-category">
+                  <button
+                    type="button"
+                    name="category"
+                    className={`${query?.category===""?"null active": "null"}`}
+                    value=""
+                    onClick={handleChangeQueryCategory}
+                  >
+                    all
+                  </button>
+                  {categoryList &&
+                    categoryList.map((item, index) => (
+                      <button
+                        type="button"
+                        key={index}
+                        name="category"
+                        value={item.value}
+                        className={`${item.value===query?.category? "null active": "null"}`}
+                        onClick={handleChangeQueryCategory}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
                 </div>
-            </section>
-            <section className='section-center products-section'>
-                <div className='classify-options'>
-                    <div className='content'>
-                        <form>
-                            <div className='form-control'>
-                                <input type='text' name='text' placeholder='Search' className='search-input' value={queryTemp} onChange={(e) => setQueryTemp(e.target.value)}/>
-                            </div>
-                            <div className='form-control'>
-                                <h5>category</h5>
-                                <div className='wrap-category'>
-                                    <button type='button' name='category' className='null active' value='all' onClick={(e) => setCategory(e.target.value)}>all</button>
-                                    {characteristics.categories && characteristics.categories.map((item,index) =>
-                                        (<button type='button' key={index} name='category' value={item} className='null' onClick={(e) => setCategory(e.target.value)}>{item}</button>)
-                                    )}
-                                </div>
-                            </div>
-                            <div className='form-control'>
-                                <h5>company</h5>
-                                <select name='company' className='company' value={company} onChange={(e) => setCompany(e.target.value)}>
-                                    <option value='all'>all</option>
-                                    {characteristics.companies && characteristics.companies.map((item,index) => (<option key={index} value={item}>{item}</option>))}
-                                </select>
-                            </div>
-                            <div className='form-control'>
-                                <h5>colors</h5>
-                                <div className='colors'>
-                                    <button type='button' name='color' value='all' className='all-btn active' onClick={(e) => setColor(e.target.value)}>all</button>
-                                    {characteristics.arrColors && characteristics.arrColors.map((item,index) => 
-                                        (<button type='button' key={index} name='color' value={item} className='color-btn' style={{backgroundColor:`${item}`}} onClick={(e) => setColor(e.target.value)}>
-                                            <BsCheck className='check-icon'/>
-                                        </button>)
-                                    )}
-                                </div>
-                            </div>
-                            <div className='form-control'>
-                                <h5>price</h5>
-                                <p className='price'>${price/100}</p>
-                                <input type='range' min='0' max='309999' name='price' value={price} onChange={(e) => setPrice(e.target.value)}/>
-                            </div>
-                            <div className='form-control shipping'>
-                                <label htmlFor='shipping'>
-                                    free shipping
-                                </label>
-                                <input id='shipping' type='checkbox' name='shipping' checked={shipping}  onClick={() => setShipping(!shipping)}/>
-                            </div>
-                        </form>
-                        <button type='button' className='clear-btn' onClick={handleClearFilter}>clear filter</button>
+              </div>
+              <div className="form-control">
+                <h5>company</h5>
+                <select
+                  name="company"
+                  className="company"
+                  value={query?.company}
+                  onChange={handleChangeCompanyQuery}
+                >
+                  <option value="all">all</option>
+                  {companyList &&
+                    companyList.map((item, index) => (
+                      <option key={index} value={item?.value}>
+                        {item?.label}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="form-control">
+                <h5>colors</h5>
+                <div className="colors">
+                  <button
+                    type="button"
+                    name="color"
+                    value=""
+                    className={`${query?.color===""?"all-btn active":"all-btn"}`}
+                    onClick={handleChangeColorQuery}
+                  >
+                    all
+                  </button>
+                  {colorsList &&
+                    colorsList.map((item, index) => (
+                      <button
+                        type="button"
+                        key={index}
+                        name="color"
+                        value={item?.value}
+                        className={`${query?.color===item?.value?"color-btn active":"color-btn"}`}
+                        style={{ backgroundColor: `${item.value}` }}
+                        onClick={handleChangeColorQuery}
+                      >
+                        <BsCheck className="check-icon" />
+                      </button>
+                    ))}
+                </div>
+              </div>
+              <div className="form-control">
+                <h5>price</h5>
+                <p className="price">${query?.price / 100}</p>
+                <input
+                  type="range"
+                  min="0"
+                  max="10000000"
+                  name="price"
+                  value={query?.price}
+                  onChange={handleChangePriceQuery}
+                />
+              </div>
+              <div className="form-control shipping">
+                <label htmlFor="shipping">free shipping</label>
+                <input
+                  id="shipping"
+                  type="checkbox"
+                  name="shipping"
+                  value={query?.shipping}
+                  style={{width:"1rem",height:"1rem"}}
+                  onClick={handleChangeShippingQuery}
+                />
+              </div>
+            </form>
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={handleClearFilter}
+            >
+              clear filter
+            </button>
+          </div>
+        </div>
+        <div>
+          {/* -------- */}
+          <section className="nav-product">
+            <div className="btn-container">
+              <button
+                className={`${isTypeRender ? "active" : ""}`}
+                onClick={() => setIsTypeRender(true)}
+              >
+                <AiFillAppstore/>
+              </button>
+              <button
+                className={`${!isTypeRender ? "active" : ""}`}
+                onClick={() => setIsTypeRender(false)}
+              >
+                <FaBars/>
+              </button>
+            </div>
+            <p>{products?.length || 0} products found</p>
+            <hr />
+            <form>
+              <label htmlFor="sort">sort by</label>
+              <select
+                name="sort"
+                id="sort"
+                className="sort-input"
+                onChange={(e) => setSortType(e.target.value)}
+                value={sortType}
+              >
+                <option value="price-lowest">price (lowest)</option>
+                <option value="price-highest">price (highest)</option>
+                <option value="name-a">name (a - z)</option>
+                <option value="name-z">name (z - a)</option>
+              </select>
+            </form>
+          </section>
+          {/* --------- */}
+          {isLoading && <Loading />}
+          {(products?.length === 0 || !products) && (
+            <h5>Sorry, no products matched your search</h5>
+          )}
+          <section className="wrap-product-center">
+            <div
+              className={`${
+                isTypeRender
+                  ? "products-container"
+                  : "products-container-column"
+              }`}
+            >
+              {products?.map((product) => {
+                const { _id: id, name, price, images, description } = product;
+                const text = description.slice(0, 150);
+                return (
+                  <article key={id} className="featured">
+                    <div className="container">
+                      <img src={images[0]} alt={name} />
+                      <Link to={`/products/${id}`} className="link">
+                        <BiSearchAlt2 />
+                      </Link>
                     </div>
-                </div>
-                <div>
-                    <section className='nav-product'>
-                        <div className='btn-container'>
-                            <button className={`${isTypeRender ? 'active' : ''}`} onClick={() => setIsTypeRender(true)}>
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zm8 0A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm-8 8A1.5 1.5 0 012.5 9h3A1.5 1.5 0 017 10.5v3A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-3zm8 0A1.5 1.5 0 0110.5 9h3a1.5 1.5 0 011.5 1.5v3a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 13.5v-3z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <button className={`${!isTypeRender ? 'active' : ''}`} onClick={() => setIsTypeRender(false)}>
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <p>{products.length} products found</p>
-                        <hr/>
-                        <form>
-                            <label htmlFor="sort">sort by</label>
-                            <select name='sort' id='sort' className='sort-input' onChange={(e) => setSortType(e.target.value)} value={sortType}>
-                                <option value='price-lowest'>price (lowest)</option>
-                                <option value='price-highest'>price (highest)</option>
-                                <option value='name-a'>name (a - z)</option>
-                                <option value='name-z'>name (z - a)</option>
-                            </select>
-                        </form>
-                    </section>
-                    {isLoading && <Loading/>}
-                    {products.length===0 && <h5>Sorry, no products matched your search</h5>}
-                    <section className='wrap-product-center'>
-                        <div className={`${isTypeRender ? 'products-container' : 'products-container-column'}`}>
-                            {products.map((product) => {
-                                const {id,name,price,image,description} = product;
-                                const text = description.slice(0,150)
-                                return(
-                                    <article key={id} className='featured'>
-                                        <div className='container'>
-                                            <img src={image} alt={name}/>
-                                            <Link to={`/products/${id}`} className='link'>
-                                                <BiSearchAlt2/>
-                                            </Link>
-                                        </div>
-                                        {isTypeRender && 
-                                        <div className='footer-featured'>
-                                            <h5>{name}</h5>
-                                            <p>${price/100}</p>
-                                        </div>}
-                                        
-                                        {!isTypeRender && <div>
-                                            <h4>{name}</h4>
-                                            <h5>${price/100}</h5>
-                                            <p>{text}...</p>
-                                            
-                                            <Link to={`/products/${id}`} className='btn'>
-                                                details
-                                            </Link>
-                                            
-                                        </div>}
-                                    </article>
-                                )
-                            })}
-                        </div>
-                    </section>
+                    {isTypeRender && (
+                      <div className="footer-featured">
+                        <h5>{name}</h5>
+                        <p>${price / 100}</p>
+                      </div>
+                    )}
 
-                </div>
-            </section>
-        </>
-    )
-}
+                    {!isTypeRender && (
+                      <div>
+                        <h4>{name}</h4>
+                        <h5>${price / 100}</h5>
+                        <p>{text}...</p>
 
-export default Products
+                        <Link to={`/products/${id}`} className="btn">
+                          details
+                        </Link>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default Products;

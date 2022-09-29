@@ -13,6 +13,7 @@ import { updateUserId } from '../../../../services/adminPage/userService'
 
 const BackgroundForm = styled(Paper)(({theme}) => ({
     height: '100%',
+    overflowY: 'scroll',
     padding: '2rem 3rem',
     position: 'relative',
     '&:before': {

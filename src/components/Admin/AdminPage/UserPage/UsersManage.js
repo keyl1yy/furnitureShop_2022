@@ -126,7 +126,6 @@ const UsersManage = (props) => {
       <HeaderTable
         filterData={filterUser}
         setFilterData={setFilterUser}
-        listData={filterUser}
         placeholder="user name..."
         refresh={refresh}
         handleFullScreen={handleFullScreen}

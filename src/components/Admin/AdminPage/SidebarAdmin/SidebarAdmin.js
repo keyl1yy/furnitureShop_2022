@@ -108,7 +108,7 @@ const SidebarAdmin = (props) => {
   const theme = useTheme();
   return (
     <Box sx={{maxWidth:{xs:'unset',sm:'300px'},
-              zIndex: 10000,
+              zIndex: 10,
               width:'100%',
               height:'100vh',
               position:'fixed',

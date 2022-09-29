@@ -1,15 +1,16 @@
 import { takeLatest, put } from "redux-saga/effects";
 import { getProducts, getProductsFailed, getProductsSuccess } from "../features/productsSlice";
 import axios from "axios";
+import { getAllProducts } from "../../services/adminPage/productService";
 
 const API_ENDPOINT = 'https://course-api.com/react-store-products?';
 
 function* handleGetProduct(action) {
     // console.log('actionProductSaga: ',action);
-    const response = yield axios.get(API_ENDPOINT);
-    // console.log(response);
+    
+    const response = yield getAllProducts("");
     if(response && response.status === 200) {
-        const dataProducts = response.data;
+        const dataProducts = response.data?.products;
         yield put({
             type: getProductsSuccess.type,
             dataProducts,

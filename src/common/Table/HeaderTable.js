@@ -37,7 +37,7 @@ const HeaderTable = (props) => {
     window.location.pathname.split("/")[
       window.location.pathname.split("/").length - 1
     ];
-  const { filterData, setFilterData, listData, setListData, placeholder, refresh, handleFullScreen, handleCreate } = props;
+  const { filterData, setFilterData, placeholder, refresh, handleFullScreen, handleCreate } = props;
     const [valueTextField, setValueTextField] = useState("");
   //!Function
 

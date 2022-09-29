@@ -24,7 +24,7 @@ export const permissionsAdminPage = [
     {
         name: "Product",
         icon: <Chair/>,
-        href: `${adminLink}/product`
+        href: `${adminLink}/products`
     },
     {
         name: "Meeting",

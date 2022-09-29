@@ -1,32 +1,67 @@
 import {useEffect, useState} from 'react'
-import {getAllProducts} from '../../services/adminPage/productService'
-export const useGetAllProduct = () => {
+import {getAllProducts, getSingleProductAxios} from '../../services/adminPage/productService'
+export const useGetAllProduct = (query) => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
 
     const getProducts = async () => {
-        setLoading(true);
+        setIsLoading(true);
         try {
-            const response = await getAllProducts();
+            const response = await getAllProducts(query);
             if(response?.status === 200){
                 setData(response?.data?.products);
-                setLoading(false)
+                setIsLoading(false)
             }
-            console.log("responseProduct",response);
+            
         } catch (error) {
             setError(error);
-            setLoading(false);
+            setIsLoading(false);
         }
     }
 
     useEffect(() => {
-        getProducts()
-    },[])
+        const timeOut = setTimeout(() => {
+            getProducts();
+        },500)
+        return(() => {
+            clearTimeout(timeOut);
+        })
+    },[query])
 
     const refresh = () => {
         getProducts()
     }
 
-    return {data, error, loading, refresh}
+    return {data, error, isLoading, refresh}
+}
+
+export const useGetProductId = (id) => {
+    const [data, setData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const getProductWithId = async () => {
+        setIsLoading(true);
+        try {
+            const response = await getSingleProductAxios(id);
+            if(response && response?.status === 200) {
+                setData(response?.data?.product);
+                setIsLoading(false);
+            }
+            
+        } catch (error) {
+            setError(error);
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getProductWithId();
+    },[])
+    const refresh = () => {
+        getProductWithId();
+    }
+
+    return {data, isLoading, error, refresh}
 }

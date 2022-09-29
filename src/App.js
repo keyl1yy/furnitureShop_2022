@@ -39,6 +39,8 @@ import CreateUser from "./components/Admin/AdminPage/UserPage/CreateUser";
 import DefaultLayout from "./components/Admin/AdminPage/DefaultLayout";
 import PrivateRoute from './PrivateRoute'
 import EditUser from './components/Admin/AdminPage/UserPage/EditUser'
+import CreateProduct from "./components/Admin/AdminPage/ProductPage/CreateProduct";
+import EditProduct from "./components/Admin/AdminPage/ProductPage/EditProduct";
 
 AOS.init();
 
@@ -140,7 +142,12 @@ function App() {
             </Route>
             <Route path="order" element={<OrderAdmin/>} />
             <Route path="statistic" element={<StatisticAdmin/>} />
-            <Route path="product" element={<ProductManage/>} />
+            <Route path="products" element={<DefaultLayout/>}>
+              <Route index element={<ProductManage handleFullScreen={handleFullScreen}/>}/>
+              <Route path="create" element={<CreateProduct/>}/>
+              <Route path=":id" element={<EditProduct/>}/>
+            </Route>
+            
             <Route path="meeting" element={<MeetingAdmin/>} />
           </Route>
           <Route path="test" element={<TestPage/>}/>
