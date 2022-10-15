@@ -24,17 +24,17 @@ export const productsSlice = createSlice({
             state.dataDefault = action.dataProducts;
             state.isLoading = false;
             state.msg = 'successfully!';
-            state.dataDefault.forEach((item) => {
-                const {category,colors,company} = item;
-                // arrColors = [...arrColors,...colors];
-                companies = [...companies,company];
-                categories = [...categories,category];
-            })
+            // state.dataDefault.forEach((item) => {
+            //     const {category,colors,company} = item;
+            //     // arrColors = [...arrColors,...colors];
+            //     companies = [...companies,company];
+            //     categories = [...categories,category];
+            // })
             // arrColors = Array.from(new Set(arrColors));
-            companies = Array.from(new Set(companies));
-            categories = Array.from(new Set(categories));
+            // companies = Array.from(new Set(companies));
+            // categories = Array.from(new Set(categories));
 
-            state.characteristics = {arrColors,companies,categories}
+            // state.characteristics = {arrColors,companies,categories}
         },
         getProductsFailed: (state,action) => {
             // console.log('actionFailed: ',action);

@@ -57,7 +57,7 @@ const TableCommon = (props) => {
               </TableRowMUI>
             </TableHead>
             <TableBody>
-              {rows
+              { rows && rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row,index) => {
                   // console.log('sadsads',row);
@@ -78,7 +78,7 @@ const TableCommon = (props) => {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={rows?.length || 10}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

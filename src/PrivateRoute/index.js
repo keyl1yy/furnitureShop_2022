@@ -4,6 +4,7 @@ import { useReducer } from 'react';
 import { useSelector } from 'react-redux';
 
 const PrivateRoute = (props) => {
+  console.log("props",props);
     //! State
     const {errCode} = useSelector(store => store.admin);
     const tokenAdmin = localStorage.getItem("accessTokenAdmin");

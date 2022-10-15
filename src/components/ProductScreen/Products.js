@@ -12,12 +12,12 @@ import {
   getTotal,
 } from "../../redux/features/cartSlice";
 import { useGetAllProduct } from "../../hooks/products/productHook";
-import {categoryList} from "../../constant/categoryList"
-import {companyList} from "../../constant/companyList"
-import {colorsList} from "../../constant/colorsList"
+import { categoryList } from "../../constant/categoryList";
+import { companyList } from "../../constant/companyList";
+import { colorsList } from "../../constant/colorsList";
 import { shippingValues } from "../../constant/valueShipping";
-import {FaBars} from "react-icons/fa"
-import {AiFillAppstore} from "react-icons/ai"
+import { FaBars } from "react-icons/fa";
+import { AiFillAppstore } from "react-icons/ai";
 
 const getTypeRender = () => {
   const data = localStorage.getItem("typeRender");
@@ -32,15 +32,14 @@ const getTypeRender = () => {
 
 const getSortType = () => {
   const data = localStorage.getItem("sortType");
-  return data ? data : "price-lowest";
+  return data ? data : "priceLowest";
 };
 
 const Products = () => {
   //! State
   // const {isLoading, products, dataDefault,characteristics} = useSelector((store) => store.products);
   const { amount, cartProducts } = useSelector((store) => store.cartProducts);
-  const dataDefault = [];
-
+  
   const dispatch = useDispatch();
   const [query, setQuery] = useState({
     name: "",
@@ -49,11 +48,10 @@ const Products = () => {
     color: "",
     price: 100000000,
     shipping: false,
+    sort: getSortType(),
   });
   const { data: products, isLoading, error, refresh } = useGetAllProduct(query);
-  const [sortType, setSortType] = useState(getSortType());
   
-
   const [isTypeRender, setIsTypeRender] = useState(getTypeRender());
 
   //! Effect
@@ -61,92 +59,65 @@ const Products = () => {
     localStorage.setItem("typeRender", isTypeRender);
   }, [isTypeRender]);
 
-
   useEffect(() => {
     dispatch(getAmount());
     dispatch(getTotal());
     dispatch(getShippingFee());
     dispatch(getOrderTotal());
   }, [cartProducts]);
-  // functions
-
-  //! Function
-  const handleChangeQueryName = (e) => {
-    setQuery({...query, name: e.target.value})
-  }
-
-  const handleChangeQueryCategory = (e) => {
-    setQuery({...query,category: e.target.value})
-  }
-
-  const handleChangeCompanyQuery = (e) => {
-    setQuery({...query, company: e.target.value})
-  }
-
-  const handleChangeColorQuery = (e) => {
-    setQuery({...query, color: (e.target.value)})
-  }
-
-  const handleChangePriceQuery = (e) => {
-    setQuery({...query, price: e.target.value})
-  }
-
-  const handleChangeShippingQuery = (e) => {
-    setQuery({...query, shipping: !query.shipping})
-  }
-  const handleChangeSortType = (data) => {
-    // console.log('sortType:',sortType);
-    // console.log('dataSortType:',data);
-    const dataSort = [...data];
-    if (sortType === "price-lowest") {
-      // console.log('type:',1);
-      dataSort.sort((a, b) => {
-        return a.price - b.price;
-      });
-    } else if (sortType === "price-highest") {
-      // console.log('type:',2);
-      dataSort.sort((a, b) => b.price - a.price);
-    } else if (sortType === "name-a") {
-      dataSort.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        return 0;
-      });
-    } else {
-      dataSort.sort((a, b) => {
-        if (a.name > b.name) return -1;
-        return 0;
-      });
-    }
-
-    localStorage.setItem("sortType", sortType);
-    dispatch(setProducts(dataSort));
-  };
-
-  const handleClearFilter = () => {
-    // setQueryTemp("");
-    // setCompany("all");
-    // setColor("all");
-    // setCategory("all");
-    // setPrice(309999);
-    // setShipping(false);
-    window.scrollTo(0, 0);
-  };
-
-  // useEffect(() => {
-  //   let data = dataDefault;
-  //   data = handleSearchTemp(data);
-  //   data = handleClickCategory(data);
-  //   data = handleSelectCompany(data);
-  //   data = handleSelectColor(data);
-  //   data = handleChangePrice(data);
-  //   data = handleCheckShipping(data);
-  //   handleChangeSortType(data);
-  // }, [queryTemp, category, company, color, price, shipping, sortType]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  //! Function
+  const handleChangeQueryName = (e) => {
+    setQuery({ ...query, name: e.target.value });
+  };
+
+  const handleChangeQueryCategory = (e) => {
+    setQuery({ ...query, category: e.target.value });
+  };
+
+  const handleChangeCompanyQuery = (e) => {
+    setQuery({ ...query, company: e.target.value });
+  };
+
+  const handleChangeColorQuery = (e) => {
+    setQuery({ ...query, color: e.target.value });
+  };
+
+  const handleChangePriceQuery = (e) => {
+    setQuery({ ...query, price: e.target.value });
+  };
+
+  const handleChangeShippingQuery = (e) => {
+    setQuery({ ...query, shipping: !query.shipping });
+  };
+
+  const handleChangeSort = (e) => {
+    setQuery({ ...query, sort: e.target.value });
+    localStorage.setItem("sortType", e.target.value);
+  };
+
+  const handleClearFilter = () => {
+    setQuery((prev) => {
+      return {
+        ...prev,
+        name: "",
+        category: "",
+        company: "",
+        color: "",
+        price: 100000000,
+        shipping: false,
+        sort: getSortType(),
+      };
+    });
+    window.scrollTo(0, 0);
+  };
+
+  
+
+  //! Render
   return (
     <>
       <section className="title-section">
@@ -176,7 +147,9 @@ const Products = () => {
                   <button
                     type="button"
                     name="category"
-                    className={`${query?.category===""?"null active": "null"}`}
+                    className={`${
+                      query?.category === "" ? "null active" : "null"
+                    }`}
                     value=""
                     onClick={handleChangeQueryCategory}
                   >
@@ -189,7 +162,11 @@ const Products = () => {
                         key={index}
                         name="category"
                         value={item.value}
-                        className={`${item.value===query?.category? "null active": "null"}`}
+                        className={`${
+                          item.value === query?.category
+                            ? "null active"
+                            : "null"
+                        }`}
                         onClick={handleChangeQueryCategory}
                       >
                         {item.label}
@@ -221,7 +198,9 @@ const Products = () => {
                     type="button"
                     name="color"
                     value=""
-                    className={`${query?.color===""?"all-btn active":"all-btn"}`}
+                    className={`${
+                      query?.color === "" ? "all-btn active" : "all-btn"
+                    }`}
                     onClick={handleChangeColorQuery}
                   >
                     all
@@ -233,7 +212,11 @@ const Products = () => {
                         key={index}
                         name="color"
                         value={item?.value}
-                        className={`${query?.color===item?.value?"color-btn active":"color-btn"}`}
+                        className={`${
+                          query?.color === item?.value
+                            ? "color-btn active"
+                            : "color-btn"
+                        }`}
                         style={{ backgroundColor: `${item.value}` }}
                         onClick={handleChangeColorQuery}
                       >
@@ -261,7 +244,7 @@ const Products = () => {
                   type="checkbox"
                   name="shipping"
                   value={query?.shipping}
-                  style={{width:"1rem",height:"1rem"}}
+                  style={{ width: "1rem", height: "1rem" }}
                   onClick={handleChangeShippingQuery}
                 />
               </div>
@@ -283,13 +266,13 @@ const Products = () => {
                 className={`${isTypeRender ? "active" : ""}`}
                 onClick={() => setIsTypeRender(true)}
               >
-                <AiFillAppstore/>
+                <AiFillAppstore />
               </button>
               <button
                 className={`${!isTypeRender ? "active" : ""}`}
                 onClick={() => setIsTypeRender(false)}
               >
-                <FaBars/>
+                <FaBars />
               </button>
             </div>
             <p>{products?.length || 0} products found</p>
@@ -300,13 +283,13 @@ const Products = () => {
                 name="sort"
                 id="sort"
                 className="sort-input"
-                onChange={(e) => setSortType(e.target.value)}
-                value={sortType}
+                onChange={handleChangeSort}
+                value={query?.sort}
               >
-                <option value="price-lowest">price (lowest)</option>
-                <option value="price-highest">price (highest)</option>
-                <option value="name-a">name (a - z)</option>
-                <option value="name-z">name (z - a)</option>
+                <option value="priceLowest">price (lowest)</option>
+                <option value="priceHighest">price (highest)</option>
+                <option value="nameA">name (a - z)</option>
+                <option value="nameZ">name (z - a)</option>
               </select>
             </form>
           </section>

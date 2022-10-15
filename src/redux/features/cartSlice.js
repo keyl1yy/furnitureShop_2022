@@ -13,8 +13,26 @@ export const cartSlice = createSlice({
     initialState,
     reducers:{
         addCart: (state,action) => {
-            // console.log('actionCart:',action);
-            state.cartProducts = [...state.cartProducts,action.payload];
+            console.log('actionCart:',action);
+            const isColor = state?.cartProducts?.some((el) => el?.color === action.payload.color);
+            if(!isColor){
+                state.cartProducts = [...state?.cartProducts, action?.payload];
+            }
+            else{
+                const arrCart = state.cartProducts.map((el) => {
+                    if(el?.color === action?.payload?.color){
+                        return{
+                            ...el,
+                            amountCart: el?.amountCart + 1
+                        }
+                    }
+                    return{
+                        ...el
+                    }
+                })
+                console.log("sadshahjdna",arrCart);
+                state.cartProducts = [...arrCart];
+            }
         },
         toggleAmountCartItem: (state,action) => {
             // console.log('actionToggleCartItem:',action);

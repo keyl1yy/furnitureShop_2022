@@ -91,7 +91,9 @@ const EditProduct = () => {
       bodyFormData.append("stars", values.stars);
       try {
         const response = await updateProduct(id,bodyFormData);
-        console.log("response",response);
+        if(response && response?.data?.statusCode === 200) {
+          navigate("/admin/products",{replace: true})
+        }
       } catch (error) {
         console.log("error",error);
       }

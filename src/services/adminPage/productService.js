@@ -18,6 +18,6 @@ const deleteProduct = (id) => {
     return axios.delete(`${PRODUCT_URL}/${id}`)
 }
 const updateProduct = (id, data) => {
-    return axios.patch(`${PRODUCT_URL}/${id}`,data, requestFormData())
+    return axios.post(`${PRODUCT_URL}/${id}`,data, requestFormData())
 }
 export {getAllProducts, createProduct, deleteProduct, getSingleProductAxios, updateProduct}

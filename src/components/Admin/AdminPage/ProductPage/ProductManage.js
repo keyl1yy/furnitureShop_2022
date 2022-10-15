@@ -81,7 +81,7 @@ const ProductManage = (props) => {
     <EditIcon sx={styleActionIcon} id="edit" />,
     <DeleteIcon sx={{ ...styleActionIcon, margin: "unset" }} id="delete" />,
   ];
-  const rows = listProduct.map((el) => {
+  const rows = listProduct?.map((el) => {
     const { _id, name, description, company, category, price, stock } = el;
     return { _id, name, description, company, category, price, action};
   });

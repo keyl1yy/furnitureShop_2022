@@ -125,7 +125,7 @@ function App() {
             <Route index element={<Products/>} />
             <Route path=':id' element={<SingleProduct/>}/>
           </Route>
-          <Route path="cart" element={<Cart/>} />
+          <Route path="cart" element={<Cart isFormAuth={isFormAuth} setIsFormAuth={setIsFormAuth}/>} />
           <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
           <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>

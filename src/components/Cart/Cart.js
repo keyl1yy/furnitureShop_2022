@@ -5,8 +5,10 @@ import {MdOutlineRemoveShoppingCart} from 'react-icons/md'
 import { useSelector,useDispatch } from 'react-redux';
 import { clearCart, removeCartItem, toggleAmountCartItem } from '../../redux/features/cartSlice';
 
-const Cart = () => {
-    const {total,shippingFee,amount,orderTotal,cartProducts} = useSelector(store => store.cartProducts)
+const Cart = (props) => {
+    //! State
+    const {total,shippingFee,amount,orderTotal,cartProducts} = useSelector(store => store.cartProducts);
+    const {setIsFormAuth, isFormAuth} = props;
     console.log(cartProducts,"cartProducts");
 
     const dispatch = useDispatch();
@@ -22,6 +24,12 @@ const Cart = () => {
             </section>
         )
     }
+    //! Function
+    const handleClickLogin = () => {
+        setIsFormAuth((prev) => ({...prev,isLogin: true}))
+    }
+
+    //! Render
     return (
         <>
             <section className='title-section'>
@@ -100,7 +108,7 @@ const Cart = () => {
                             <hr/>
                             <h4>order total : <span>${orderTotal/100}</span></h4>
                         </article>
-                        <button type='button' className='btn'>login</button>
+                        <button type='button' className='btn' onClick={handleClickLogin}>login</button>
                     </div>
                 </section>
             </section>
