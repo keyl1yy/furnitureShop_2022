@@ -23,4 +23,14 @@ const logoutUser = (token) => {
     return axios.post('/users/logout',attachTokenToHeader(token))
 }
 
-export {createUser,loginUser,sendEmail,resetPassword,loginWithToken,logoutUser, deleteUser}
+const updateUserInfo = (data, token) => {
+    return axios.put('/users/edit', data, attachTokenToHeader(token))
+}
+
+const changePasswordUser = (data, token) => {
+    return axios.put('/users/change-password', data, attachTokenToHeader(token))
+}
+
+export {createUser,loginUser,sendEmail,resetPassword,
+        loginWithToken,logoutUser, deleteUser,
+        updateUserInfo, changePasswordUser}

@@ -64,7 +64,7 @@ const Navbar = ({props}) => {
                         }
                     })}> */}
                     { errCode!==10 ?
-                    <button className='login-btn' type='button' onClick={() => setIsFormAuth((prev) => {
+                    (<button className='login-btn' type='button' onClick={() => setIsFormAuth((prev) => {
                         return{
                             ...prev,
                             isLogin: true,
@@ -72,12 +72,12 @@ const Navbar = ({props}) => {
                     })}>
                         login 
                         <BsFillPersonPlusFill className='icon-login'/>
-                    </button>
+                    </button>)
                      : 
-                     <Link to={`/user/${tokenLogin}`} className='login-btn'>
+                    ( <Link to={`/user/${tokenLogin}`} className='login-btn'>
                         User 
                         <FaUser className='icon-login'/>
-                    </Link>}
+                    </Link>)}
                 </div>
             </div>
         </nav>

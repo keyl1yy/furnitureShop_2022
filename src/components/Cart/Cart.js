@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai'
 import {MdOutlineRemoveShoppingCart} from 'react-icons/md'
 import { useSelector,useDispatch } from 'react-redux';
 import { clearCart, removeCartItem, toggleAmountCartItem } from '../../redux/features/cartSlice';
+import CheckoutDialog from './Checkout/CheckoutDialog';
+import { FastField, Form, Formik } from 'formik';
+import InputCustom from '../../common/Input/Input';
+import './Cart.scss'
+import useGetDiscountWithCode from '../../hooks/discount/useGetDetailDiscountWithCode';
+import { getDiscountDetail } from '../../services/discountService';
+import { getDiscountDetailAction, setDiscountDefault } from '../../redux/features/discountSlice';
+import { Backdrop, CircularProgress } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
+import { toastTify } from '../../helper/Toastify';
 
 const Cart = (props) => {
     //! State
     const {total,shippingFee,amount,orderTotal,cartProducts} = useSelector(store => store.cartProducts);
+    const discountState = useSelector(store => store.discount);
+    const {isLoginUser} = useSelector(store => store.auth);
     const {setIsFormAuth, isFormAuth} = props;
-    console.log(cartProducts,"cartProducts");
-
     const dispatch = useDispatch();
-
+    console.log("discountState",discountState?.discount?.valueDiscount?.includes('%'), parseInt(discountState?.discount?.valueDiscount));
     if(cartProducts.length === 0){
         return(
             <section className='wrap-empty'>
@@ -29,9 +39,42 @@ const Cart = (props) => {
         setIsFormAuth((prev) => ({...prev,isLogin: true}))
     }
 
+    const handleSubmitForm = async (values, formikBag) => {
+        const {discountCode} = values;
+        if(discountCode){
+            dispatch(getDiscountDetailAction({discountCode}))
+        }else{
+            dispatch(setDiscountDefault())
+        }
+    }
+
+    const renderOrderTotal = () => {
+        let newOrderTotal = 0;
+        if(discountState?.discount?.valueDiscount){
+            if(discountState?.discount?.valueDiscount?.includes('%')){
+                newOrderTotal = orderTotal - orderTotal/100*parseInt(discountState?.discount?.valueDiscount);
+            }else{
+                newOrderTotal = orderTotal - parseInt(discountState?.discount?.valueDiscount);
+            }
+            return newOrderTotal;
+        }
+        return orderTotal;
+    }
+
+    //! Effect
+
+
     //! Render
     return (
         <>
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={discountState.isLoading}
+            // onClick={handleClose}
+            >
+            <CircularProgress color="inherit" />
+        </Backdrop>
+        <ToastContainer />
             <section className='title-section'>
                 <div className='section-center'>
                     <h3>
@@ -52,9 +95,10 @@ const Cart = (props) => {
                 </div>
                 <div className='carts-content'>
                     {cartProducts.map((cart) => {
-                        const {id,img,name,color,price,stock,shipping,amountCart} = cart;
+                        const {id,img,name,color,price,stock,shipping,amountCart, maxQuantity} = cart;
+                        console.log('cartHoatla',cart);
                         return(
-                            <article key={id} className='cart-item'>
+                            <article key={`${id}-${color}`} className='cart-item'>
                                 <div className='img-title'>
                                     <img src={img} alt={name}/>
                                     <div>
@@ -68,27 +112,27 @@ const Cart = (props) => {
                                 <h5 className='price-cart'>${price/100}</h5>
                                 <div className='amounts-btn'>
                                     {amountCart===1 ? 
-                                    <button disabled  type='button' className='dec-btn' >
+                                    <button disabled style={{cursor: 'no-drop'}} type='button' className='dec-btn' >
                                         <AiOutlineMinus/>
                                     </button>
                                     : 
-                                    <button  type='button' className='dec-btn' onClick={() => dispatch(toggleAmountCartItem({id,msg:'dec'}))}>
+                                    <button  type='button' className='dec-btn' onClick={() => dispatch(toggleAmountCartItem({id,msg:'dec',color}))}>
                                         <AiOutlineMinus/>
                                     </button>
                                     }
                                     <h3>{amountCart}</h3>
-                                    {amountCart===stock ?
-                                    <button disabled  type='button' className='inc-btn'  >
+                                    {amountCart === maxQuantity ?
+                                    <button disabled  type='button' style={{cursor: 'no-drop'}} className='inc-btn'  >
                                         <AiOutlinePlus/>
                                     </button>
                                     :
-                                    <button  type='button' className='inc-btn' onClick={() => dispatch(toggleAmountCartItem({id,msg:'inc'}))}>
+                                    <button  type='button' className='inc-btn' onClick={() => dispatch(toggleAmountCartItem({id,msg:'inc', color}))}>
                                         <AiOutlinePlus/>
                                     </button>
                                     }
                                 </div>
                                 <h5 className='subtotal'>${price*amountCart/100}</h5>
-                                <button className='remove-btn' onClick={() => dispatch(removeCartItem(id)) }><MdOutlineRemoveShoppingCart/></button>
+                                <button className='remove-btn' onClick={() => dispatch(removeCartItem({id, color})) }><MdOutlineRemoveShoppingCart/></button>
                             </article>
                         )
                     })}
@@ -103,12 +147,35 @@ const Cart = (props) => {
                 <section className='total-price'>
                     <div>
                         <article>
-                            <h5>subtotal : <span>${total/100}</span></h5>
+                            <h5>subtotal : <span>${total}</span></h5>
+                            <p>discount : <span>{(discountState?.discount && discountState?.discount?.amountUse>0)? discountState?.discount?.valueDiscount : ''}</span></p>
                             <p>shipping fee : <span>${shippingFee}</span></p>
                             <hr/>
-                            <h4>order total : <span>${orderTotal/100}</span></h4>
+                            <h4>order total : <span>${renderOrderTotal()}</span></h4>
                         </article>
-                        <button type='button' className='btn' onClick={handleClickLogin}>login</button>
+                        <Formik
+                            initialValues={{
+                                discountCode: ''
+                            }}
+                            onSubmit={(values, formikBag) => handleSubmitForm(values, formikBag)}
+                        >
+                            {(helperFormik) => {
+                                return(
+                                    <Form className='form-discount'>
+                                        <FastField
+                                            component={InputCustom}
+                                            name='discountCode'
+                                            placeholder='Discount code ...'
+                                            variant='outlined'
+                                            sx={{marginTop:'.25rem', width: '100%'}}
+                                        />
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                        {isLoginUser ? <CheckoutDialog/> 
+                        : 
+                        <button type='button' className='btn btn-checkout' onClick={handleClickLogin}>login</button>}
                     </div>
                 </section>
             </section>

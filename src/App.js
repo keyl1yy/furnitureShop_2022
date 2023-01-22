@@ -41,6 +41,8 @@ import PrivateRoute from './PrivateRoute'
 import EditUser from './components/Admin/AdminPage/UserPage/EditUser'
 import CreateProduct from "./components/Admin/AdminPage/ProductPage/CreateProduct";
 import EditProduct from "./components/Admin/AdminPage/ProductPage/EditProduct";
+import CheckoutSuccess from "./components/Cart/Checkout/Success/CheckoutSuccess";
+import OrderDetail from "./components/User/Order/OrderDetail";
 
 AOS.init();
 
@@ -87,10 +89,12 @@ function App() {
     if(accessToken){
       dispatch(loginUserToken(accessToken))
     }
+  },[])
+  useEffect(() => {
     if(accessTokenAdmin){
       dispatch(loginAdminWithToken(accessTokenAdmin))
     }
-  },[])
+  },[accessTokenAdmin])
   useEffect(() => {
     dispatch(getAmount())
     dispatch(getTotal())
@@ -126,8 +130,10 @@ function App() {
             <Route path=':id' element={<SingleProduct/>}/>
           </Route>
           <Route path="cart" element={<Cart isFormAuth={isFormAuth} setIsFormAuth={setIsFormAuth}/>} />
+          <Route path="checkout-success" element={<CheckoutSuccess/>}/>
           <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
           <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
+          <Route path="user/order/:id" element={<OrderDetail accessToken={accessToken}/>}/>
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
           <Route path="admin" element={
             <PrivateRoute>
@@ -147,7 +153,6 @@ function App() {
               <Route path="create" element={<CreateProduct/>}/>
               <Route path=":id" element={<EditProduct/>}/>
             </Route>
-            
             <Route path="meeting" element={<MeetingAdmin/>} />
           </Route>
           <Route path="test" element={<TestPage/>}/>

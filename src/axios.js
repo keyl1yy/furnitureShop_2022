@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const urlWeb = window.location.origin;
+
 const instance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL,
 })
@@ -7,7 +9,9 @@ const instance = axios.create({
 instance.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-      
+    if(error?.response?.status === 404) {
+        localStorage.removeItem('accessTokenAdmin');
+    }
     return error
   });
 
@@ -20,6 +24,8 @@ export const attachTokenToHeader = (token) => {
     })
 }
 
+
+
 export const requestFormData = () => {
     instance.interceptors.request.use(function(config) {
         config.headers['Content-Type'] = "multipart/form-data";
@@ -27,6 +33,10 @@ export const requestFormData = () => {
     }, function(error) {
         return error;
     })
+}
+
+export const attachBaseVnPayHeader = () => {
+    instance.baseURL = 'http://localhost:8888/'
 }
 
 export default instance;

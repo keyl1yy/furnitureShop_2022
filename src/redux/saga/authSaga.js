@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import {loginUserFail, loginUserRedux, loginUserSuccess,loginUserToken,loginUserWithTokenFail,loginUserWithTokenSuccess, logoutUserFail, logoutUserRedux, logoutUserSuccess} from '../features/authSlice';
-import {loginUser, loginWithToken, logoutUser} from '../../services/authService'
+import {changePasswordAction, changePasswordFail, changePasswordSuccess, loginUserFail, loginUserRedux, loginUserSuccess,loginUserToken,loginUserWithTokenFail,loginUserWithTokenSuccess, logoutUserFail, logoutUserRedux, logoutUserSuccess, updateUserAction, updateUserFail, updateUserSuccess} from '../features/authSlice';
+import {changePasswordUser, loginUser, loginWithToken, logoutUser, updateUserInfo} from '../../services/authService'
 
 
 function* handleLoginUser(action){
@@ -57,9 +57,46 @@ function* handleLogoutUser(action){
     }
 }
 
+function* handleUpdateUser(action){
+    const {token, values} = action.payload;
+    const response = yield updateUserInfo(values, token);
+    if(response && response?.status === 200){
+        yield put({
+            type: updateUserSuccess.type,
+            data: response?.data
+        })
+    }else{
+        const errMsg = response.response.data;
+        yield put({
+            type: updateUserFail.type,
+            errMsg
+        })
+    }
+}
+
+function* handleChangePassword(action) {
+    const {token, values} = action.payload;
+    const response = yield changePasswordUser(values, token);
+    console.log("response", response);
+    if(response && response?.status === 200){
+        yield put({
+            type: changePasswordSuccess.type,
+            data: response?.data
+        })
+    }else{
+        const errMsg = response.response.data;
+        yield put({
+            type: changePasswordFail.type,
+            errMsg
+        })
+    }
+}
+
 export default function* authSaga(){
     console.log('auth Saga');
     yield takeLatest(loginUserRedux.type,handleLoginUser)
     yield takeLatest(loginUserToken.type,handleLoginToken)
     yield takeLatest(logoutUserRedux.type,handleLogoutUser)
+    yield takeLatest(updateUserAction.type, handleUpdateUser)
+    yield takeLatest(changePasswordAction.type, handleChangePassword)
 }

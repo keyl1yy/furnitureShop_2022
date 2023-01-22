@@ -4,7 +4,7 @@ import React from 'react'
 
 const InputMutiline = (props) => {
     //! State
-    const {field, form, label, sx, placeholder, type, disabled} = props;
+    const {field, form, label, sx, placeholder, type, disabled, variant} = props;
     // console.log("field",field);
     const name = field?.name;
     const value = field?.value;
@@ -29,9 +29,10 @@ const InputMutiline = (props) => {
         rows={4}
         placeholder={placeholder}
         sx={{...sx}}
-        variant="standard"
+        variant={`${variant ? variant : "standard"}`}
         onChange={handleChange}
         helperText={(error&&touched) ? error : ""}
+        {...props}
     />
   )
 }

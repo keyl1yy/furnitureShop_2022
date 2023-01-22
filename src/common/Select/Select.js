@@ -8,7 +8,6 @@ const SelectCustom = (props) => {
     const value = field?.value;
     const error = form?.errors?.[name]
     const touched = form?.touched?.[name];
-
     //! Function
     const handleChange = (e) => {
         form && form?.setFieldValue(name, e.target.value)
@@ -21,6 +20,7 @@ const SelectCustom = (props) => {
         variant="standard"
         sx={{...sx}}
         error={(error&&touched) ? true : false}
+        {...props}
     >
         <InputLabel id={label}>{label}</InputLabel>
         <Select
@@ -32,7 +32,7 @@ const SelectCustom = (props) => {
             {dataOption?.map((el,index) => {
                 const {value, label} = el;
                 return(
-                    <MenuItem key={index} value={value}>{label}</MenuItem>
+                    <MenuItem key={el.value} value={value}>{label}</MenuItem>
                 )
             })}
         </Select>

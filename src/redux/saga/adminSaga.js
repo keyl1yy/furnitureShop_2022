@@ -1,12 +1,10 @@
 import { put, takeLatest } from "redux-saga/effects";
 import { loginAdminFail, loginAdminRedux, loginAdminSuccess, loginAdminWithToken, loginAdminWithTokenFail, loginAdminWithTokenSuccess } from "../features/adminSlice";
 import { loginAdmin, loginAdminWithTokenAPI } from "../../services/adminService";
-
+import { useNavigate } from "react-router-dom";
 
 function* handleAdminLogin(action) {
-    console.log('actionSagaAdmin',action);
     const response = yield loginAdmin(action.payload);
-    // console.log('res',response);
     if(response && response.status === 200){
         const dataRes = response.data;
         yield put({

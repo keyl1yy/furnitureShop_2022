@@ -27,7 +27,7 @@ const RadioButtonCustom = (props) => {
         {dataOption?.map((el,index) => {
             const {value, label} = el;
             return(
-                <FormControlLabel key={index} value={value} control={<Radio/>} label={label}/>
+                <FormControlLabel key={el.value} value={value} control={<Radio/>} label={label}/>
             )
         })}
         </RadioGroup>

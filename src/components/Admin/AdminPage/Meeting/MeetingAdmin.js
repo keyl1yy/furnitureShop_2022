@@ -9,7 +9,7 @@ const MeetingAdmin = () => {
     <div className='container-admin'>
         <JitsiMeeting
             roomName="Furniture meeting room"
-            getIFrameRef = { node => node.style.height = "800px"}
+            getIFrameRef = { node => node.style.height = "100%"}
             configOverwrite = {{ 
               startWithAudioMuted: true, 
             

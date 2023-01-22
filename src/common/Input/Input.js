@@ -3,7 +3,7 @@ import { FormControl, IconButton, Input as InputMUI, InputAdornment, InputLabel,
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 const InputCustom = (props) => {
     //! State
-    const {field, form, label, sx, placeholder, type, disabled} = props;
+    const {field, form, label, sx, placeholder, type, disabled, variant} = props;
     const typeInput = type || 'text'
     // console.log("field",field);
     const name = field?.name;
@@ -38,7 +38,7 @@ const InputCustom = (props) => {
           placeholder={placeholder}
           type={ isShowPassword ? 'text' : typeInput}
           sx={{...sx}}
-          variant="standard"
+          variant={`${variant ? variant : "standard"}`}
           onChange={handleChange}
           helperText={(error&&touched) ? error : ""}
           InputProps={{
@@ -56,6 +56,7 @@ const InputCustom = (props) => {
               </InputAdornment>
             )
           }}
+          {...props}
       />
     )
     }
@@ -69,10 +70,9 @@ const InputCustom = (props) => {
         disabled={disabled || false}
         type={typeInput}
         sx={{...sx}}
-        variant="standard"
+        variant={`${variant ? variant : "standard"}`}
         onChange={handleChange}
         helperText={(error&&touched) ? error : ""}
-    
         InputProps={{
           startAdornment: (
             name==='price'?
@@ -84,6 +84,7 @@ const InputCustom = (props) => {
         )
 
         }}
+        {...props}
     />
   )
 }

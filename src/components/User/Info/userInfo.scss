@@ -1,0 +1,22 @@
+.info-account-btn{
+    width: 85%;
+    display: flex;
+    &.btn-disabled{
+        button{
+            cursor: no-drop;
+        }
+    }
+}
+.start{
+    justify-content: flex-start;
+}
+.end{
+    justify-content: flex-end;
+}
+
+.err{
+    margin-left: .5rem;
+    margin-top: .2rem;
+    color: var(--clr-red-dark);
+}
+

@@ -4,6 +4,8 @@ import singleProductSaga from './saga/SingleProductSaga';
 import authSaga from './saga/authSaga';
 import resetPassSaga from './saga/resetPassSaga';
 import adminSaga from './saga/adminSaga';
+import discountSaga from './saga/discountSaga';
+import checkoutVnPaySaga from './saga/checkoutVnPaySaga';
 
 export default function* rootSaga() {
     // console.log('root Saga');
@@ -12,6 +14,8 @@ export default function* rootSaga() {
         singleProductSaga(),
         authSaga(),
         resetPassSaga(),
-        adminSaga()
+        adminSaga(),
+        discountSaga(),
+        checkoutVnPaySaga()
     ])
 }   

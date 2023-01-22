@@ -560,23 +560,23 @@ display: grid;
 gap: 2.5rem;
 }
 .service{
-background-color: var(--clr-primary-7);
-text-align: center;
-padding: 2.5rem 2rem;
-border-radius: var(--radius);
+  background-color: var(--clr-primary-7);
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius);
 }
 .icon{
-width: 4rem;
-height: 4rem;
-background-color: var(--clr-primary-10);
-color: var(--clr-primary-1);
-display: grid;
-place-items: center;
-margin: 0 auto 1rem;
-border-radius: 100%;
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--clr-primary-10);
+  color: var(--clr-primary-1);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 1rem;
+  border-radius: 100%;
 }
-.icon svg{
-font-size: 2rem;
+.icon img{
+  width: 2rem;
 }
 .service h4{
 color: var(--clr-primary-1);
@@ -602,14 +602,14 @@ display: grid;
 grid-template-columns: 1fr auto;
 }
 .form-input{
-font-size: 1rem;
-padding: 0.3rem 0.5rem;
-border: 2px solid var(--clr-black);
-text-transform: capitalize;
-color: var(--clr-grey-3);
-border-bottom-left-radius: var(--radius);
-border-top-left-radius: var(--radius);
-border-right: none;
+  font-size: 1rem;
+  padding: 0.3rem 0.5rem;
+  border: 2px solid var(--clr-black);
+  text-transform: capitalize;
+  color: var(--clr-grey-3);
+  border-bottom-left-radius: var(--radius);
+  border-top-left-radius: var(--radius);
+  border-right: none;
 }
 .submit-btn{
 background-color: var(--clr-primary-5);

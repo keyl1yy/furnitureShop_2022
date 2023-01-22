@@ -4,15 +4,14 @@ import { useReducer } from 'react';
 import { useSelector } from 'react-redux';
 
 const PrivateRoute = (props) => {
-  console.log("props",props);
     //! State
-    const {errCode} = useSelector(store => store.admin);
+    const {isLoginAdmin,isLoading} = useSelector(store => store.admin);
     const tokenAdmin = localStorage.getItem("accessTokenAdmin");
 
     //! Render
-    if (errCode === 10 || tokenAdmin) {//! Error logic
+    if ( tokenAdmin) {
         return props.children;
-      }
+    }
     return <Navigate to="/admin/login" replace />;
 }
 

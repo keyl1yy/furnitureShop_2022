@@ -10,13 +10,17 @@ import { Alert } from "@mui/material";
 import "./SingleProduct.scss";
 import { padding } from "@mui/system";
 import { useGetProductId } from "../../hooks/products/productHook";
-
+import {toastTify} from "../../helper/Toastify";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 const SingleProduct = () => {
   //! State
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const {cartProducts} = useSelector(store => store.cartProducts);
+  const productAdded = (cartProducts || []).filter(el => el?.id === id);
   const { data: product, isLoading, error, refresh } = useGetProductId(id);
+  console.log("cartProducts",cartProducts,' - ',product);
   const {
     name,
     price,
@@ -41,26 +45,34 @@ const SingleProduct = () => {
 
   //! Function
   const handleClickAddCartItem = () => {
-    const alertFail = document.getElementById("alert-fail");
-    const alertSuccess = document.getElementById("alert-product-success");
-
+    // const alertFail = document.getElementById("alert-fail");
+    // const alertSuccess = document.getElementById("alert-product-success");
+    console.log("cartItem",cartItem, productAdded);
     if (!stockCurrent) {
-      alertFail.classList.add("show");
-      alertFail.classList.add("showAlert");
-      alertFail.classList.remove("hide");
+      // alertFail.classList.add("show");
+      // alertFail.classList.add("showAlert");
+      // alertFail.classList.remove("hide");
+      toastTify("error",'Please enter product color!')
     } else {
+      const checkProductWithColor =  (productAdded || []).find(el => el.color === stockCurrent.color);
+      console.log("checkProductWithColor",productAdded,checkProductWithColor,cartItem, "stock", stockCurrent);
+      if(checkProductWithColor && ((checkProductWithColor.amountCart + cartItem.amountCart) > stockCurrent.amount)){
+        toastTify("warn",'The product is out of stock!')
+        return
+      }
       dispatch(addCart(cartItem));
-      alertSuccess.classList.add("show");
-      alertSuccess.classList.add("showAlert");
-      alertSuccess.classList.remove("hide");
+      // alertSuccess.classList.add("show");
+      // alertSuccess.classList.add("showAlert");
+      // alertSuccess.classList.remove("hide");
+      toastTify("success",'Add product Successfully!')
     }
 
-    setTimeout(() => {
-      alertFail.classList.add("hide");
-      alertFail.classList.remove("show");
-      alertSuccess.classList.add("hide");
-      alertSuccess.classList.remove("show");
-    }, 4000);
+    // setTimeout(() => {
+    //   alertFail.classList.add("hide");
+    //   alertFail.classList.remove("show");
+    //   alertSuccess.classList.add("hide");
+    //   alertSuccess.classList.remove("show");
+    // }, 4000);
   };
 
   const handleChangeColorProduct = (item) => {
@@ -102,6 +114,7 @@ const SingleProduct = () => {
             color: stockCurrent.color,
             company,
             amountCart: amountSingleProduct,
+            maxQuantity: stockCurrent.amount
           };
         });
     }
@@ -114,7 +127,7 @@ const SingleProduct = () => {
   }
   return (
     <>
-      <div id="alert-fail" className="alert hide">
+      {/* <div id="alert-fail" className="alert hide">
         <Alert
           data-aos="fade-left"
           sx={{
@@ -141,8 +154,8 @@ const SingleProduct = () => {
         >
           Add product Successfully!
         </Alert>
-      </div>
-
+      </div> */}
+        <ToastContainer />
       <section className="title-section">
         <div className="section-center">
           <h3>
@@ -245,7 +258,7 @@ const SingleProduct = () => {
             <div className="btn-cart-container">
               <div className="amounts-btn">
                 {amountSingleProduct === 1 ? (
-                  <button disabled type="button" className="dec-btn">
+                  <button disabled style={{cursor: 'no-drop'}} type="button" className="dec-btn">
                     <AiOutlineMinus />
                   </button>
                 ) : (
@@ -261,7 +274,7 @@ const SingleProduct = () => {
                 )}
                 <h2>{amountSingleProduct}</h2>
                 {amountSingleProduct === stockCurrent?.amount ? (
-                  <button disabled type="button" className="inc-btn">
+                  <button disabled style={{cursor: 'no-drop'}} type="button" className="inc-btn">
                     <AiOutlinePlus />
                   </button>
                 ) : (

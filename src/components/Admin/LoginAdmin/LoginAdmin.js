@@ -14,7 +14,7 @@ import { Navigate } from 'react-router-dom';
 const LoginAdmin = (props) => {
     //! State
     const {setIsAdminPage,accessTokenAdmin} = props;
-    const {msg,errCode,token} = useSelector(store => store.admin);
+    const {msg,errCode,token, isLoginAdmin} = useSelector(store => store.admin);
     const navigate = useNavigate();
     const [isEye,setIsEye] = useState(false);
     const dispatch = useDispatch();
@@ -23,8 +23,13 @@ const LoginAdmin = (props) => {
     useEffect(() => {
         setIsAdminPage(true)
     },[])
+    useEffect(() => {
+        if(isLoginAdmin) {
+            navigate('/admin')
+        }
+    },[isLoginAdmin])
     //! Render
-    if (errCode === 10) {
+    if (accessTokenAdmin && isLoginAdmin) {
         return <Navigate to="/admin" replace />;
     }
 
@@ -55,7 +60,6 @@ const LoginAdmin = (props) => {
                                 .min(6,'Password need more than 6 characters!')
                         })}
                         onSubmit={(values,formikBag) => {
-                            console.log('loginAdmin');
                             dispatch(loginAdminRedux(values));
                             // navigate('/admin')
                         }}

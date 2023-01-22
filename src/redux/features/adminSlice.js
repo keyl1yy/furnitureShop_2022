@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {Link, useNavigate, useParams} from 'react-router-dom'
 
-
 const initialState = {
     isLoading: false,
     name:'',
@@ -10,6 +9,7 @@ const initialState = {
     phoneNumber:'',
     msg:'',
     errCode:0,
+    isLoginAdmin: false,
 }
 
 
@@ -25,10 +25,9 @@ export const adminSlice = createSlice({
             state.phoneNumber = '';
             state.email = '';
             state.address = '';
-
+            state.isLoginAdmin = false;
         },
         loginAdminSuccess: (state,action) => {
-            // console.log('adminLoginSuccess',action);
             const {admin,accessToken} = action.dataRes;
             state.isLoading = true;
             state.msg = 'Welcome back';
@@ -38,6 +37,7 @@ export const adminSlice = createSlice({
             state.address = admin.address;
             state.email = admin.email;
             state.token = accessToken;
+            state.isLoginAdmin = true;
             localStorage.setItem('accessTokenAdmin',accessToken);
         },
         loginAdminFail: (state,action) => {
@@ -46,6 +46,7 @@ export const adminSlice = createSlice({
             state.isLoading = false;
             state.msg = msg;
             state.errCode = errCode;
+            state.isLoginAdmin = false;
             alertFail.classList.add('show');
             alertFail.classList.add('showAlert');
             alertFail.classList.remove('hide');
@@ -59,6 +60,7 @@ export const adminSlice = createSlice({
             state.isLoading = true;
             state.msg = 'Admin is loading with token';
             state.errCode = 0;
+            state.isLoginAdmin = false;
         },
         loginAdminWithTokenSuccess: (state,action) => {
             console.log('tokenAdminSuccess',action);
@@ -70,13 +72,15 @@ export const adminSlice = createSlice({
             state.isLoading = false;
             state.msg = 'Login admin with token successful';
             state.errCode = 10;
+            state.isLoginAdmin = true;
         },
         loginAdminWithTokenFail: (state,action) => {
             console.log('tokenAdminTokenFail',action);
             const {errMsg} = action;
             state.isLoading = false;
-            state.msg = errMsg.msg;
+            state.msg = errMsg.msg || undefined;
             state.errCode = errMsg.errCode;
+            state.isLoginAdmin = false;
             // state.msg = 'Login admin with token fail!';
             
         }
