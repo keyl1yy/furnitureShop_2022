@@ -1,5 +1,5 @@
 import { Button, Paper, Typography, Box } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { FastField, Field, Form, Formik, yupToFormErrors } from "formik";
 import * as Yup from "yup"
@@ -14,6 +14,17 @@ import { useNavigate } from "react-router-dom";
 const TestPage = () => {
   //! State
   const navigate = useNavigate();
+  
+  const [check, setCheck] = useState({a: 1, b:2})
+  const objA = {
+    key: 1
+  }
+
+  const objB = {
+    key: 1
+  }
+
+  console.log("haotla", objA, objB ,objA == objB , objA.key === objB.key);
   //! Effect
 
   //! Function
@@ -40,11 +51,20 @@ const TestPage = () => {
     }
   };
 
+
+  useEffect(() => {
+    console.log("sahjdbsajhd",check.a);
+  },[check.a])
+
   //! Render
   return (
     <>
-      <button onClick={notify}>Button</button>
-      <ToastContainer />
+      <button onClick={() => setCheck((prev) => {
+        return{
+          ...prev,
+          b:10
+        }
+      })}>Button</button>
     </>
   );
 };

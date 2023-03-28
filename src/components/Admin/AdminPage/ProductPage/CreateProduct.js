@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Alert, Grid, Paper, Snackbar, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -68,6 +68,9 @@ const CreateProduct = () => {
   });
 
   const theme = useTheme();
+
+  const [open, setOpen] = useState(false);
+  const [mes, setMes] = useState({type: '', msg: ''})
   //! Function
 
   const handleBack = () => {
@@ -75,7 +78,6 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = async (values, formikBag) => {
-    
     const bodyFormData = new FormData();
     bodyFormData.append("name", values.name);
     bodyFormData.append("price", values.price);
@@ -95,8 +97,13 @@ const CreateProduct = () => {
     // console.log("bodyFormData", bodyFormData);
     try {
       const response = await createProduct(bodyFormData);
-      console.log("response", 1, response);
-      navigate("/admin/products",{replace: true})
+      if(response?.status === 200){
+        setMes({...mes, type: "success", msg: 'Create product successfully!'});
+        setOpen(true);
+        setTimeout(() => {
+          navigate("/admin/products",{replace: true})
+        },800)
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -113,11 +120,20 @@ const CreateProduct = () => {
     setFieldValue("stock", tempArr);
   };
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   //! Effect
 
   //! Render
   return (
     <div className="container-admin">
+      <Snackbar anchorOrigin={{vertical: "top",horizontal: "right"}} sx={{marginBottom: '3rem'}} open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert severity={mes?.type || "success"} onClose={handleClose}>
+        {mes?.msg}
+        </Alert>
+      </Snackbar>
       <BackgroundForm elevation={3}>
         <CloseIcon
           onClick={handleBack}

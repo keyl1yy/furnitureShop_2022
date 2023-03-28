@@ -13,7 +13,6 @@ const InputCustom = (props) => {
     const touched = form?.touched?.[name]; 
 
     const [isShowPassword, setIsShowPassword] = useState(false);
-
     //! Function
     const handleChange = (e) => {
         form && form.setFieldValue(name, e.target.value);
@@ -36,7 +35,7 @@ const InputCustom = (props) => {
           label={label}
           value={valueInput}
           placeholder={placeholder}
-          type={ isShowPassword ? 'text' : typeInput}
+          type={ isShowPassword ? 'text' : 'password'}
           sx={{...sx}}
           variant={`${variant ? variant : "standard"}`}
           onChange={handleChange}

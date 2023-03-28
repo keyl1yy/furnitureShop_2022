@@ -9,13 +9,14 @@ const instance = axios.create({
 instance.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-    if(error?.response?.status === 404) {
+    if(error?.response?.status === 401) {
         localStorage.removeItem('accessTokenAdmin');
     }
     return error
   });
 
 export const attachTokenToHeader = (token) => {
+    console.log("hoatla1",token);
     instance.interceptors.request.use(function(config) {
         config.headers['Authentication'] = `Bearer ${token}`;
         return config;

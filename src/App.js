@@ -42,8 +42,8 @@ import EditUser from './components/Admin/AdminPage/UserPage/EditUser'
 import CreateProduct from "./components/Admin/AdminPage/ProductPage/CreateProduct";
 import EditProduct from "./components/Admin/AdminPage/ProductPage/EditProduct";
 import CheckoutSuccess from "./components/Cart/Checkout/Success/CheckoutSuccess";
-import OrderDetail from "./components/User/Order/OrderDetail";
-
+import OrderDetail from "./components/User/Order/Detail/OrderDetail"
+import OrderDetailAdmin from './components/Admin/AdminPage/OrderPage/OrderDetailPage/OrderDetailAdmin'
 AOS.init();
 
 const resetToken = localStorage.getItem('resetPassToken');
@@ -91,11 +91,6 @@ function App() {
     }
   },[])
   useEffect(() => {
-    if(accessTokenAdmin){
-      dispatch(loginAdminWithToken(accessTokenAdmin))
-    }
-  },[accessTokenAdmin])
-  useEffect(() => {
     dispatch(getAmount())
     dispatch(getTotal())
     dispatch(getShippingFee())
@@ -133,7 +128,6 @@ function App() {
           <Route path="checkout-success" element={<CheckoutSuccess/>}/>
           <Route path="reset-password/:id" element={<ResetPassword resetToken={resetToken}/>}/>
           <Route path="user/:id" element={<User accessToken={accessToken}/>}/>
-          <Route path="user/order/:id" element={<OrderDetail accessToken={accessToken}/>}/>
           <Route path="admin/login" element={<LoginAdmin setIsAdminPage={setIsAdminPage} accessTokenAdmin={accessTokenAdmin}/>}/>
           <Route path="admin" element={
             <PrivateRoute>
@@ -146,7 +140,10 @@ function App() {
               <Route path="create" element={<CreateUser/>}/>
               <Route path=":id" element={<EditUser/>}/>
             </Route>
-            <Route path="order" element={<OrderAdmin/>} />
+            <Route path="order" element={<DefaultLayout/>}>
+              <Route index element={<OrderAdmin handleFullScreen={handleFullScreen}/>}/>
+              <Route path=":id" element={<OrderDetailAdmin/>}/>
+            </Route>
             <Route path="statistic" element={<StatisticAdmin/>} />
             <Route path="products" element={<DefaultLayout/>}>
               <Route index element={<ProductManage handleFullScreen={handleFullScreen}/>}/>

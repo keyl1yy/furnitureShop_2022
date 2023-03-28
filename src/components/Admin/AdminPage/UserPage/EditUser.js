@@ -88,10 +88,12 @@ const EditUser = () => {
             //     setMes({...mes, type: "error", msg: res?.response?.data?.msg})
             // }
             if(res?.status === 200){
-                setMes({...mes,type: "success",msg: "Create user successfully!"})
+                setMes({...mes,type: "success",msg: "Update password user successfully!"})
             }
             setOpen(true);
-            navigate("/admin/users",{replace: true})
+            setTimeout(() => {
+                navigate("/admin/users",{replace: true})
+            },800)
         }).catch((err) => {
             console.log("err",err);
         })
@@ -110,20 +112,26 @@ const EditUser = () => {
 
 
     //! Render
-    if(isLoading) {
-        return(
-            <Backdrop 
-                sx={{ color: "#936a53",transform: "translateX(150px)", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={isLoading || false}
-            >
-                <CircularProgress color="inherit"/>
-            </Backdrop>
-        )
+    // if(true) {
+    //     return(
+    //         <Backdrop 
+    //             sx={{ color: "#936a53", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    //             open={isLoading || false}
+    //         >
+    //             <CircularProgress color="inherit"/>
+    //         </Backdrop>
+    //     )
         
-    }
+    // }
 
   return (
     <div className='container-admin'>
+        <Backdrop 
+            sx={{ color: "#936a53", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isLoading || false}
+        >
+            <CircularProgress color="inherit"/>
+        </Backdrop>
         <Snackbar anchorOrigin={{vertical: "top",horizontal: "right"}} sx={{marginBottom: '3rem'}} open={open} autoHideDuration={4000} onClose={handleClose}>
             <Alert severity={mes?.type || "success"} onClose={handleClose}>
             {mes?.msg}
@@ -145,7 +153,7 @@ const EditUser = () => {
                                 <Grid item xs={6} sx={{display:'flex', justifyContent: 'flex-start'}}>
                                     <FastField
                                         component={InputCustom}
-                                        label="PhoneNumber"
+                                        // label="PhoneNumber"
                                         name="phoneNumber"
                                         placeholder="PhoneName..."
                                         disabled={true}
@@ -155,7 +163,7 @@ const EditUser = () => {
                                 <Grid item xs={6} sx={{display:'flex', justifyContent: 'flex-end'}}>
                                     <FastField
                                         component={InputCustom}
-                                        label="YourName"
+                                        // label="YourName"
                                         name="name"
                                         placeholder="FullName..."
                                         disabled={true}
@@ -167,7 +175,7 @@ const EditUser = () => {
                                 <Grid item xs={12} sx={{display:'flex', justifyContent: 'space-between'}}>
                                     <FastField
                                         component={InputCustom}
-                                        label="Email"
+                                        // label="Email"
                                         name="email"
                                         disabled={true}
                                         placeholder="Email..."
@@ -201,7 +209,7 @@ const EditUser = () => {
                                 <Grid item xs={12} sx={{display: 'flex', justifyContent: 'space-between'}}>
                                     <FastField
                                         component={InputCustom}
-                                        label="Address"
+                                        // label="Address"
                                         name="address"
                                         disabled={true}
                                         placeholder="Address..."
@@ -229,7 +237,7 @@ const EditUser = () => {
                                                 name="password"
                                                 placeholder="Password..."
                                                 sx={{width:'95%'}}
-                                                type="password"
+                                                // type="password"
                                             />
                                         </Grid>
                                     </Grid>
@@ -241,7 +249,7 @@ const EditUser = () => {
                                                 name="confirmPassword"
                                                 placeholder="ConfirmPassword..."
                                                 sx={{width:'95%'}}
-                                                type="password"
+                                                // type="password"
                                             />
                                         </Grid>
                                     </Grid>

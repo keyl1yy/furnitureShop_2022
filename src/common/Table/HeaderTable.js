@@ -37,7 +37,7 @@ const HeaderTable = (props) => {
     window.location.pathname.split("/")[
       window.location.pathname.split("/").length - 1
     ];
-  const { filterData, setFilterData, placeholder, refresh, handleFullScreen, handleCreate } = props;
+  const { filterData, setFilterData, placeholder, refresh, handleFullScreen, handleCreate,handleRefreshData} = props;
     const [valueTextField, setValueTextField] = useState("");
   //!Function
 
@@ -47,7 +47,8 @@ const HeaderTable = (props) => {
    } 
 
    const handleRefresh = () => {
-    refresh && refresh();
+    handleRefreshData && handleRefreshData()
+    // refresh && refresh();
    }
    
    
@@ -66,7 +67,7 @@ const HeaderTable = (props) => {
       }}
     >
       <HeaderTableLeft>
-        <form onSubmit={(e) => handleFilter(e)}>
+        {/* <form onSubmit={(e) => handleFilter(e)}>
             <TextField
                 id="filter-table"
                 label={`${path}`}
@@ -85,24 +86,33 @@ const HeaderTable = (props) => {
               }}
               type="submit"
             />
-        </form>    
+        </form>     */}
           
       </HeaderTableLeft>
       <HeaderTableRight>
+        {handleCreate && 
         <ButtonCustom
           variant="contained"
           startIcon={<AddIcon/>}
           title="Create"
           sx={{marginRight:'1rem'}}
           onClick={handleCreate}
-        />
+        />}
         {
-          handleFullScreen?.active ?
-            <FullscreenExitIcon sx={flexCenterIcon} onClick={handleFullScreen?.exit}/>
-          :
-            <FullscreenIcon sx={flexCenterIcon} onClick={handleFullScreen?.enter}/>
+          handleFullScreen && 
+          <>
+            {
+              handleFullScreen?.active ?
+                <FullscreenExitIcon sx={flexCenterIcon} onClick={handleFullScreen?.exit}/>
+              :
+                <FullscreenIcon sx={flexCenterIcon} onClick={handleFullScreen?.enter}/>
+            }
+          </>
         }
-        <ReplayIcon sx={flexCenterIcon} onClick={handleRefresh}/>
+        {
+          handleRefreshData && 
+          <ReplayIcon sx={flexCenterIcon} onClick={handleRefresh}/>
+        }
       </HeaderTableRight>
     </Paper>
   );

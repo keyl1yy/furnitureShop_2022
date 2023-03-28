@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderTable from "../../../../common/Table/HeaderTable";
 import TableCommon from "../../../../common/Table/table";
@@ -7,54 +7,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotiAdmin from "../../../../helper/NotiAdmin";
 import { deleteProduct } from "../../../../services/adminPage/productService";
+import ActionTable from "../../../../common/Table/ActionTable.js/ActionTable";
+import TableCustom from "../../../../common/Table/TableCustom";
+import { Box } from "@mui/system";
+import FilterSearchTable from "../../../../common/Table/ActionTable.js/FilterSearchTable";
+import FilterSelectTable from "../../../../common/Table/ActionTable.js/FilterSelectTable";
+import { companyList, companyListAdmin } from "../../../../constant/companyList";
+import { Tooltip } from "@mui/material";
+import { categoryListAdmin } from "../../../../constant/categoryList";
 
-const columns = [
-  {
-    id: "_id",
-    label: "Id",
-    minWidth: 170,
-  },
-  {
-    id: "name",
-    label: "Name product",
-    minWidth: 170,
-    align: "center",
-  },
-  {
-    id: "description",
-    label: "Description",
-    minWidth: 500,
-  },
-  // {
-  //   id: "stock",
-  //   label: "Stock",
-  //   minWidth: 50,
-  // },
-  {
-    id: "company",
-    label: "Company",
-    minWidth: 170,
-    align: "right",
-  },
-  {
-    id: "category",
-    label: "Category",
-    minWidth: 170,
-    align: "right",
-  },
-  {
-    id: "price",
-    label: "Price",
-    minWidth: 170,
-    align: "right",
-  },
-  {
-    id: "action",
-    label: "Action",
-    minWidth: 200,
-    align: "center",
-  },
-];
 
 const styleActionIcon = {
   marginRight: "1rem",
@@ -66,41 +27,125 @@ const styleActionIcon = {
   },
 };
 
-const ProductManage = (props) => {
+const ProductManage = React.memo((props) => {
+  console.log("hoatlaManage");
   //! State
   const { handleFullScreen } = props;
-  const [filterProduct, setFilterProduct] = useState("");
+  const [filterProduct, setFilterProduct] = useState({
+    name: '',
+    company: '',
+    category: ''
+  });
   const {
     data: listProduct,
     error,
-    loading,
+    isLoading: isLoadingProduct,
     refresh,
   } = useGetAllProduct(filterProduct);
-  console.log("listProduct", listProduct);
-  const action = [
-    <EditIcon sx={styleActionIcon} id="edit" />,
-    <DeleteIcon sx={{ ...styleActionIcon, margin: "unset" }} id="delete" />,
-  ];
-  const rows = listProduct?.map((el) => {
-    const { _id, name, description, company, category, price, stock } = el;
-    return { _id, name, description, company, category, price, action};
-  });
-
+  
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [mes, setMes] = useState({type: '',msg:''});
-  //! Function
-  const handleCreate = () => {
-    navigate("/admin/products/create", { replace: true });
-  };
 
-  const handleEdit = (id) => {
+  //! Table config
+
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 250
+    },
+    {
+      field: 'name',
+      headerName: 'Tên sản phẩm',
+      width: 150,
+      sortable: false,
+      renderHeader: (paramsHeader) => {
+        return(
+          <Box>
+            Tên sản phẩm
+            <FilterSearchTable handleSearch={setFilterProduct} querySearch="name" searchValue={filterProduct}/>
+          </Box>
+        )
+      }
+    },
+    {
+      field: 'description',
+      headerName: 'Mô tả',
+      width: 500,
+      renderCell: (params) => {
+        return(
+          <Tooltip title={params?.value} placement="bottom">
+            <div>
+              {params?.value}
+            </div>
+          </Tooltip>
+        )
+      }
+    },
+    {
+      field: 'company',
+      headerName: 'Công ty cung cấp',
+      width: 250,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false,
+      renderHeader: (paramsHeader) => {
+        return(
+          <Box>
+            Công ty cung cấp
+            <FilterSelectTable handleSearch={setFilterProduct} querySearch="company" searchValue={filterProduct} options={companyListAdmin}/>
+          </Box>
+        )
+      }
+    },
+    {
+      field: 'category',
+      headerName: 'Loại sản phẩm',
+      width: 200,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false,
+      renderHeader: (paramsHeader) => {
+        return(
+          <Box>
+            Loại sản phẩm
+            <FilterSelectTable handleSearch={setFilterProduct} querySearch="category" searchValue={filterProduct} options={categoryListAdmin}/>
+          </Box>
+        )
+      }
+    },
+    {
+      field: 'price',
+      headerName: 'Giá sản phẩm',
+      width: 200,
+      headerAlign: 'center',
+      align: 'center',
+      valueGetter: (params) => `${params?.value} đ`
+    },
+    {
+      field: 'action',
+      headerName: '',
+      renderCell: (params) => {
+        return(
+          <ActionTable params={params} handleEdit={() => handleEdit(params?.id)} handleDelete={() => handleDelete(params?.id)}/>
+        )
+      }
+    }
+  ]
+
+  //! Function
+  const handleCreate = useCallback(() => {
+    navigate("/admin/products/create", { replace: true });
+  },[]);
+
+  const handleEdit = useCallback((id) => {
     navigate(`/admin/products/${id}`,{replace: true})
-  }
+  },[])
+  
 
   const handleDelete = async (id) => {
-      console.log("Handle delete product!",id);
       try {
           const response = await deleteProduct(id);
           if(response && response?.status===200){
@@ -114,21 +159,37 @@ const ProductManage = (props) => {
       }
   }
 
+  const handleRefreshData = () => {
+    setFilterProduct({
+      name: '',
+      category: '',
+      company: ''
+    })
+  }
+
   //! Render
   return (
     <div className="container-admin">
       <NotiAdmin open={open} setOpen={setOpen} mes={mes}/>
       <HeaderTable
-        filterData={filterProduct}
-        setFilterData={setFilterProduct}
-        placeholder="Product name ..."
+        // filterData={filterProduct}
+        // setFilterData={setFilterProduct}
+        // placeholder="Product name ..."
         refresh={refresh}
+        handleRefreshData={handleRefreshData}
         handleFullScreen={handleFullScreen}
         handleCreate={handleCreate}
       />
-      <TableCommon columns={columns} rows={rows} loading={loading} handleDelete={handleDelete} handleEdit={handleEdit}/>
+      <TableCustom rows={(listProduct || [])?.map((el) => {
+        return {
+          id: el?._id,
+          ...el
+        }
+      })}
+      columns={columns} isLoading={isLoadingProduct} />
     </div>
   );
-};
+})
+
 
 export default ProductManage;

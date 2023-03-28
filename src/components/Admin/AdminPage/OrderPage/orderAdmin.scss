@@ -1,0 +1,13 @@
+.price-underline{
+    position: relative;
+    font-size: 16px;
+    &::after{
+        content: '';
+        border-bottom: 1px solid #222;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

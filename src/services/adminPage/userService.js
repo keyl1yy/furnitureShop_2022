@@ -2,9 +2,7 @@ import axios from "../../axios"
 import { attachTokenToHeader } from '../../axios'
 
 export const getAllUser = (query) => {
-    return axios.get('/users',{params:{
-        name: query
-    }})
+    return axios.get('/users',{params: query})
 }
 
 export const getUserId = (id) => {

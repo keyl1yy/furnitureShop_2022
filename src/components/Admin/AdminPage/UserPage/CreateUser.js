@@ -76,18 +76,21 @@ const CreateUser = () => {
             email: values.email,
         }
         await createUser(data).then((res) => {
-            if(res?.response?.status === 401) {
+            if(res?.response?.status === 400) {
                 setMes({...mes, type: "error", msg: res?.response?.data?.msg})
+                setOpen(true);
             }
             if(res?.status === 200){
                 setMes({...mes,type: "success",msg: "Create user successfully!"})
+                setOpen(true);
+                setTimeout(() => {
+                    navigate("/admin/users",{replace: true})
+                },800)
             }
-            setOpen(true);
 
         }).catch((err) => {
             console.log("err",err);
         })
-        navigate("/admin/users",{replace: true})
     }
 
     const handleClose = () => {
@@ -158,7 +161,7 @@ const CreateUser = () => {
                                         name="password"
                                         placeholder="Password..."
                                         sx={{width:'95%'}}
-                                        type="password"
+                                        // type="password"
                                     />
                                 </Grid>
                                 <Grid item xs={6} sx={{display:'flex', justifyContent: 'flex-end'}}>
@@ -168,7 +171,7 @@ const CreateUser = () => {
                                         name="confirmPassword"
                                         placeholder="ConfirmPassword..."
                                         sx={{width:'95%'}}
-                                        type="password"
+                                        // type="password"
                                     />
                                 </Grid>
                             </Grid>

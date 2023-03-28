@@ -21,7 +21,6 @@ const Home = () => {
     const {data: products, isLoading} = useGetAllProduct("")
     const [email, setEmail] = useState('');
     const discountState = useSelector(store => store.discount);
-    console.log("discountState",discountState);
     const dispatch = useDispatch();
     //! Function
     const handleSubmit =(e) => {

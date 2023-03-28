@@ -91,7 +91,8 @@ const UploadImg = (props) => {
 
 
     const handleRemoveImg = (index) => {
-      const tempImgs = value.filter((el,ind) => ind !==index);
+      console.log("jsbandjsa",value, index);
+      const tempImgs = value.filter((el,ind) => ind !== index);
       setFieldValue(name, tempImgs);
     }
     
@@ -100,7 +101,6 @@ const UploadImg = (props) => {
         if (isArray(value)) {
             //* Check and convert all file image to base 64
             const requestConvertToBase64 = value.map((file) =>{
-      
               if(typeof file === "string"){
                 return file
               }
@@ -135,14 +135,14 @@ const UploadImg = (props) => {
             >
                 { isLoading ? <LoopIcon/> : <AddIcon />}
                 Images
-                <input hidden accept="image/*" multiple type="file" onChange={handleChange}/>
+                <input hidden accept="image/*" multiple type="file" onInput={handleChange}/>
             </Button>
         </Box>
         <Box sx={{height:200,overflowY:'hidden', flex:1, overflowX:'scroll', display:'flex', alignItems:'center'}}>
             <Box sx={{display:'flex', height:200}}>
                 {listFile.map((el,index) => {
                     return(
-                      <ImgItem key={index} src={el} index={index} handleRemoveImg={handleRemoveImg}/>
+                      <ImgItem key={`${el}-${index}`} src={el} index={index} handleRemoveImg={handleRemoveImg}/>
                         // <WrapImages key={index} sx={{height:200, width: 200, marginRight: '.7rem'}}>
                         //     <IconDetailImg>
                         //       <FingerprintIcon sx={{fontSize:'40px', color: theme.palette.defaultLayout.colorIconNav, cursor:'pointer',zIndex:1}} onClick={handleShowDetailImg}/>

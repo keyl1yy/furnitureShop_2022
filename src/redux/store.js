@@ -8,6 +8,7 @@ import authReducer from './features/authSlice'
 import resetPassReducer from './features/resetSlice'
 import adminReducer from './features/adminSlice'
 import discountReducer from "./features/discountSlice";
+import orderReducer from './features/orderSlice'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,7 +20,8 @@ export const store = configureStore({
         auth: authReducer,
         resetPass: resetPassReducer,
         admin: adminReducer,
-        discount: discountReducer
+        discount: discountReducer,
+        order: orderReducer
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(sagaMiddleware)

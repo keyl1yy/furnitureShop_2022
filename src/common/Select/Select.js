@@ -3,7 +3,7 @@ import React from 'react'
 
 const SelectCustom = (props) => {
     //! State
-    const {form, field, sx, label, dataOption} = props;
+    const {form, field, sx, label, dataOption, variant} = props;
     const name = field?.name;
     const value = field?.value;
     const error = form?.errors?.[name]
@@ -17,7 +17,7 @@ const SelectCustom = (props) => {
     //! Render
   return (
     <FormControl 
-        variant="standard"
+        variant={variant || "standard"}
         sx={{...sx}}
         error={(error&&touched) ? true : false}
         {...props}

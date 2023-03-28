@@ -295,7 +295,7 @@ const Products = () => {
           </section>
           {/* --------- */}
           {isLoading && <Loading />}
-          {(products?.length === 0 || !products) && (
+          {!isLoading && (products?.length === 0 || !products) && (
             <h5>Sorry, no products matched your search</h5>
           )}
           <section className="wrap-product-center">

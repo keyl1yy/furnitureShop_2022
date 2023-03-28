@@ -5,6 +5,7 @@ const loginAdmin = (data) => {
     return axios.post('/admin/login',data)
 }
 const loginAdminWithTokenAPI = (token) => {
+    console.log("hoatla",token);
     return axios.post('/admin/login-with-token',attachTokenToHeader(token))
 }
 

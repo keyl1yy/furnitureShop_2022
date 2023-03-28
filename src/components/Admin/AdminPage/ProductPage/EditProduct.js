@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Grid, Paper, styled, Typography, useTheme } from "@mui/material";
+import { Alert, Grid, Paper, Snackbar, styled, Typography, useTheme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGetProductId } from '../../../../hooks/products/productHook';
 import { FastField, Form, Formik } from 'formik';
@@ -19,6 +19,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import UploadImg from '../../../../common/UploadImg/UploadImg';
 import ButtonCustom from '../../../../common/Button/Button';
 import {updateProduct} from '../../../../services/adminPage/productService'
+import NotiAdmin from '../../../../helper/NotiAdmin';
 
 
 const BackgroundForm = styled(Paper)(({ theme }) => ({
@@ -40,13 +41,12 @@ const BackgroundForm = styled(Paper)(({ theme }) => ({
     "&:after": {},
 }));
 
-const EditProduct = () => {
+const EditProduct = React.memo(() => {
     //! State
     const {id} = useParams();
     const navigate = useNavigate();
     const theme = useTheme();
     const {data: productID, error, isLoading, refresh} = useGetProductId(id);
-    console.log("productID",productID);
     const {name, price, images, company, description, category, shipping, stock, reviews, stars} = productID;
     const initialValues = {
         name: name || "",
@@ -70,6 +70,9 @@ const EditProduct = () => {
         description: yup.string().required("Required!"),
         category: yup.string().required("Required!"),
     });
+
+    const [mes, setMes] = useState({type: '', msg: ''});
+    const [open, setOpen] = useState(false);
     //! Function
 
     const handleBack = () => {
@@ -91,8 +94,13 @@ const EditProduct = () => {
       bodyFormData.append("stars", values.stars);
       try {
         const response = await updateProduct(id,bodyFormData);
-        if(response && response?.data?.statusCode === 200) {
-          navigate("/admin/products",{replace: true})
+        console.log("sbhajdbjs",response);
+        if(response?.status === 200) {
+          setMes({...mes, type: 'success',msg: 'Update product successfully!'});
+          setOpen(true);
+          setTimeout(() => {
+            navigate("/admin/products",{replace: true});
+          },800)
         }
       } catch (error) {
         console.log("error",error);
@@ -110,12 +118,12 @@ const EditProduct = () => {
     setFieldValue("stock", tempArr);
     };
 
-
     //! Effect
 
     //! Render
   return (
     <div className="container-admin">
+      <NotiAdmin open={open} setOpen={setOpen} mes={mes}/>
       <BackgroundForm elevation={3}>
         <CloseIcon
           onClick={handleBack}
@@ -137,7 +145,6 @@ const EditProduct = () => {
           onSubmit={(values, formikBag) => handleSubmit(values, formikBag)}
         >
           {(helperFormik) => {
-              console.log("helperFormik",helperFormik);
             return (
               <Form>
                 <Grid container>
@@ -384,7 +391,7 @@ const EditProduct = () => {
                     sx={{ display: "flex", justifyContent: "flex-end" }}
                   >
                     <ButtonCustom
-                      title="Create"
+                      title="Update"
                       type="submit"
                       variant="contained"
                       sx={{
@@ -403,6 +410,6 @@ const EditProduct = () => {
       </BackgroundForm>
     </div>
   )
-}
+})
 
 export default EditProduct

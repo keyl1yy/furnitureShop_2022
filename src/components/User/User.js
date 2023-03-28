@@ -5,6 +5,7 @@ import {Link, useNavigate, useParams, useLocation} from 'react-router-dom'
 import { logoutUserRedux } from '../../redux/features/authSlice';
 import UserInfo from './Info/UserInfo';
 import Loading from '../LoadingScreen/Loading';
+import Order from './Order/Order';
 
 const User = ({accessToken}) => {
     //!Props
@@ -58,11 +59,9 @@ const User = ({accessToken}) => {
                     {!isOrder &&
                         <UserInfo name={name} phoneNumber={phoneNumber} email={email} address={address}/>
                     }
-                    {/* {isOrder && 
-                        <div className='order-account'>
-                            <h3>Đơn hàng của bạn</h3>
-                        </div>
-                    } */}
+                    {isOrder && 
+                        <Order/>
+                    }
                 </div>
             </div>
         </section>

@@ -5,8 +5,10 @@ import { FastField, Form, Formik } from 'formik';
 import * as yup from 'yup'
 import { useSelector, useDispatch } from 'react-redux';
 import { changePasswordAction, updateUserAction } from '../../../redux/features/authSlice';
-import { getAccessToken } from '../../../helper';
+import { getAccessToken, getUserInfo } from '../../../helper';
 import { ToastContainer } from 'react-toastify';
+import { useGetAddressPersonal } from '../../../hooks/users/useGetAddressPersonal';
+import emptyImgUrl from '../../../public/img/empty-img.png'
 const UserInfo = (props) => {
     //! Props
     const {phoneNumber,name,email,address} = props;
@@ -14,7 +16,10 @@ const UserInfo = (props) => {
     const {statusCodeChangePassword} = useSelector(store => store.auth)
     //! State
     const dispatch = useDispatch();
+    const userLoginInfo = getUserInfo();
+    const {data: listAddressPersonal, isLoading: isLoadingPersonalAddress, error: errorPersonalAddress, refresh: refreshPersonalAddress} = useGetAddressPersonal(userLoginInfo?._id);
     const [isTogglePass, setIsTogglePass] = useState(false);
+    const [isToggleAddress, setIsToggleAddress] = useState(false);
     const initialValues = {
         name: name ?? '',
         phoneNumber: phoneNumber ?? '',
@@ -49,6 +54,16 @@ const UserInfo = (props) => {
             }
         }
     }
+
+    const handleClickAddressPersonal = () => {
+        setIsToggleAddress(!isToggleAddress);
+        setIsTogglePass(false);
+    }
+
+    const handleClickPasswordToggle = () => {
+        setIsTogglePass(!isTogglePass);
+        setIsToggleAddress(false);
+    }
     //! Effect
     useEffect(() => {
         if(statusCodeChangePassword){
@@ -56,7 +71,6 @@ const UserInfo = (props) => {
         }
     },[statusCodeChangePassword])
     //! Render
-    console.log("sadsad",initialValues);
   return (
       <Fragment>
         <ToastContainer/>
@@ -104,9 +118,21 @@ const UserInfo = (props) => {
                                     <FastField type='text' name='address' placeholder='Địa chỉ của bạn' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)} disabled={isTogglePass}/>
                                 </div>
                             </div>
-                            <div className='pass-toggle' onClick={() => setIsTogglePass(!isTogglePass)}>
-                                Thay đổi mật khẩu
+                            <div className='option-user'>
+                                <div className={`${isTogglePass ? 'pass-toggle is-active' : 'pass-toggle'}`} onClick={handleClickPasswordToggle}>
+                                    Thay đổi mật khẩu
+                                </div>
+                                <div className={`${isToggleAddress ? 'address-toggle is-active' : 'address-toggle'}`} onClick={handleClickAddressPersonal}>
+                                    Địa chỉ nhận hàng
+                                </div>
                             </div>
+                            {
+                                isToggleAddress && (
+                                    <>
+                                    {listAddressPersonal?.length === 0 && <img className='empty-img-wrap' src={emptyImgUrl} alt='empty-img'/>}
+                                    </>
+                                )
+                            }
                             {isTogglePass && 
                                 <div className='wrap-toggle'>
                                     <div className='info-account-item'>
@@ -138,7 +164,7 @@ const UserInfo = (props) => {
                                     </div>
                                 </div>}
                                         
-                            <div className={`info-account-btn ${!isTogglePass ? 'start' : 'end'} ${!isCheckBtn? 'btn-disabled': ''}`}>
+                            <div className={`info-account-btn ${(!isTogglePass && !isToggleAddress) ? 'start' : 'end'} ${!isCheckBtn? 'btn-disabled': ''}`}>
                                 {!isTogglePass ? 
                                 <button type='submit'>Cập nhật tài khoản</button>
                                 :

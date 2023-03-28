@@ -68,14 +68,17 @@ const ReviewOrder = (props) => {
       bodyFormData.append("paymentType",JSON.stringify({paymentTypeDetail: `${valueCheckout?.paymentType}`}));
 
     }
-    bodyFormData.append("discountCode", discountData?.idDiscount);
+    bodyFormData.append("discount",JSON.stringify({discountCode: `${discountData?.idDiscount}`,discountValue: renderTotalDiscount()}));
     bodyFormData.append("totalPrice",cartState?.orderTotal - renderTotalDiscount());
+    bodyFormData.append("totalPriceProduct",cartState?.orderTotal)
     const convertProduct = productList?.map(item => {
       return({
         idProduct: item?.id,
         amount: item?.amountCart,
         color: item?.color,
-        price: item?.price
+        price: item?.price,
+        img: item?.img,
+        name: item?.name
       })
     })
     convertProduct?.forEach((el) => bodyFormData.append("products",JSON.stringify(el)));

@@ -22,7 +22,7 @@ function* handleAdminLogin(action) {
 }
 
 function* handleAdminLoginWithToken(action) {
-    // console.log('actionSagaAdminToken',action);
+    console.log('actionSagaAdminToken',action);
     const response = yield loginAdminWithTokenAPI(action.payload);
     console.log('res',response);
     if(response && response.status === 200){

@@ -68,24 +68,24 @@ const ListOptionItem = styled(ListItem) (({theme}) => ({
   '& .Mui-selected':{
     backgroundColor:'transparent!important',
     '& .MuiListItemIcon-root':{
-      color:theme.palette.defaultLayout.colorIcon,
-      transform:'scale(1.2)'
+      color:theme.palette.defaultLayout.colorIcon
+      // transform:'scale(1.2)'
     },
     '& .MuiTypography-root':{
       fontWeight: 'bold',
-      fontSize: '18px',
+      // fontSize: '18px',
       color: theme.palette.defaultLayout.colorTextFocus,
     },
   },
   '&:hover':{
     '& .MuiListItemIcon-root':{
       color:theme.palette.defaultLayout.colorIcon,
-      transition:'all .3 linear',
-      transform:'scale(1.2)',
+      transition:'all .3 linear'
+      // transform:'scale(1.2)',
     },
     '& .MuiTypography-root':{
       fontWeight: 'bold',
-      fontSize: '18px',
+      // fontSize: '18px',
       transition:'all .3 linear',
       color: theme.palette.defaultLayout.colorTextFocus,
     },
@@ -99,7 +99,7 @@ const CloseSidebar = styled(CloseIcon)(({theme}) =>({
   color:'#453227',
   cursor:'pointer',
   '&:hover':{
-    transform:'scale(1.2)'
+    // transform:'scale(1.2)'
   },
   
 }))

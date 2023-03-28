@@ -4,21 +4,28 @@ import SidebarAdmin from '../Admin/AdminPage/SidebarAdmin/SidebarAdmin'
 import { useSelector } from 'react-redux';
 import NavbarAdmin from '../Admin/AdminPage/NavbarAdmin/NavbarAdmin';
 import {useDispatch} from 'react-redux'
-import loginAdminWithToken from '../../redux/features/adminSlice'
+import {loginAdminWithToken} from '../../redux/features/adminSlice'
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from '../../theme/themeMui';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+
+const getAccessTokenAdmin = () => {
+  const res = localStorage.getItem('accessTokenAdmin');
+  return res? res : ''
+}
+
 const SharedAdminLayout = (props) => {
   //! State
+    const dispatch = useDispatch();
     const {setIsAdminPage,accessTokenAdmin, handleFullScreen} = props;
     const [darkMode, setDarkMode] = useState(false)
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const pathName = useLocation().pathname.split("/")[2];
+    const tokenAdmin = getAccessTokenAdmin() ?? '';
   //! Effect
     useEffect(() => {
         setIsAdminPage(true)
     },[])
-
   //! Function
 
   //! Render

@@ -50,7 +50,7 @@ const IconDetailImg = styled(Box) (({theme}) => ({
 
 const ImgItem = (props) => {
     //! State
-    const {src, index, handleRemoveImg} = props;
+    const {src, index, handleRemoveImg, sx} = props;
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     //! Function
@@ -59,11 +59,13 @@ const ImgItem = (props) => {
     }
     //! Render
   return (
-    <WrapImages sx={{height:200, width: 200, marginRight: '.7rem'}}>
+    <WrapImages sx={{height:200, width: 200, marginRight: '.7rem', ...sx}}>
         <IconDetailImg>
             <FingerprintIcon sx={{fontSize:'40px', color: theme.palette.defaultLayout.colorIconNav, cursor:'pointer',zIndex:1}} onClick={handleShowDetailImg}/>
         </IconDetailImg>
-        <IconRemoveImg onClick={() => handleRemoveImg(index)}/>
+        {
+          handleRemoveImg && <IconRemoveImg onClick={() => handleRemoveImg(index)}/>
+        }
         <img src={src} alt={`img-${index}`} loading="lazy" style={{width:"100%", height: '100%', objectFit:'cover', borderRadius:'8px'}}/>
         <DialogImg isOpen={isOpen} setIsOpen={setIsOpen} src={src} />
     </WrapImages>
