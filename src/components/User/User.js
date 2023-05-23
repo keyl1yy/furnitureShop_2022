@@ -44,13 +44,13 @@ const User = ({accessToken}) => {
                         <h3 style={{marginLeft:'1rem'}}>{name}</h3>
                         <div className='option-account'>
                             <div id='info' className={`${!isOrder ? 'sidebar-account-item is-active' : 'sidebar-account-item'}`} onClick={() => setIsOrder(false)}>
-                                Thông tin cá nhân
+                                Profile
                             </div>
                             <div id='order' className={`${isOrder ? 'sidebar-account-item is-active' : 'sidebar-account-item'}`} onClick={() => setIsOrder(true)}>
-                                Danh sách đơn hàng
+                                Orders
                             </div>
                             <Link to='/' className='sidebar-account-item' onClick={() => handleLogOutUser()}>
-                                Thoát
+                                Log out
                             </Link>
                         </div>
                     </div>

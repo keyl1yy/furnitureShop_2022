@@ -70,7 +70,7 @@ const OrderDetail = (props) => {
             <Grid item xs={6}>
               <Typography variant='h6' sx={{display: 'flex', alignItems: 'center', fontSize: '18px'}}>
                 <LocationOnIcon/>
-                Địa chỉ nhận hàng
+                Delivery address
               </Typography>
               <Typography sx={{ color: 'text.secondary', marginLeft: '.5rem', fontSize: '15px' }}>
                 {order?.name}
@@ -84,7 +84,7 @@ const OrderDetail = (props) => {
             </Grid>
             <Grid item xs={6}>
               <Typography variant='h6' sx={{display: 'flex',alignItems: 'center', justifyContent: 'center', fontSize: '18px'}}>
-                Danh sách đơn hàng
+                Products
               </Typography>
               {order?.products?.map((el,ind) => {
                 return(
@@ -96,7 +96,7 @@ const OrderDetail = (props) => {
                         </Typography>
                         <div className="order-product-wrap_info-header__color-wrap">
                           <Typography sx={{fontSize: '13px', color: 'text.secondary'}}>
-                            Màu sắc
+                            Color
                           </Typography>
                           <div style={{backgroundColor: `${el?.color}`}} className='order-product-wrap_info-header__color'/>
                         </div>
@@ -113,7 +113,7 @@ const OrderDetail = (props) => {
                         {`${el?.price} đ`}
                       </Typography>
                       <Typography sx={{fontSize: '14px', color: '#855f4a', textAlign: 'end', paddingTop: '.5rem'}}>
-                        {`Thành tiền: ${el?.price * el?.amount} đ`}
+                        {`Subtotal: ${el?.price * el?.amount} đ`}
                       </Typography>
                     </div>
                   </div>
@@ -124,7 +124,7 @@ const OrderDetail = (props) => {
                     <Grid container spacing={1} sx={{marginTop: '1rem', marginLeft: '8px'}}>
                       <Grid item xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                         <Typography sx={{fontSize: '15px', color: '#102a42', fontWeight: '500'}}>
-                          Mã giảm giá: 
+                          Discount: 
                         </Typography>
                         <Typography sx={{fontSize: '12px', marginRight: '16px'}}>
                           {order?.discount?.discountCode}
@@ -132,7 +132,7 @@ const OrderDetail = (props) => {
                       </Grid>
                       <Grid item xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                         <Typography sx={{fontSize: '15px', color: '#102a42', fontWeight: '500'}}>
-                          Giá trị: 
+                          Discount value: 
                         </Typography>
                         <Typography sx={{fontSize: '12px', marginRight: '16px'}}>
                           {`${order?.discount?.discountValue} đ`}
@@ -143,7 +143,7 @@ const OrderDetail = (props) => {
               }
               <div className='total-price-wrap'>
                 <Typography sx={{fontSize: '20px',color: '#102a42', fontWeight: '500'}}>
-                  Tổng tiền: 
+                  Total: 
                 </Typography>
                 <Typography sx={{fontSize: '16px', display: 'flex', alignItems: 'center', color: '#d1b6a8', fontWeight: '500'}}>
                   {order?.totalPriceProduct !== order?.totalPrice && 

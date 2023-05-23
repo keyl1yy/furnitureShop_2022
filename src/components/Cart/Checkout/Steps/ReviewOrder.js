@@ -4,9 +4,10 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useGetCityOption } from '../../../../hooks/city/useGetCity';
 import { useDispatch } from 'react-redux';
-import { checkoutVnPayAction } from '../../../../redux/features/cartSlice';
+import { checkoutVnPayAction, clearCart } from '../../../../redux/features/cartSlice';
 import { getUserInfo } from '../../../../helper';
 import { createOrder } from '../../../../services/orderService';
+import { useNavigate } from 'react-router-dom';
 
 const getDiscountCodeLocalStorage = () => {
   const discount = localStorage.getItem('discountCode');
@@ -31,7 +32,7 @@ const ReviewOrder = (props) => {
 
   console.log("valueCheckout",valueCheckout);
   //! State
-
+  const navigate = useNavigate();
   //! Function
   const handleConfirmOrder = async (e) => {
     setIsLoadingButton(true);
@@ -50,8 +51,13 @@ const ReviewOrder = (props) => {
       },1500)
     }else{
       const response = await createOrder(orderValueFormData);
+      console.log("bhadbja",response);
       setTimeout(() => {
         setIsLoadingButton(false);
+        if(response && response?.status === 200) {
+          dispatch(clearCart());
+          navigate(`/checkout-success?id=${response?.data?.order?._id}`, {replace: true})
+        }
       },1500)
     }
   }

@@ -58,13 +58,13 @@ const ProductManage = React.memo((props) => {
     },
     {
       field: 'name',
-      headerName: 'Tên sản phẩm',
+      headerName: 'Name product',
       width: 150,
       sortable: false,
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Tên sản phẩm
+            Name product
             <FilterSearchTable handleSearch={setFilterProduct} querySearch="name" searchValue={filterProduct}/>
           </Box>
         )
@@ -72,7 +72,7 @@ const ProductManage = React.memo((props) => {
     },
     {
       field: 'description',
-      headerName: 'Mô tả',
+      headerName: 'Description',
       width: 500,
       renderCell: (params) => {
         return(
@@ -86,7 +86,7 @@ const ProductManage = React.memo((props) => {
     },
     {
       field: 'company',
-      headerName: 'Công ty cung cấp',
+      headerName: 'Supply company',
       width: 250,
       headerAlign: 'center',
       align: 'center',
@@ -94,7 +94,7 @@ const ProductManage = React.memo((props) => {
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Công ty cung cấp
+            Supply company
             <FilterSelectTable handleSearch={setFilterProduct} querySearch="company" searchValue={filterProduct} options={companyListAdmin}/>
           </Box>
         )
@@ -102,7 +102,7 @@ const ProductManage = React.memo((props) => {
     },
     {
       field: 'category',
-      headerName: 'Loại sản phẩm',
+      headerName: 'Type product',
       width: 200,
       headerAlign: 'center',
       align: 'center',
@@ -110,7 +110,7 @@ const ProductManage = React.memo((props) => {
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Loại sản phẩm
+            Type product
             <FilterSelectTable handleSearch={setFilterProduct} querySearch="category" searchValue={filterProduct} options={categoryListAdmin}/>
           </Box>
         )
@@ -118,7 +118,7 @@ const ProductManage = React.memo((props) => {
     },
     {
       field: 'price',
-      headerName: 'Giá sản phẩm',
+      headerName: 'Price',
       width: 200,
       headerAlign: 'center',
       align: 'center',

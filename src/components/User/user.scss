@@ -15,7 +15,9 @@ $colorBorder: #ab7a5f;
 .sidebar-account{
     padding: 0 1rem;
     border-right: 1px solid #d9d9d9;
-    padding-top: 2rem;
+    // padding-top: 2rem;
+    position: sticky;
+    top: 1rem;
     &-wrap{
         width: 33.33333%;
         padding-left:1rem;

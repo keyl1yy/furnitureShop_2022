@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Button, Paper, TextField } from "@mui/material";
+import { Box, Button, Paper, Popover, TextField } from "@mui/material";
 import React, { useState } from "react";
 import ReplayIcon from "@mui/icons-material/Replay";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
@@ -8,7 +8,11 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import InputCustom from "../Input/Input";
 import AddIcon from '@mui/icons-material/Add';
 import ButtonCustom from "../Button/Button";
-
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; 
+import { DateRangePicker } from 'react-date-range';
+import moment from "moment";
+import DateRangePickerCommon from "../DateRangePicker/DateRangePickerCommon";
 //! MUI_Custom
 const HeaderTableLeft = styled(Box)(({ theme }) => ({
     "&>form":{
@@ -37,7 +41,9 @@ const HeaderTable = (props) => {
     window.location.pathname.split("/")[
       window.location.pathname.split("/").length - 1
     ];
-  const { filterData, setFilterData, placeholder, refresh, handleFullScreen, handleCreate,handleRefreshData} = props;
+  const { filterData, setFilterData, placeholder, refresh,
+          handleFullScreen, handleCreate,handleRefreshData,
+          isDateRange, dateRange, setDateRange} = props;
     const [valueTextField, setValueTextField] = useState("");
   //!Function
 
@@ -51,9 +57,13 @@ const HeaderTable = (props) => {
     // refresh && refresh();
    }
    
+   const handleSelect = (ranges) => {
+    console.log("hoatlaCheckRanges", ranges);
+   }
    
 
   //! Render
+  
   return (
     <Paper
       sx={{
@@ -67,6 +77,7 @@ const HeaderTable = (props) => {
       }}
     >
       <HeaderTableLeft>
+        {isDateRange && <DateRangePickerCommon dateRange={dateRange} setDateRange={setDateRange}/>}
         {/* <form onSubmit={(e) => handleFilter(e)}>
             <TextField
                 id="filter-table"

@@ -144,7 +144,7 @@ function App() {
               <Route index element={<OrderAdmin handleFullScreen={handleFullScreen}/>}/>
               <Route path=":id" element={<OrderDetailAdmin/>}/>
             </Route>
-            <Route path="statistic" element={<StatisticAdmin/>} />
+            <Route path="statistic" element={<StatisticAdmin handleFullScreen={handleFullScreen}/>} />
             <Route path="products" element={<DefaultLayout/>}>
               <Route index element={<ProductManage handleFullScreen={handleFullScreen}/>}/>
               <Route path="create" element={<CreateProduct/>}/>

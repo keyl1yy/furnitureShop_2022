@@ -102,6 +102,10 @@ const EditProduct = React.memo(() => {
             navigate("/admin/products",{replace: true});
           },800)
         }
+        if(response?.response?.status === 500){
+          setMes({...mes, type: 'error', msg: `${response?.response?.data?.error?.keyValue?.name} is existed!`})
+          setOpen(true)
+        }
       } catch (error) {
         console.log("error",error);
       }
@@ -136,7 +140,7 @@ const EditProduct = React.memo(() => {
           }}
         />
         <Typography variant="h3" component="h1" sx={{ marginBottom: "2rem" }}>
-          Create New Product
+          Update Product
         </Typography>
         <Formik
           initialValues={initialValues}

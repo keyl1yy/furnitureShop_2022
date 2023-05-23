@@ -121,7 +121,7 @@ const SidebarAdmin = (props) => {
               transform:{xs:`${isOpenSidebar?'translateX(0)':'translateX(-100%)'}`,md:'unset'}}}
         p={3} >
         <Box sx={{display:{xs:'unset',md:'none'}}}>
-          <CloseSidebar onClick={() => setIsOpenSidebar((prev) => !prev)}/>
+          <CloseSidebar onClick={() => setIsOpenSidebar((prev) => !prev)} />
         </Box>
         <Box sx={{display:'flex'}}>
           <img className='img-logo' src={urlLogo} alt='logo'/>
@@ -143,7 +143,7 @@ const SidebarAdmin = (props) => {
               </ListOptionItem>
             )
           })}
-         
+        
         </List>
         <Box sx={{flex:'1'}}/>
         <Stack direction='column' gap={3} sx={{display:'flex',alignItems:'center',padding:'0 32px',justifyContent:'center'}}>

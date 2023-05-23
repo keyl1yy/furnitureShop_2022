@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import successIcon from '../../../../public/img/tick.png'
 import { getAccessToken } from '../../../../helper';
@@ -11,7 +11,10 @@ const CheckoutSuccess = () => {
   //! State
     const navigate = useNavigate();
     const accessToken = getAccessToken();
-
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const idOrder = queryParams.get('id');
+    console.log("hoatla",idOrder);
   //! Function
   const handleClickBtn = () => {
     navigate(`/user/${accessToken}?order=${true}`, { replace: true });
@@ -25,9 +28,12 @@ const CheckoutSuccess = () => {
         <Typography variant='h4' gutterBottom sx={{fontWeight: '500'}}>
           Your order has been received
         </Typography>
+        <Typography variant='p' gutterBottom>
+          {idOrder}
+        </Typography>
         <Box sx={{marginTop:'1rem', marginBottom: '1rem', '&>img': {
           width: '80px'
-        }}}>
+        }}} >
           <img src={successIcon} alt='success'/>
         </Box>
         <Typography variant='h6' gutterBottom>

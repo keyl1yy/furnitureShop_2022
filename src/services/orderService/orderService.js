@@ -1,13 +1,14 @@
 import axios from "../../axios"
+import { ORDER_URL } from "../apiRoutes";
 
 export const getOrderUserByIdService = (id) => {
-    return axios.get(`/order/${id}`)
+    return axios.get(`${ORDER_URL}/${id}`)
 }
 
 export const getAllOrderService = (query) => {
-    return axios.get(`/order`, {params: query});
+    return axios.get(ORDER_URL, {params: query});
 }
 
 export const getOrderDetailByIdService = (id) => {
-    return axios.get(`/order/${id}/order`)
+    return axios.get(`${ORDER_URL}/${id}/order`)
 }

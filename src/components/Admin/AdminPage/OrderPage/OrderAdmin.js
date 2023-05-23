@@ -38,13 +38,13 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'name',
-      headerName: 'Khách hàng',
+      headerName: 'Customer',
       width: 150,
       sortable: false,
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Khách hàng
+            Customer
             <FilterSearchTable handleSearch={setFilterOrder} querySearch="name" searchValue={filterOrder}/>
           </Box>
         )
@@ -52,7 +52,7 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'address',
-      headerName: 'Địa chỉ nhận hàng',
+      headerName: 'Delivery address',
       headerAlign: 'center',
       // align: 'center',
       width: 400,
@@ -84,13 +84,13 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'phoneNumber',
-      headerName: 'Số điện thoại',
+      headerName: 'Phone number',
       width: 150,
       sortable: false,
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Số điện thoại
+            Phone number
             <FilterSearchTable handleSearch={setFilterOrder} querySearch="phoneNumber" searchValue={filterOrder} type="number"/>
           </Box>
         )
@@ -98,7 +98,7 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'paymentType',
-      headerName: 'Hình thức thanh toán',
+      headerName: 'Payment method',
       width: 200,
       headerAlign: 'center',
       align: 'center',
@@ -106,7 +106,7 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'status',
-      headerName: 'Trạng thái đơn hàng',
+      headerName: 'Status',
       width: 200,
       align: 'center',
       headerAlign: 'center',
@@ -123,7 +123,7 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'paymentStatus',
-      headerName: 'Trạng thái thanh toán',
+      headerName: 'Payment status',
       width: 200,
       align: 'center',
       headerAlign: 'center',
@@ -140,7 +140,7 @@ const OrderAdmin = (props) => {
     },
     {
       field: 'totalPrice',
-      headerName: 'Tổng hoá đơn',
+      headerName: 'Total',
       headerAlign: 'center',
       align: 'center',
       width: 150,

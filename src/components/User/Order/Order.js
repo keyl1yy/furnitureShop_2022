@@ -53,7 +53,7 @@ const Order = () => {
     return (
     <Fragment>
         <div className='order-account'>
-            <h3>Đơn hàng của bạn</h3>
+            <h3>My orders</h3>
         </div>
         {isLoadingOrderUser && renderLoading()}
         {!isLoadingOrderUser && orderUser?.orderData?.length === 0 && renderEmptyData()}

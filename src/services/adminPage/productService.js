@@ -1,7 +1,7 @@
 import axios, { requestFormData } from "../../axios"
 import { attachTokenToHeader } from '../../axios'
+import { PRODUCT_URL } from "../apiRoutes"
 
-const PRODUCT_URL = "/products";
 
 const getAllProducts = (query) => {
     return axios.get(PRODUCT_URL,{params: query})

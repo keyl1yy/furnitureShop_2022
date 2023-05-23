@@ -138,7 +138,7 @@ const EditUser = () => {
             </Alert>
         </Snackbar>
         <BackgroundForm elevation={3}>
-            <CloseIcon onClick={handleBack} sx={{position: 'absolute', top: '2rem', right: '2rem',cursor: 'pointer','&:hover':{transform: 'scale(1.2)'}}}/>
+            <CloseIcon onClick={handleBack} sx={{position: 'absolute', top: '2rem', right: '2rem',cursor: 'pointer','&:hover':{transform: 'scale(1.2)'}}} />
             <Typography variant='h3' component="h1" sx={{marginBottom: '2rem'}}>User </Typography>
             <Formik
                 initialValues={initialValues}

@@ -22,6 +22,7 @@ const Cart = (props) => {
     const {isLoginUser} = useSelector(store => store.auth);
     const {setIsFormAuth, isFormAuth} = props;
     const dispatch = useDispatch();
+    console.log("cartProducts",cartProducts);
     console.log("discountState",discountState?.discount?.valueDiscount?.includes('%'), parseInt(discountState?.discount?.valueDiscount));
     if(cartProducts.length === 0){
         return(
@@ -96,7 +97,6 @@ const Cart = (props) => {
                 <div className='carts-content'>
                     {cartProducts.map((cart) => {
                         const {id,img,name,color,price,stock,shipping,amountCart, maxQuantity} = cart;
-                        console.log('cartHoatla',cart);
                         return(
                             <article key={`${id}-${color}`} className='cart-item'>
                                 <div className='img-title'>

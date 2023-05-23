@@ -34,6 +34,16 @@ export const darkTheme = createTheme({
             hoverBtn: "#ccc",
             colorIconNav: "#ccc",
         },
+      //   defaultLayout: {
+      //     colorIcon: "#48647f",
+      //     colorTextFocus: "#48647f",
+      //     background: "#decbc0",
+      //     colorText:"#102a42",
+      //     borderColor: "#453227",
+      //     colorBtn: "#453227",
+      //     hoverBtn: "#5f4435",
+      //     colorIconNav: "#ab7a5f",
+      // },
         
     }
 })

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 
 const TableCustom = (props) => {
     //! Props
-    const {rows, columns, isLoading, key} = props;
+    const {rows, columns, isLoading, key, sx} = props;
     //! State
     const classes = useStyles();
     //! Function
@@ -26,9 +26,10 @@ const TableCustom = (props) => {
     //! Render
     
     return (
-        <Box sx={{ height: 400, width: '100%' }}>
+        <Box sx={{ height: 400, width: '100%' , ...sx}}>
             <DataGrid
                 key='table-MUI__KeyleLA'
+                sx={{width: '100%'}}
                 className={classes?.tableMUI}
                 rows={rows}
                 columns={columns}

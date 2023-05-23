@@ -81,14 +81,13 @@ const UserInfo = (props) => {
         >
             {(helperFormik) => {
                 let isCheckBtn = checkValidateChangePassword(helperFormik.values);
-                console.log("isCheckBtn",isCheckBtn);
                 return(
                     <Form>
                         <div className='info-account'>
-                            <h3>Thông tin tài khoản</h3>
+                            <h3>Profile account</h3>
                             <div className='info-account-item'>
                                 <div className='title-info'>
-                                    Họ tên
+                                    Full name
                                 </div>
                                 <div className='content-info'>
                                     <FastField name='name' placeholder='Your name' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)} disabled={false}/>
@@ -96,7 +95,7 @@ const UserInfo = (props) => {
                             </div>
                             <div className='info-account-item'>
                                 <div className='title-info'>
-                                    Số điện thoại
+                                    Phone number
                                 </div>
                                 <div className='content-info'>
                                     <FastField type='text' name='phoneNumber' placeholder='SĐT của bạn' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)} disabled/>
@@ -112,7 +111,7 @@ const UserInfo = (props) => {
                             </div>
                             <div className='info-account-item'>
                                 <div className='title-info'>
-                                    Địa chỉ
+                                    Address
                                 </div>
                                 <div className='content-info'>
                                     <FastField type='text' name='address' placeholder='Địa chỉ của bạn' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)} disabled={isTogglePass}/>
@@ -120,11 +119,11 @@ const UserInfo = (props) => {
                             </div>
                             <div className='option-user'>
                                 <div className={`${isTogglePass ? 'pass-toggle is-active' : 'pass-toggle'}`} onClick={handleClickPasswordToggle}>
-                                    Thay đổi mật khẩu
+                                  Change password
                                 </div>
-                                <div className={`${isToggleAddress ? 'address-toggle is-active' : 'address-toggle'}`} onClick={handleClickAddressPersonal}>
-                                    Địa chỉ nhận hàng
-                                </div>
+                                {/* <div className={`${isToggleAddress ? 'address-toggle is-active' : 'address-toggle'}`} onClick={handleClickAddressPersonal}>
+                                  Delivery address
+                                </div> */}
                             </div>
                             {
                                 isToggleAddress && (
@@ -137,7 +136,7 @@ const UserInfo = (props) => {
                                 <div className='wrap-toggle'>
                                     <div className='info-account-item'>
                                         <div className='title-info'>
-                                            Mật khẩu cũ
+                                            Old password
                                         </div>
                                         <div className='content-info'>
                                             <input id='old-pass' name='oldPassword' type='password' placeholder='Mật khẩu cũ' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)}/>
@@ -146,7 +145,7 @@ const UserInfo = (props) => {
                                     </div>
                                     <div className='info-account-item'>
                                         <div className='title-info'>
-                                            Mật khẩu mới
+                                            New password
                                         </div>
                                         <div className='content-info'>
                                             <input id='new-pass' name='newPassword' type='password' placeholder='Mật khẩu mới' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)}/>
@@ -155,7 +154,7 @@ const UserInfo = (props) => {
                                     </div>
                                     <div className='info-account-item'>
                                         <div className='title-info'>
-                                            Nhập lại mật khẩu
+                                            Confirm password
                                         </div>
                                         <div className='content-info'>
                                             <input id='check-pass' name='newPasswordConfirm' type='password' placeholder='Nhập lại mật khẩu' onChange={(e) => handleChange(helperFormik, e.target.name, e.target.value)}/>
@@ -166,9 +165,9 @@ const UserInfo = (props) => {
                                         
                             <div className={`info-account-btn ${(!isTogglePass && !isToggleAddress) ? 'start' : 'end'} ${!isCheckBtn? 'btn-disabled': ''}`}>
                                 {!isTogglePass ? 
-                                <button type='submit'>Cập nhật tài khoản</button>
+                                <button type='submit'>Update profile</button>
                                 :
-                                <button type='submit' disabled={!isCheckBtn}>Thay đổi mật khẩu</button>
+                                <button type='submit' disabled={!isCheckBtn}>Update password</button>
                                 }
                             </div>
                         </div>

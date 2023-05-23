@@ -66,13 +66,13 @@ const UsersManage = (props) => {
     },
     {
       field: 'name',
-      headerName: 'Họ và tên',
+      headerName: 'Full name',
       width: 200,
       sortable: false,
       renderHeader: (paramsHeader) => {
         return(
           <Box>
-            Họ và tên
+            Full name
             <FilterSearchTable handleSearch={setFilterUser} querySearch='name' searchValue={filterUser}/>
           </Box>
         )
@@ -80,13 +80,13 @@ const UsersManage = (props) => {
     },
     {
       field: 'phoneNumber',
-      headerName: 'Số điện thoại',
+      headerName: 'Phone number',
       width: 200,
       sortable: false,
       renderHeader: () => {
         return(
           <Box>
-            Số điện thoại
+            Phone number
             <FilterSearchTable handleSearch={setFilterUser} querySearch='phoneNumber' searchValue={filterUser}/>
           </Box>
         )
@@ -108,7 +108,7 @@ const UsersManage = (props) => {
     },
     {
       field: 'address',
-      headerName: 'Địa chỉ',
+      headerName: 'Address',
       width: 200
     },
     {

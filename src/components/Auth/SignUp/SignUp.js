@@ -29,7 +29,7 @@ const Register = ({setIsFormAuth}) => {
         phoneNumber: values.phoneNumber,
     }
     const data = await createUser(userSignUp);
-    if(data && data?.response?.status === 200) {
+    if(data && data?.status === 200) {
         alertSuccess.classList.add('show');
         alertSuccess.classList.add('showAlert');
         alertSuccess.classList.remove('hide');
@@ -113,85 +113,88 @@ const Register = ({setIsFormAuth}) => {
                         })}
                         onSubmit = {(values, formikBag) => handleCreateUser(values, formikBag)}
                         
-                    >   
-                        <Form className='wrap-login-container-content-form'>
-                            <h3 className='wrap-login-container-content-form-title'>Đăng ký tài khoản</h3>
-                            <div className='wrap-login-container-content-form-item'>
-                                
-                                <FastField  name='phoneNumber' type='text' id='phoneNumber' placeholder='SĐT của bạn!'/>
-                                <span className='err-text'>
-                                    <ErrorMessage name='phoneNumber'/>
-                                </span>
-                            </div>
-                            <div className='wrap-login-container-content-form-item'>
-                                <FastField name='name' type='text' id='name' placeholder='Tên của bạn!'/>
-                                <span className='err-text'>
-                                    <ErrorMessage name='name'/>
-                                </span>
-                            </div>
-                            <div className='wrap-login-container-content-form-item'>
-                                <FastField name='email' type='text' id='email' placeholder='Email của bạn!'/>
-                                <span id='errTextEmail' className='err-text'>
-                                    <ErrorMessage name='email'/>
-                                </span>
-                            </div>
-                            <div className='wrap-login-container-content-form-item'>
-                                <div className='relative'>
-                                    <Field name='password' type={`${checkEye.isEye ? 'text' : 'password'}`} id='password' placeholder='Mật khẩu phải có ít nhất 6 kí tự!'/>
-                                    <span id='eyePass' className='wrap-login-container-content-form-item-icon' onClick={() => setCheckEye((prev) => {
-                                        return{
-                                            ...prev,
-                                            isEye: !checkEye.isEye
-                                        }
-                                    })}>
-                                    {!checkEye.isEye ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
-                                    </span>
-                                </div>
-                                {<ErrorMessage name='password'/> ?
-                                <span  className='err-text'>
-                                    <ErrorMessage name='password'/>
-                                    
-                                </span> : null}
-                            </div>
-                            <div className='wrap-login-container-content-form-item'>
-                                <div className='relative'>
-                                    <Field name='checkPassword' type={`${checkEye.isEyeSecond ? 'text' : 'password'}`} id='checkPassword' placeholder='Vui lòng nhập lại mật khẩu!'/>
-                                    <span id='eyeCheckPass' className='wrap-login-container-content-form-item-icon' onClick={() => setCheckEye((prev) => {
-                                        return{
-                                            ...prev,
-                                            isEyeSecond: !checkEye.isEyeSecond
-                                        }
-                                    })}>
-                                    {!checkEye.isEyeSecond ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
-                                    </span>
-                                </div>
-                                <span  className='err-text'>
-                                    <ErrorMessage name='checkPassword'/>
-                                </span>
-                            </div>
-                            <button type='submit' className='wrap-login-container-content-form-btn'>
-                                Đăng ký
-                            </button>
-                            <div className='login-or-divider'>
-                                hoặc
-                            </div>
-                            <div className='wrap-login-container-content-form-facebook'>
-                                <div className='wrap-login-container-content-form-facebook-inner'>
-                                    Đăng nhập với Facebook
-                                </div>
-                                <div className='wrap-login-container-content-form-facebook-img'>
-                                    <img src='https://www.coolmate.me/images/facebook.svg' alt='facebookLogo'/>
-                                </div>
-                            </div>
-                            <div className='wrap-login-container-content-form-google'>
-                                <div className='wrap-login-container-content-form-google-inner'>
-                                    Đăng nhập với Google
-                                </div>
-                                <div className='wrap-login-container-content-form-google-img'>
-                                    <img src='https://www.coolmate.me/images/google.svg' alt='googleLogo'/>
-                                </div>
-                            </div>
-                        </Form>
+                    > 
+                      {(helperFormik) => {
+                        return(
+                          <Form className='wrap-login-container-content-form'>
+                              <h3 className='wrap-login-container-content-form-title'>Đăng ký tài khoản</h3>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <FastField  name='phoneNumber' type='text' id='phoneNumber' placeholder='SĐT của bạn!' className={helperFormik.errors.phoneNumber && 'border-err'}/>
+                                  <span className='err-text'>
+                                      <ErrorMessage name='phoneNumber'/>
+                                  </span>
+                              </div>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <FastField name='name' type='text' id='name' placeholder='Tên của bạn!' className={helperFormik.errors.name && 'border-err'}/>
+                                  <span className='err-text'>
+                                      <ErrorMessage name='name'/>
+                                  </span>
+                              </div>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <FastField name='email' type='text' id='email' placeholder='Email của bạn!' className={helperFormik.errors.email && 'border-err'}/>
+                                  <span id='errTextEmail' className='err-text'>
+                                      <ErrorMessage name='email'/>
+                                  </span>
+                              </div>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <div className='relative'>
+                                      <Field name='password' type={`${checkEye.isEye ? 'text' : 'password'}`} id='password' placeholder='Mật khẩu phải có ít nhất 6 kí tự!' className={helperFormik.errors.password && 'border-err'}/>
+                                      <span id='eyePass' className='wrap-login-container-content-form-item-icon' onClick={() => setCheckEye((prev) => {
+                                          return{
+                                              ...prev,
+                                              isEye: !checkEye.isEye
+                                          }
+                                      })}>
+                                      {!checkEye.isEye ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
+                                      </span>
+                                  </div>
+                                  {<ErrorMessage name='password'/> ?
+                                  <span  className='err-text'>
+                                      <ErrorMessage name='password'/>
+                                      
+                                  </span> : null}
+                              </div>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <div className='relative'>
+                                      <Field name='checkPassword' type={`${checkEye.isEyeSecond ? 'text' : 'password'}`} id='checkPassword' placeholder='Vui lòng nhập lại mật khẩu!' className={helperFormik.errors.checkPassword && 'border-err'} />
+                                      <span id='eyeCheckPass' className='wrap-login-container-content-form-item-icon' onClick={() => setCheckEye((prev) => {
+                                          return{
+                                              ...prev,
+                                              isEyeSecond: !checkEye.isEyeSecond
+                                          }
+                                      })}>
+                                      {!checkEye.isEyeSecond ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
+                                      </span>
+                                  </div>
+                                  <span  className='err-text'>
+                                      <ErrorMessage name='checkPassword'/>
+                                  </span>
+                              </div>
+                              <button type='submit' className='wrap-login-container-content-form-btn'>
+                                  Đăng ký
+                              </button>
+                              <div className='login-or-divider'>
+                                  hoặc
+                              </div>
+                              <div className='wrap-login-container-content-form-facebook'>
+                                  <div className='wrap-login-container-content-form-facebook-inner'>
+                                      Đăng nhập với Facebook
+                                  </div>
+                                  <div className='wrap-login-container-content-form-facebook-img'>
+                                      <img src='https://www.coolmate.me/images/facebook.svg' alt='facebookLogo'/>
+                                  </div>
+                              </div>
+                              <div className='wrap-login-container-content-form-google'>
+                                  <div className='wrap-login-container-content-form-google-inner'>
+                                      Đăng nhập với Google
+                                  </div>
+                                  <div className='wrap-login-container-content-form-google-img'>
+                                      <img src='https://www.coolmate.me/images/google.svg' alt='googleLogo'/>
+                                  </div>
+                              </div>
+                          </Form>
+                        )
+                      }}
                     </Formik>
                     <div className='wrap-login-container-content-other-option center'>
                         <span onClick={() => setIsFormAuth((prev) => {

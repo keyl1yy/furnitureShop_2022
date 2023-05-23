@@ -69,32 +69,36 @@ const Login = ({setIsFormAuth}) => {
                             dispatch(loginUserRedux(values))
                         }}
                     >
-                        <Form className='wrap-login-container-content-form'>
-                            <h3 className='wrap-login-container-content-form-title'>
-                                Đăng nhập
-                            </h3>
-                            <div className='wrap-login-container-content-form-item'>
-                                <FastField type='text' name='phoneNumber' id='phoneNumber' placeholder='SĐT của bạn'/>
-                                <span className='err-text'>
-                                    <ErrorMessage name='phoneNumber'/>
-                                </span>
-                            </div>
-                            <div className='wrap-login-container-content-form-item'>
-                                <div className='relative'>
-                                    <Field name='password' type={`${isEye ? 'text' : 'password'}`} id='password' placeholder='Mật khẩu phải có ít nhất 6 kí tự!'/>
-                                    <span id='eyePass' className='wrap-login-container-content-form-item-icon' onClick={() => setIsEye((prev) => !prev)}>
-                                        {!isEye ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
-                                    </span>
-                                </div>
-                                    {<ErrorMessage name='password'/> ?
-                                    <span  className='err-text'>
-                                        <ErrorMessage name='password'/>
-                                    </span> : null}
-                            </div>
-                            <button type='submit' className='wrap-login-container-content-form-btn'>
-                                Đăng nhập
-                            </button>
-                        </Form>
+                      {(helperFormik) => {
+                        return(
+                          <Form className='wrap-login-container-content-form'>
+                              <h3 className='wrap-login-container-content-form-title'>
+                                  Đăng nhập
+                              </h3>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <FastField type='text' name='phoneNumber' id='phoneNumber' placeholder='SĐT của bạn' className={helperFormik.errors.phoneNumber && 'border-err'}/>
+                                  <span className='err-text'>
+                                      <ErrorMessage name='phoneNumber'/>
+                                  </span>
+                              </div>
+                              <div className='wrap-login-container-content-form-item'>
+                                  <div className='relative'>
+                                      <Field name='password' type={`${isEye ? 'text' : 'password'}`} id='password' placeholder='Mật khẩu phải có ít nhất 6 kí tự!' className={helperFormik.errors.password && 'border-err'}/>
+                                      <span id='eyePass' className='wrap-login-container-content-form-item-icon' onClick={() => setIsEye((prev) => !prev)}>
+                                          {!isEye ? <AiOutlineEye/> : <AiOutlineEyeInvisible/>}
+                                      </span>
+                                  </div>
+                                      {<ErrorMessage name='password'/> ?
+                                      <span  className='err-text'>
+                                          <ErrorMessage name='password'/>
+                                      </span> : null}
+                              </div>
+                              <button type='submit' className='wrap-login-container-content-form-btn'>
+                                  Đăng nhập
+                              </button>
+                          </Form>
+                        )
+                      }}
                     </Formik>
                     <div className='login-or-divider'>
                         hoặc

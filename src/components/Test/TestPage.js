@@ -23,38 +23,31 @@ const TestPage = () => {
   const objB = {
     key: 1
   }
-
-  console.log("haotla", objA, objB ,objA == objB , objA.key === objB.key);
-  //! Effect
-
-  //! Function
-  const notify = async () => {
-    toast("Default Notification !");
-    // toast.success("Custom Style Notification with css class!", {
-    //   position: toast.POSITION.BOTTOM_RIGHT,
-    //   className: 'foo-bar'
-    // });
-    try {
-      const response = await postVNPay({
-        orderType: 'topup',
-        amount: '50000',
-        orderDescription: 'check VNPAY HOATLA',
-        bankCode: '',
-        language: 'vn'
+  const fetchApi = async () => {
+    const response = await fetch('http://localhost:8000/graphql',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        query:`
+          query {
+            books{
+              id
+              name
+            }
+          }
+          `
       })
-      console.log("response",response);
-      if(response &&  response?.status === 200){
-        window.open(response?.data?.url)
-      }
-    } catch (error) {
-      console.log("errorr",error);
-    }
-  };
-
-
+    })
+    const data = await response.json()
+    console.log(data,'hoatlala');
+  }
+  //! Effect
   useEffect(() => {
-    console.log("sahjdbsajhd",check.a);
-  },[check.a])
+    fetchApi();
+  },[])
+  //! Function
+  
+
 
   //! Render
   return (
