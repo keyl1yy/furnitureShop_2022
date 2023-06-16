@@ -102,7 +102,7 @@ const StatisticAdmin = (props) => {
                 id: el?.idProduct,
                 ...el
               }
-            })} columns={columns} isLoading={isLoading} sx={{display:'flex',alignItems: 'center'}}/>
+            })} columns={columns} isLoading={isLoading} sx={{display:'flex',alignItems: 'center', height: '100%'}}/>
           </Paper>
         </Grid>
       </Grid>
