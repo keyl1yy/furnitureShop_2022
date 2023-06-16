@@ -17,6 +17,7 @@ export const SEND_DISCOUNT_API = '/discount/email';
 export const GET_DISCOUNT_API = '/discount/code';
 
 export const CREATE_ORDER_API = '/order';
+export const UPDATE_STATUS_API = '/order/status'
 
 export const GET_DASHBOARD_API = '/dashboard';
 

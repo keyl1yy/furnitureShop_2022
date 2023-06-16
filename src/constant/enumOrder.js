@@ -2,22 +2,22 @@ export const enumStatus = [
     {
         value: '01',
         label: 'Chờ xác nhận',
-        color: '#77F7F1'
+        color: '#3AC7E0'
     },
     {
         value: '02',
         label: 'Chuẩn bị hàng',
-        color: '#FCD14A'
+        color: '#E0A93A'
     },
     {
         value: '03',
         label: 'Đang giao',
-        color: '#FCF74A'
+        color: '#E2E616'
     },
     {
         value: '04',
         label: 'Hoàn thành đơn hàng',
-        color: '#4AFC65'
+        color: '#14C832'
     },
     {
         value: '05',
@@ -34,6 +34,6 @@ export const enumPaymentStatus = [
     {
         value: '02',
         label: 'Đã thanh toán',
-        color: '#4AFC65'
+        color: '#14C832'
     }
 ]
