@@ -97,18 +97,18 @@ const Dashboard = () => {
           <TableUser dataTable={dataDashboard?.potentialUser} isLoading={isLoading}/>
         </Box>
       </Paper>
-      <Grid container spacing={2} sx={{marginTop: '1rem'}}>
+      <Grid container spacing={2} sx={{marginTop: '1rem', marginBottom: '1rem'}}>
         <Grid item xs={4}>
           <Paper>
             <Box sx={{padding: 2}}>
-              <TopProduct/>
+              <TopProduct products={dataDashboard?.productGroup}/>
             </Box>
           </Paper>
         </Grid>
         <Grid item xs={8}>
           <Paper>
             <Box sx={{padding: 2}}>
-              <ChartDashboard/>
+              <ChartDashboard products={dataDashboard?.productGroup}/>
             </Box>
           </Paper>
         </Grid>
